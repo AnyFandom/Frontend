@@ -175,6 +175,48 @@ class Api {
     )
     return
   }
+
+  async loadUsers() {
+    let data = await this.request('/users')
+    return data.data.users
+  }
+
+  async loadUser(user) {
+    if (typeof(user)=='string') {
+      var mode = 'profile'
+    } else {
+      var mode = 'id'
+    }
+    let data = await this.request(`/users/${mode}/${user}`)
+    return data.data.user
+  }
+
+  async loadUserPosts(user) {
+    if (typeof(user)=='string') {
+      var mode = 'profile'
+    } else {
+      var mode = 'id'
+    }
+    let data = await this.request(`/users/${mode}/${user}/posts`)
+    return data.data.posts
+  }
+
+  async editUser(user, avatar, description) {
+    if (typeof(user)=='string') {
+      var mode = 'profile'
+    } else {
+      var mode = 'id'
+    }
+    let data = await this.request(
+      `/users/${mode}/${user}`,
+      'patch',
+      {
+        avatar: avatar,
+        description: description,
+      }
+    )
+    return
+  }
 }
 
 export default new Api()

@@ -8,6 +8,7 @@ import {Link} from 'react-router';
 import Storage from '../Storage'
 
 import Api from '../Api'
+import Core from '../Core'
 
 export default class Navbar extends React.Component {
   constructor(props) {
@@ -20,6 +21,8 @@ export default class Navbar extends React.Component {
 
     loginValue: '',
     passwordValue: '',
+
+    current_page: 'index',
   }
 
   handleLoginModalClick() {
@@ -59,12 +62,23 @@ export default class Navbar extends React.Component {
     location.reload()
   }
 
+  componentDidMount() {
+    Core.listen('current-page-update', function(page) {
+      this.setState({current_page: page})
+      console.log('Current page', page)
+    }.bind(this))
+  }
+
   render() {
     let user = Storage.get('user', {})
     return (<div><nav className='navbar'>
       <ul className='navbar-left'>
-        <li className='active'><Link to='/app/'>Home</Link></li>
-        <li><a href='#' >Test</a></li>
+        <li className={this.state.current_page=='index'? 'active':''}>
+          <Link to='/app/'>Home</Link>
+        </li>
+        <li className={this.state.current_page=='users'? 'active':''}>
+          <Link to='/app/users'>Users</Link>
+        </li>
       </ul>
       <ul className='navbar-right'>
         <li>
@@ -85,6 +99,11 @@ export default class Navbar extends React.Component {
         <li style={{display: user.id? 'block' : 'none'}}>
           <Link to='/app/posts/add'>
             <CircleIcon>add</CircleIcon>
+          </Link>
+        </li>
+        <li style={{display: user.id? 'block' : 'none'}}>
+          <Link to={`/app/users/${user.username}/edit`}>
+            <CircleIcon>settings</CircleIcon>
           </Link>
         </li>
         <li style={{display: user.id? 'block' : 'none'}} onClick={this.handleLogout}>

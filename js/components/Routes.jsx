@@ -6,6 +6,9 @@ import Index from '../containers/Index'
 import ShowPost from '../containers/ShowPost'
 import AddPost from '../containers/AddPost'
 import EditPost from '../containers/EditPost'
+import ShowUsers from '../containers/ShowUsers'
+import ShowUser from '../containers/ShowUser'
+import EditUser from '../containers/EditUser'
 import Api from '../Api'
 
 class AppRouter extends React.Component {
@@ -21,6 +24,9 @@ class AppRouter extends React.Component {
           <Route path='posts/add' component={AddPost} />
           <Route path='posts/:id' component={ShowPost} />
           <Route path='posts/:id/edit' component={EditPost} />
+          <Route path='users' component={ShowUsers} />
+          <Route path='users/:username' component={ShowUser} />
+          <Route path='users/:username/edit' component={EditUser} />
         </Route>
       </Router>
     )

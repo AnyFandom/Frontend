@@ -27741,6 +27741,18 @@
 
 	var _EditPost2 = _interopRequireDefault(_EditPost);
 
+	var _ShowUsers = __webpack_require__(545);
+
+	var _ShowUsers2 = _interopRequireDefault(_ShowUsers);
+
+	var _ShowUser = __webpack_require__(547);
+
+	var _ShowUser2 = _interopRequireDefault(_ShowUser);
+
+	var _EditUser = __webpack_require__(548);
+
+	var _EditUser2 = _interopRequireDefault(_EditUser);
+
 	var _Api = __webpack_require__(526);
 
 	var _Api2 = _interopRequireDefault(_Api);
@@ -27774,7 +27786,10 @@
 	          _react2.default.createElement(_reactRouter.IndexRoute, { component: _Index2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'posts/add', component: _AddPost2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'posts/:id', component: _ShowPost2.default }),
-	          _react2.default.createElement(_reactRouter.Route, { path: 'posts/:id/edit', component: _EditPost2.default })
+	          _react2.default.createElement(_reactRouter.Route, { path: 'posts/:id/edit', component: _EditPost2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'users', component: _ShowUsers2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username', component: _ShowUser2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username/edit', component: _EditUser2.default })
 	        )
 	      );
 	    }
@@ -34763,6 +34778,144 @@
 
 	      return editPost;
 	    }()
+	  }, {
+	    key: 'loadUsers',
+	    value: function () {
+	      var _ref14 = _asyncToGenerator(regeneratorRuntime.mark(function _callee14() {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+	          while (1) {
+	            switch (_context14.prev = _context14.next) {
+	              case 0:
+	                _context14.next = 2;
+	                return this.request('/users');
+
+	              case 2:
+	                data = _context14.sent;
+	                return _context14.abrupt('return', data.data.users);
+
+	              case 4:
+	              case 'end':
+	                return _context14.stop();
+	            }
+	          }
+	        }, _callee14, this);
+	      }));
+
+	      function loadUsers() {
+	        return _ref14.apply(this, arguments);
+	      }
+
+	      return loadUsers;
+	    }()
+	  }, {
+	    key: 'loadUser',
+	    value: function () {
+	      var _ref15 = _asyncToGenerator(regeneratorRuntime.mark(function _callee15(user) {
+	        var mode, data;
+	        return regeneratorRuntime.wrap(function _callee15$(_context15) {
+	          while (1) {
+	            switch (_context15.prev = _context15.next) {
+	              case 0:
+	                if (typeof user == 'string') {
+	                  mode = 'profile';
+	                } else {
+	                  mode = 'id';
+	                }
+	                _context15.next = 3;
+	                return this.request('/users/' + mode + '/' + user);
+
+	              case 3:
+	                data = _context15.sent;
+	                return _context15.abrupt('return', data.data.user);
+
+	              case 5:
+	              case 'end':
+	                return _context15.stop();
+	            }
+	          }
+	        }, _callee15, this);
+	      }));
+
+	      function loadUser(_x30) {
+	        return _ref15.apply(this, arguments);
+	      }
+
+	      return loadUser;
+	    }()
+	  }, {
+	    key: 'loadUserPosts',
+	    value: function () {
+	      var _ref16 = _asyncToGenerator(regeneratorRuntime.mark(function _callee16(user) {
+	        var mode, data;
+	        return regeneratorRuntime.wrap(function _callee16$(_context16) {
+	          while (1) {
+	            switch (_context16.prev = _context16.next) {
+	              case 0:
+	                if (typeof user == 'string') {
+	                  mode = 'profile';
+	                } else {
+	                  mode = 'id';
+	                }
+	                _context16.next = 3;
+	                return this.request('/users/' + mode + '/' + user + '/posts');
+
+	              case 3:
+	                data = _context16.sent;
+	                return _context16.abrupt('return', data.data.posts);
+
+	              case 5:
+	              case 'end':
+	                return _context16.stop();
+	            }
+	          }
+	        }, _callee16, this);
+	      }));
+
+	      function loadUserPosts(_x31) {
+	        return _ref16.apply(this, arguments);
+	      }
+
+	      return loadUserPosts;
+	    }()
+	  }, {
+	    key: 'editUser',
+	    value: function () {
+	      var _ref17 = _asyncToGenerator(regeneratorRuntime.mark(function _callee17(user, avatar, description) {
+	        var mode, data;
+	        return regeneratorRuntime.wrap(function _callee17$(_context17) {
+	          while (1) {
+	            switch (_context17.prev = _context17.next) {
+	              case 0:
+	                if (typeof user == 'string') {
+	                  mode = 'profile';
+	                } else {
+	                  mode = 'id';
+	                }
+	                _context17.next = 3;
+	                return this.request('/users/' + mode + '/' + user, 'patch', {
+	                  avatar: avatar,
+	                  description: description
+	                });
+
+	              case 3:
+	                data = _context17.sent;
+	                return _context17.abrupt('return');
+
+	              case 5:
+	              case 'end':
+	                return _context17.stop();
+	            }
+	          }
+	        }, _callee17, this);
+	      }));
+
+	      function editUser(_x32, _x33, _x34) {
+	        return _ref17.apply(this, arguments);
+	      }
+
+	      return editUser;
+	    }()
 	  }]);
 
 	  return Api;
@@ -35663,6 +35816,10 @@
 
 	var _Api2 = _interopRequireDefault(_Api);
 
+	var _Core = __webpack_require__(527);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -35686,7 +35843,9 @@
 	      registerModalIsOpen: false,
 
 	      loginValue: '',
-	      passwordValue: ''
+	      passwordValue: '',
+
+	      current_page: 'index'
 	    };
 	    return _this;
 	  }
@@ -35780,6 +35939,14 @@
 	      location.reload();
 	    }
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _Core2.default.listen('current-page-update', function (page) {
+	        this.setState({ current_page: page });
+	        console.log('Current page', page);
+	      }.bind(this));
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var user = _Storage2.default.get('user', {});
@@ -35794,7 +35961,7 @@
 	            { className: 'navbar-left' },
 	            _react2.default.createElement(
 	              'li',
-	              { className: 'active' },
+	              { className: this.state.current_page == 'index' ? 'active' : '' },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
 	                { to: '/app/' },
@@ -35803,11 +35970,11 @@
 	            ),
 	            _react2.default.createElement(
 	              'li',
-	              null,
+	              { className: this.state.current_page == 'users' ? 'active' : '' },
 	              _react2.default.createElement(
-	                'a',
-	                { href: '#' },
-	                'Test'
+	                _reactRouter.Link,
+	                { to: '/app/users' },
+	                'Users'
 	              )
 	            )
 	          ),
@@ -35863,6 +36030,19 @@
 	                  _CircleIcon2.default,
 	                  null,
 	                  'add'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: { display: user.id ? 'block' : 'none' } },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/app/users/' + user.username + '/edit' },
+	                _react2.default.createElement(
+	                  _CircleIcon2.default,
+	                  null,
+	                  'settings'
 	                )
 	              )
 	            ),
@@ -37586,6 +37766,475 @@
 
 
 	EditPost.propTypes = {};
+
+/***/ },
+/* 545 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Api = __webpack_require__(526);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _UserItem = __webpack_require__(546);
+
+	var _UserItem2 = _interopRequireDefault(_UserItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ShowUsers = function (_React$Component) {
+	  _inherits(ShowUsers, _React$Component);
+
+	  function ShowUsers(props) {
+	    _classCallCheck(this, ShowUsers);
+
+	    var _this = _possibleConstructorReturn(this, (ShowUsers.__proto__ || Object.getPrototypeOf(ShowUsers)).call(this, props));
+
+	    _this.state = {
+	      users: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(ShowUsers, [{
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	        var users;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                _context.next = 2;
+	                return _Api2.default.loadUsers();
+
+	              case 2:
+	                users = _context.sent;
+
+	                this.setState({ users: users });
+
+	              case 4:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'users-container' },
+	        this.state.users.map(function (item) {
+	          return _react2.default.createElement(_UserItem2.default, { user: item, key: 'user_' + item.id });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return ShowUsers;
+	}(_react2.default.Component);
+
+	exports.default = ShowUsers;
+
+
+	ShowUsers.propTypes = {};
+
+/***/ },
+/* 546 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(457);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var UserItem = function (_React$Component) {
+	  _inherits(UserItem, _React$Component);
+
+	  function UserItem(props) {
+	    _classCallCheck(this, UserItem);
+
+	    return _possibleConstructorReturn(this, (UserItem.__proto__ || Object.getPrototypeOf(UserItem)).call(this, props));
+	  }
+
+	  _createClass(UserItem, [{
+	    key: 'render',
+	    value: function render() {
+	      var user = this.props.user;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'user-item' },
+	        _react2.default.createElement('img', { src: user.avatar }),
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/app/users/' + user.username },
+	            user.username
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return UserItem;
+	}(_react2.default.Component);
+
+	exports.default = UserItem;
+
+
+	UserItem.propTypes = {};
+
+/***/ },
+/* 547 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Api = __webpack_require__(526);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _Core = __webpack_require__(527);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
+	var _Post = __webpack_require__(521);
+
+	var _Post2 = _interopRequireDefault(_Post);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ShowUser = function (_React$Component) {
+	  _inherits(ShowUser, _React$Component);
+
+	  function ShowUser(props) {
+	    _classCallCheck(this, ShowUser);
+
+	    var _this = _possibleConstructorReturn(this, (ShowUser.__proto__ || Object.getPrototypeOf(ShowUser)).call(this, props));
+
+	    _this.state = {
+	      user: {},
+	      posts: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(ShowUser, [{
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	        var user, user_posts;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                _Core2.default.push('current-page-update', 'users');
+
+	                _context.next = 3;
+	                return _Api2.default.loadUser(this.props.params.username);
+
+	              case 3:
+	                user = _context.sent;
+
+	                this.setState({ user: user });
+
+	                _context.next = 7;
+	                return _Api2.default.loadUserPosts(this.props.params.username);
+
+	              case 7:
+	                user_posts = _context.sent;
+
+	                this.setState({ posts: user_posts });
+
+	              case 9:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'user-profile' },
+	          _react2.default.createElement('img', { className: 'avatar', src: this.state.user.avatar }),
+	          _react2.default.createElement(
+	            'section',
+	            { className: 'info' },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'username' },
+	              this.state.user.username
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'description' },
+	              this.state.user.description
+	            )
+	          )
+	        ),
+	        this.state.posts.map(function (item) {
+	          return _react2.default.createElement(_Post2.default, { post: item, key: item.id, short: true });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return ShowUser;
+	}(_react2.default.Component);
+
+	exports.default = ShowUser;
+
+
+	ShowUser.propTypes = {};
+
+/***/ },
+/* 548 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Single = __webpack_require__(543);
+
+	var _Single2 = _interopRequireDefault(_Single);
+
+	var _Api = __webpack_require__(526);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EditUser = function (_React$Component) {
+	  _inherits(EditUser, _React$Component);
+
+	  function EditUser(props) {
+	    _classCallCheck(this, EditUser);
+
+	    var _this = _possibleConstructorReturn(this, (EditUser.__proto__ || Object.getPrototypeOf(EditUser)).call(this, props));
+
+	    _this.state = {
+	      user: {},
+	      avatarValue: '',
+	      descriptionValue: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(EditUser, [{
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	        var user;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                _context.next = 2;
+	                return _Api2.default.loadUser(this.props.params.username);
+
+	              case 2:
+	                user = _context.sent;
+
+	                this.setState({ user: user, avatarValue: user.avatar, descriptionValue: user.description });
+	                console.log('User', user);
+
+	              case 5:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'descriptionOnChange',
+	    value: function descriptionOnChange(e) {
+	      e.preventDefault();
+	      this.setState({ descriptionValue: e.target.value });
+	    }
+	  }, {
+	    key: 'avatarOnChange',
+	    value: function avatarOnChange(e) {
+	      e.preventDefault();
+	      this.setState({ avatarValue: e.target.value });
+	    }
+	  }, {
+	    key: 'editUser',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(e) {
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                e.preventDefault();
+	                _context2.next = 3;
+	                return _Api2.default.editUser(this.state.user.username, this.state.avatarValue, this.state.descriptionValue);
+
+	              case 3:
+	                document.location = '/app/users/' + this.state.user.username;
+
+	              case 4:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function editUser(_x) {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return editUser;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _Single2.default,
+	        { title: 'Edit user ' + this.state.user.username, preview: 'http://previews.123rf.com/images/markovka/markovka1402/markovka140200090/26310850-Vector-seamless-pattern-childish-doodles-Pattern-set-of-different-school-travel-romantic-things-Enjo-Stock-Vector.jpg' },
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.editUser.bind(this) },
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'avatar' },
+	              'Avatar URL:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.avatarOnChange.bind(this), value: this.state.avatarValue, name: 'avatar', type: 'url', placeholder: 'Avatar URL' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'description' },
+	              'Description:'
+	            ),
+	            _react2.default.createElement('textarea', { onChange: this.descriptionOnChange.bind(this), value: this.state.descriptionValue, placeholder: 'Description', name: 'description' })
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'submit',
+	              className: 'btn btn--color-positive submit-button' },
+	            'Send'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return EditUser;
+	}(_react2.default.Component);
+
+	exports.default = EditUser;
+
+
+	EditUser.propTypes = {};
 
 /***/ }
 /******/ ]);
