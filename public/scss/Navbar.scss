@@ -1,0 +1,73 @@
+.navbar {
+  height: $navbar-height;
+  width: 100%;
+  left: 0;
+  top: 0;
+  position: fixed;
+  background: #FFF;
+  box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+  z-index: 100500;
+  display: flex;
+  justify-content: space-between;
+
+  ul {
+    display: flex;
+    list-style: none;
+    height: $navbar-height;
+    margin: 0;
+    padding: 0 10px;
+
+    li {
+      display: inline-block;
+      a {
+        display: inline-flex;
+        height: $navbar-height;
+        padding: 0 10px;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: #999999;
+
+        .navbar-avatar {
+          width: 48px;
+          height: 48px;
+          border-radius: 10px;
+          margin-right: 10px;
+        }
+
+        .navbar-login {
+          color: #585858;
+          font-family: 'Roboto Light';
+        }
+
+        .circle-icon {
+          box-shadow: none;
+          width: 48px;
+          height: 48px;
+
+          i {
+            cursor: pointer;
+          }
+        }
+      }
+
+      &.active {
+        border-top: 2px solid $brand-color;
+
+        a {
+          color: $brand-color;
+          margin-top: -2px;
+        }
+      }
+    }
+    &.navbar-right {
+      text-align: right;
+      float:right;
+    }
+
+    &.navbar-center {
+      width: 20%;
+      text-align: center;
+    }
+  }
+}
