@@ -2163,12 +2163,10 @@ img {
           .comment .comment-actions li .comment-reply .circle-icon i {
             cursor: pointer;
             z-index: 2;
-            position: absolute;
             margin: auto;
             height: 18px;
             font-size: 18px;
-            line-height: 18px;
-            margin-top: -1px; }
+            line-height: 18px; }
           .comment .comment-actions li .comment-reply .circle-icon:hover {
             color: white;
             background: #1abc9c; }
