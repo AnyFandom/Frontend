@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
 import Api from '../Api'
-import Post from '../components/Post'
+import PostList from '../components/PostList'
+import BlogList from '../components/BlogList'
+import { Tabs, Tab } from 'react-tab-view'
 
 export default class ShowFandom extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ export default class ShowFandom extends React.Component {
   state = {
     fandom: {},
     posts: [],
+    blogs: [],
   }
 
   async componentDidMount() {
@@ -18,6 +21,9 @@ export default class ShowFandom extends React.Component {
 
     let posts = await Api.loadFandomPosts(this.props.params.id)
     this.setState({posts: posts})
+
+    let blogs = await Api.loadBlogs(this.props.params.id)
+    this.setState({blogs: blogs})
   }
 
   render() {
@@ -31,9 +37,15 @@ export default class ShowFandom extends React.Component {
           </span>
         </section>
       </div>
-      {this.state.posts.map(function(item){
-        return <Post post={item} key={item.id} short />
-      })}</div>);
+      <Tabs headers={['Posts', 'Blogs']}>
+        <Tab>
+          <PostList posts={this.state.posts} />
+        </Tab>
+        <Tab>
+          <BlogList blogs={this.state.blogs} />
+        </Tab>
+      </Tabs>
+      </div>);
   }
 }
 
