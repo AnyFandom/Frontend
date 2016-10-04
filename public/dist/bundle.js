@@ -29926,6 +29926,10 @@
 
 	var _ShowFandoms2 = _interopRequireDefault(_ShowFandoms);
 
+	var _ShowFandom = __webpack_require__(631);
+
+	var _ShowFandom2 = _interopRequireDefault(_ShowFandom);
+
 	var _Api = __webpack_require__(542);
 
 	var _Api2 = _interopRequireDefault(_Api);
@@ -29963,7 +29967,8 @@
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users', component: _ShowUsers2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username', component: _ShowUser2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username/edit', component: _EditUser2.default }),
-	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms', component: _ShowFandoms2.default })
+	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms', component: _ShowFandoms2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/:id', component: _ShowFandom2.default })
 	        )
 	      );
 	    }
@@ -37124,6 +37129,66 @@
 	      }
 
 	      return loadFandoms;
+	    }()
+	  }, {
+	    key: 'loadFandom',
+	    value: function () {
+	      var _ref19 = _asyncToGenerator(regeneratorRuntime.mark(function _callee19(id) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee19$(_context19) {
+	          while (1) {
+	            switch (_context19.prev = _context19.next) {
+	              case 0:
+	                _context19.next = 2;
+	                return this.request('/fandoms/' + id);
+
+	              case 2:
+	                data = _context19.sent;
+	                return _context19.abrupt('return', data.fandom);
+
+	              case 4:
+	              case 'end':
+	                return _context19.stop();
+	            }
+	          }
+	        }, _callee19, this);
+	      }));
+
+	      function loadFandom(_x35) {
+	        return _ref19.apply(this, arguments);
+	      }
+
+	      return loadFandom;
+	    }()
+	  }, {
+	    key: 'loadFandomPosts',
+	    value: function () {
+	      var _ref20 = _asyncToGenerator(regeneratorRuntime.mark(function _callee20(id) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee20$(_context20) {
+	          while (1) {
+	            switch (_context20.prev = _context20.next) {
+	              case 0:
+	                _context20.next = 2;
+	                return this.request('/fandoms/' + id + '/posts');
+
+	              case 2:
+	                data = _context20.sent;
+	                return _context20.abrupt('return', data.posts);
+
+	              case 4:
+	              case 'end':
+	                return _context20.stop();
+	            }
+	          }
+	        }, _callee20, this);
+	      }));
+
+	      function loadFandomPosts(_x36) {
+	        return _ref20.apply(this, arguments);
+	      }
+
+	      return loadFandomPosts;
 	    }()
 	  }]);
 
@@ -49608,6 +49673,134 @@
 
 
 	FandomItem.propTypes = {};
+
+/***/ },
+/* 631 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Api = __webpack_require__(542);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _Post = __webpack_require__(537);
+
+	var _Post2 = _interopRequireDefault(_Post);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ShowFandom = function (_React$Component) {
+	  _inherits(ShowFandom, _React$Component);
+
+	  function ShowFandom(props) {
+	    _classCallCheck(this, ShowFandom);
+
+	    var _this = _possibleConstructorReturn(this, (ShowFandom.__proto__ || Object.getPrototypeOf(ShowFandom)).call(this, props));
+
+	    _this.state = {
+	      fandom: {},
+	      posts: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(ShowFandom, [{
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	        var fandom, posts;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                _context.next = 2;
+	                return _Api2.default.loadFandom(this.props.params.id);
+
+	              case 2:
+	                fandom = _context.sent;
+
+	                this.setState({ fandom: fandom });
+
+	                _context.next = 6;
+	                return _Api2.default.loadFandomPosts(this.props.params.id);
+
+	              case 6:
+	                posts = _context.sent;
+
+	                this.setState({ posts: posts });
+
+	              case 8:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'fandom' },
+	          _react2.default.createElement('img', { className: 'avatar', src: this.state.fandom.avatar }),
+	          _react2.default.createElement(
+	            'section',
+	            { className: 'info' },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'title' },
+	              this.state.fandom.title
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'description' },
+	              this.state.fandom.description
+	            )
+	          )
+	        ),
+	        this.state.posts.map(function (item) {
+	          return _react2.default.createElement(_Post2.default, { post: item, key: item.id, short: true });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return ShowFandom;
+	}(_react2.default.Component);
+
+	exports.default = ShowFandom;
+
+
+	ShowFandom.propTypes = {};
 
 /***/ }
 /******/ ]);
