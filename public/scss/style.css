@@ -2436,4 +2436,24 @@ form fieldset {
       display: inline-block;
       margin-top: 20px; }
 
+.fandoms-list {
+  padding-right: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto; }
+  .fandoms-list .fandom-item {
+    background: white;
+    width: 140px;
+    padding: 20px;
+    margin-right: 30px;
+    box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4); }
+    .fandoms-list .fandom-item img {
+      width: 100px;
+      height: 100px; }
+    .fandoms-list .fandom-item span {
+      text-align: center;
+      padding-top: 10px;
+      display: block; }
+
 /*# sourceMappingURL=style.css.map */

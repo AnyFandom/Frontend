@@ -48,7 +48,7 @@ class Api {
             console.warn(data.data.code, data.data.message);
             reject(data)
           } else {
-            resolve(data)
+            resolve(data.data)
           }
         },
         function(resp) {
@@ -57,7 +57,7 @@ class Api {
             console.warn(data.data.code, data.data.message);
             reject(data)
           } else {
-            resolve(data)
+            resolve(data.data)
           }
         }
       )
@@ -70,7 +70,7 @@ class Api {
 
   async getUserCurrent() {
     let data = await this.request('/users/current')
-    Storage.set('user', data.data.user)
+    Storage.set('user', data.user)
     Core.push('update-user-current')
     return
   }
@@ -84,7 +84,7 @@ class Api {
         password: password
       }
     )
-    Storage.set('token', data.data.token);
+    Storage.set('token', data.token);
     await this.getUserCurrent();
 
   }
@@ -107,17 +107,17 @@ class Api {
 
   async loadPosts() {
     let data = await this.request('/posts')
-    return data.data.posts
+    return data.posts
   }
 
   async loadPost(id) {
     let data = await this.request(`/posts/${id}`)
-    return data.data.post
+    return data.post
   }
 
   async loadPostComments(id) {
     let data = await this.request(`/posts/${id}/comments`, 'get', {threaded: 1})
-    return data.data.comments
+    return data.comments
   }
 
   async addComment(post_id, parent_id, content) {
@@ -130,7 +130,7 @@ class Api {
         content: content
       }
     )
-    return data.data.Location
+    return data.Location
   }
 
   async deleteComment(id) {
@@ -154,7 +154,7 @@ class Api {
         blog: blog_id
       }
     )
-    return data.data.Location
+    return data.Location
   }
 
   async deletePost(id) {
@@ -178,7 +178,7 @@ class Api {
 
   async loadUsers() {
     let data = await this.request('/users')
-    return data.data.users
+    return data.users
   }
 
   async loadUser(user) {
@@ -188,7 +188,7 @@ class Api {
       var mode = 'id'
     }
     let data = await this.request(`/users/${mode}/${user}`)
-    return data.data.user
+    return data.user
   }
 
   async loadUserPosts(user) {
@@ -198,7 +198,7 @@ class Api {
       var mode = 'id'
     }
     let data = await this.request(`/users/${mode}/${user}/posts`)
-    return data.data.posts
+    return data.posts
   }
 
   async editUser(user, avatar, description) {
@@ -216,6 +216,11 @@ class Api {
       }
     )
     return
+  }
+
+  async loadFandoms() {
+    let data = await this.request('/fandoms')
+    return data.fandoms
   }
 }
 

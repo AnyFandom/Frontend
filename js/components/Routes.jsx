@@ -9,6 +9,7 @@ import EditPost from '../containers/EditPost'
 import ShowUsers from '../containers/ShowUsers'
 import ShowUser from '../containers/ShowUser'
 import EditUser from '../containers/EditUser'
+import ShowFandoms from '../containers/ShowFandoms'
 import Api from '../Api'
 
 class AppRouter extends React.Component {
@@ -27,6 +28,7 @@ class AppRouter extends React.Component {
           <Route path='users' component={ShowUsers} />
           <Route path='users/:username' component={ShowUser} />
           <Route path='users/:username/edit' component={EditUser} />
+          <Route path='fandoms' component={ShowFandoms} />
         </Route>
       </Router>
     )

@@ -29922,6 +29922,10 @@
 
 	var _EditUser2 = _interopRequireDefault(_EditUser);
 
+	var _ShowFandoms = __webpack_require__(629);
+
+	var _ShowFandoms2 = _interopRequireDefault(_ShowFandoms);
+
 	var _Api = __webpack_require__(542);
 
 	var _Api2 = _interopRequireDefault(_Api);
@@ -29958,7 +29962,8 @@
 	          _react2.default.createElement(_reactRouter.Route, { path: 'posts/:id/edit', component: _EditPost2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users', component: _ShowUsers2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username', component: _ShowUser2.default }),
-	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username/edit', component: _EditUser2.default })
+	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username/edit', component: _EditUser2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms', component: _ShowFandoms2.default })
 	        )
 	      );
 	    }
@@ -36532,7 +36537,7 @@
 	                      console.warn(data.data.code, data.data.message);
 	                      reject(data);
 	                    } else {
-	                      resolve(data);
+	                      resolve(data.data);
 	                    }
 	                  }, function (resp) {
 	                    var data = JSON.parse(resp.responseText);
@@ -36540,7 +36545,7 @@
 	                      console.warn(data.data.code, data.data.message);
 	                      reject(data);
 	                    } else {
-	                      resolve(data);
+	                      resolve(data.data);
 	                    }
 	                  });
 	                }.bind(this)));
@@ -36579,7 +36584,7 @@
 	              case 2:
 	                data = _context2.sent;
 
-	                _Storage2.default.set('user', data.data.user);
+	                _Storage2.default.set('user', data.user);
 	                _Core2.default.push('update-user-current');
 	                return _context2.abrupt('return');
 
@@ -36615,7 +36620,7 @@
 	              case 2:
 	                data = _context3.sent;
 
-	                _Storage2.default.set('token', data.data.token);
+	                _Storage2.default.set('token', data.token);
 	                _context3.next = 6;
 	                return this.getUserCurrent();
 
@@ -36686,7 +36691,7 @@
 
 	              case 2:
 	                data = _context5.sent;
-	                return _context5.abrupt('return', data.data.posts);
+	                return _context5.abrupt('return', data.posts);
 
 	              case 4:
 	              case 'end':
@@ -36716,7 +36721,7 @@
 
 	              case 2:
 	                data = _context6.sent;
-	                return _context6.abrupt('return', data.data.post);
+	                return _context6.abrupt('return', data.post);
 
 	              case 4:
 	              case 'end':
@@ -36746,7 +36751,7 @@
 
 	              case 2:
 	                data = _context7.sent;
-	                return _context7.abrupt('return', data.data.comments);
+	                return _context7.abrupt('return', data.comments);
 
 	              case 4:
 	              case 'end':
@@ -36780,7 +36785,7 @@
 
 	              case 2:
 	                data = _context8.sent;
-	                return _context8.abrupt('return', data.data.Location);
+	                return _context8.abrupt('return', data.Location);
 
 	              case 4:
 	              case 'end':
@@ -36872,7 +36877,7 @@
 
 	              case 2:
 	                data = _context11.sent;
-	                return _context11.abrupt('return', data.data.Location);
+	                return _context11.abrupt('return', data.Location);
 
 	              case 4:
 	              case 'end':
@@ -36966,7 +36971,7 @@
 
 	              case 2:
 	                data = _context14.sent;
-	                return _context14.abrupt('return', data.data.users);
+	                return _context14.abrupt('return', data.users);
 
 	              case 4:
 	              case 'end':
@@ -37001,7 +37006,7 @@
 
 	              case 3:
 	                data = _context15.sent;
-	                return _context15.abrupt('return', data.data.user);
+	                return _context15.abrupt('return', data.user);
 
 	              case 5:
 	              case 'end':
@@ -37036,7 +37041,7 @@
 
 	              case 3:
 	                data = _context16.sent;
-	                return _context16.abrupt('return', data.data.posts);
+	                return _context16.abrupt('return', data.posts);
 
 	              case 5:
 	              case 'end':
@@ -37089,6 +37094,36 @@
 	      }
 
 	      return editUser;
+	    }()
+	  }, {
+	    key: 'loadFandoms',
+	    value: function () {
+	      var _ref18 = _asyncToGenerator(regeneratorRuntime.mark(function _callee18() {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee18$(_context18) {
+	          while (1) {
+	            switch (_context18.prev = _context18.next) {
+	              case 0:
+	                _context18.next = 2;
+	                return this.request('/fandoms');
+
+	              case 2:
+	                data = _context18.sent;
+	                return _context18.abrupt('return', data.fandoms);
+
+	              case 4:
+	              case 'end':
+	                return _context18.stop();
+	            }
+	          }
+	        }, _callee18, this);
+	      }));
+
+	      function loadFandoms() {
+	        return _ref18.apply(this, arguments);
+	      }
+
+	      return loadFandoms;
 	    }()
 	  }]);
 
@@ -49415,6 +49450,164 @@
 	};
 
 	exports.default = Websocket;
+
+/***/ },
+/* 629 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Api = __webpack_require__(542);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _FandomItem = __webpack_require__(630);
+
+	var _FandomItem2 = _interopRequireDefault(_FandomItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ShowFandoms = function (_React$Component) {
+	  _inherits(ShowFandoms, _React$Component);
+
+	  function ShowFandoms(props) {
+	    _classCallCheck(this, ShowFandoms);
+
+	    var _this = _possibleConstructorReturn(this, (ShowFandoms.__proto__ || Object.getPrototypeOf(ShowFandoms)).call(this, props));
+
+	    _this.state = {
+	      fandoms: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(ShowFandoms, [{
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	        var fandoms;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                _context.next = 2;
+	                return _Api2.default.loadFandoms();
+
+	              case 2:
+	                fandoms = _context.sent;
+
+	                this.setState({ fandoms: fandoms });
+
+	              case 4:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'fandoms-list' },
+	        this.state.fandoms.map(function (item) {
+	          return _react2.default.createElement(_FandomItem2.default, { key: 'fandom_' + item.id, fandom: item });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return ShowFandoms;
+	}(_react2.default.Component);
+
+	exports.default = ShowFandoms;
+
+
+	ShowFandoms.propTypes = {};
+
+/***/ },
+/* 630 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FandomItem = function (_React$Component) {
+	  _inherits(FandomItem, _React$Component);
+
+	  function FandomItem(props) {
+	    _classCallCheck(this, FandomItem);
+
+	    return _possibleConstructorReturn(this, (FandomItem.__proto__ || Object.getPrototypeOf(FandomItem)).call(this, props));
+	  }
+
+	  _createClass(FandomItem, [{
+	    key: 'render',
+	    value: function render() {
+	      var fandom = this.props.fandom;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'fandom-item' },
+	        _react2.default.createElement('img', { src: fandom.avatar, className: 'avatar' }),
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          fandom.title
+	        )
+	      );
+	    }
+	  }]);
+
+	  return FandomItem;
+	}(_react2.default.Component);
+
+	exports.default = FandomItem;
+
+
+	FandomItem.propTypes = {};
 
 /***/ }
 /******/ ]);
