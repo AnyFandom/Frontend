@@ -10,7 +10,7 @@ export default class BlogItem extends React.Component {
     let blog = this.props.blog
     return (<div className='blog-item'>
       <img src={blog.avatar} />
-      <span><Link to={`/app/fandoms/${blog.fandom.id}/blogs/${blog.id}`}>{blog.title}</Link></span>
+      <span><Link to={`/app/blogs/${blog.id}`}>{blog.title}</Link></span>
     </div>);
   }
 }

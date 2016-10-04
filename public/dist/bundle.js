@@ -37464,6 +37464,10 @@
 
 	var _ShowFandom2 = _interopRequireDefault(_ShowFandom);
 
+	var _ShowBlog = __webpack_require__(637);
+
+	var _ShowBlog2 = _interopRequireDefault(_ShowBlog);
+
 	var _Api = __webpack_require__(592);
 
 	var _Api2 = _interopRequireDefault(_Api);
@@ -37502,7 +37506,8 @@
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username', component: _ShowUser2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username/edit', component: _EditUser2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms', component: _ShowFandoms2.default }),
-	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/:id', component: _ShowFandom2.default })
+	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/:id', component: _ShowFandom2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'blogs/:id', component: _ShowBlog2.default })
 	        )
 	      );
 	    }
@@ -44704,6 +44709,66 @@
 
 	      return loadBlogs;
 	    }()
+	  }, {
+	    key: 'loadBlog',
+	    value: function () {
+	      var _ref22 = _asyncToGenerator(regeneratorRuntime.mark(function _callee22(id) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee22$(_context22) {
+	          while (1) {
+	            switch (_context22.prev = _context22.next) {
+	              case 0:
+	                _context22.next = 2;
+	                return this.request('/blogs/' + id);
+
+	              case 2:
+	                data = _context22.sent;
+	                return _context22.abrupt('return', data.blog);
+
+	              case 4:
+	              case 'end':
+	                return _context22.stop();
+	            }
+	          }
+	        }, _callee22, this);
+	      }));
+
+	      function loadBlog(_x38) {
+	        return _ref22.apply(this, arguments);
+	      }
+
+	      return loadBlog;
+	    }()
+	  }, {
+	    key: 'loadBlogPosts',
+	    value: function () {
+	      var _ref23 = _asyncToGenerator(regeneratorRuntime.mark(function _callee23(id) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee23$(_context23) {
+	          while (1) {
+	            switch (_context23.prev = _context23.next) {
+	              case 0:
+	                _context23.next = 2;
+	                return this.request('/blogs/' + id + '/posts');
+
+	              case 2:
+	                data = _context23.sent;
+	                return _context23.abrupt('return', data.posts);
+
+	              case 4:
+	              case 'end':
+	                return _context23.stop();
+	            }
+	          }
+	        }, _callee23, this);
+	      }));
+
+	      function loadBlogPosts(_x39) {
+	        return _ref23.apply(this, arguments);
+	      }
+
+	      return loadBlogPosts;
+	    }()
 	  }]);
 
 	  return Api;
@@ -50391,7 +50456,7 @@
 	          null,
 	          _react2.default.createElement(
 	            _reactRouter.Link,
-	            { to: '/app/fandoms/' + blog.fandom.id + '/blogs/' + blog.id },
+	            { to: '/app/blogs/' + blog.id },
 	            blog.title
 	          )
 	        )
@@ -50406,6 +50471,132 @@
 
 
 	BlogItem.propTypes = {};
+
+/***/ },
+/* 637 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Api = __webpack_require__(592);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _PostList = __webpack_require__(635);
+
+	var _PostList2 = _interopRequireDefault(_PostList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ShowBlog = function (_React$Component) {
+	  _inherits(ShowBlog, _React$Component);
+
+	  function ShowBlog(props) {
+	    _classCallCheck(this, ShowBlog);
+
+	    var _this = _possibleConstructorReturn(this, (ShowBlog.__proto__ || Object.getPrototypeOf(ShowBlog)).call(this, props));
+
+	    _this.state = {
+	      blog: {},
+	      posts: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(ShowBlog, [{
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	        var blog, posts;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                _context.next = 2;
+	                return _Api2.default.loadBlog(this.props.params.id);
+
+	              case 2:
+	                blog = _context.sent;
+
+	                this.setState({ blog: blog });
+
+	                _context.next = 6;
+	                return _Api2.default.loadBlogPosts(this.props.params.id);
+
+	              case 6:
+	                posts = _context.sent;
+
+	                this.setState({ posts: posts });
+
+	              case 8:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'blog' },
+	          _react2.default.createElement('img', { className: 'avatar', src: this.state.blog.avatar }),
+	          _react2.default.createElement(
+	            'section',
+	            { className: 'info' },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'title' },
+	              this.state.blog.title
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'description' },
+	              this.state.blog.description
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(_PostList2.default, { posts: this.state.posts })
+	      );
+	    }
+	  }]);
+
+	  return ShowBlog;
+	}(_react2.default.Component);
+
+	exports.default = ShowBlog;
+
+
+	ShowBlog.propTypes = {};
 
 /***/ }
 /******/ ]);

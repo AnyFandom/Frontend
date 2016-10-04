@@ -237,6 +237,16 @@ class Api {
     let data = await this.request(`/fandoms/${fandom_id}/blogs`)
     return data.blogs
   }
+
+  async loadBlog(id) {
+    let data = await this.request(`/blogs/${id}`)
+    return data.blog
+  }
+
+  async loadBlogPosts(id) {
+    let data = await this.request(`/blogs/${id}/posts`)
+    return data.posts
+  }
 }
 
 export default new Api()
