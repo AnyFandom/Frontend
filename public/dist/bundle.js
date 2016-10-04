@@ -37468,6 +37468,14 @@
 
 	var _ShowBlog2 = _interopRequireDefault(_ShowBlog);
 
+	var _AddFandom = __webpack_require__(638);
+
+	var _AddFandom2 = _interopRequireDefault(_AddFandom);
+
+	var _EditFandom = __webpack_require__(639);
+
+	var _EditFandom2 = _interopRequireDefault(_EditFandom);
+
 	var _Api = __webpack_require__(592);
 
 	var _Api2 = _interopRequireDefault(_Api);
@@ -37506,7 +37514,9 @@
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username', component: _ShowUser2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'users/:username/edit', component: _EditUser2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms', component: _ShowFandoms2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/add', component: _AddFandom2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/:id', component: _ShowFandom2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/:id/edit', component: _EditFandom2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'blogs/:id', component: _ShowBlog2.default })
 	        )
 	      );
@@ -44769,6 +44779,102 @@
 
 	      return loadBlogPosts;
 	    }()
+	  }, {
+	    key: 'addFandom',
+	    value: function () {
+	      var _ref24 = _asyncToGenerator(regeneratorRuntime.mark(function _callee24(title, description, avatar) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee24$(_context24) {
+	          while (1) {
+	            switch (_context24.prev = _context24.next) {
+	              case 0:
+	                _context24.next = 2;
+	                return this.request('/fandoms', 'post', {
+	                  title: title,
+	                  description: description,
+	                  avatar: avatar
+	                });
+
+	              case 2:
+	                data = _context24.sent;
+	                return _context24.abrupt('return', data.Location);
+
+	              case 4:
+	              case 'end':
+	                return _context24.stop();
+	            }
+	          }
+	        }, _callee24, this);
+	      }));
+
+	      function addFandom(_x40, _x41, _x42) {
+	        return _ref24.apply(this, arguments);
+	      }
+
+	      return addFandom;
+	    }()
+	  }, {
+	    key: 'editFandom',
+	    value: function () {
+	      var _ref25 = _asyncToGenerator(regeneratorRuntime.mark(function _callee25(id, title, description, avatar) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee25$(_context25) {
+	          while (1) {
+	            switch (_context25.prev = _context25.next) {
+	              case 0:
+	                _context25.next = 2;
+	                return this.request('/fandoms/' + id, 'patch', {
+	                  title: title,
+	                  description: description,
+	                  avatar: avatar
+	                });
+
+	              case 2:
+	                data = _context25.sent;
+	                return _context25.abrupt('return');
+
+	              case 4:
+	              case 'end':
+	                return _context25.stop();
+	            }
+	          }
+	        }, _callee25, this);
+	      }));
+
+	      function editFandom(_x43, _x44, _x45, _x46) {
+	        return _ref25.apply(this, arguments);
+	      }
+
+	      return editFandom;
+	    }()
+	  }, {
+	    key: 'deleteFandom',
+	    value: function () {
+	      var _ref26 = _asyncToGenerator(regeneratorRuntime.mark(function _callee26(id) {
+	        return regeneratorRuntime.wrap(function _callee26$(_context26) {
+	          while (1) {
+	            switch (_context26.prev = _context26.next) {
+	              case 0:
+	                _context26.next = 2;
+	                return this.request('/fandoms/' + id, 'delete');
+
+	              case 2:
+	                return _context26.abrupt('return');
+
+	              case 3:
+	              case 'end':
+	                return _context26.stop();
+	            }
+	          }
+	        }, _callee26, this);
+	      }));
+
+	      function deleteFandom(_x47) {
+	        return _ref26.apply(this, arguments);
+	      }
+
+	      return deleteFandom;
+	    }()
 	  }]);
 
 	  return Api;
@@ -49834,7 +49940,12 @@
 	        { className: 'fandoms-list' },
 	        this.state.fandoms.map(function (item) {
 	          return _react2.default.createElement(_FandomItem2.default, { key: 'fandom_' + item.id, fandom: item });
-	        })
+	        }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'fandom-item-add' },
+	          '+'
+	        )
 	      );
 	    }
 	  }]);
@@ -49862,6 +49973,8 @@
 	var _react = __webpack_require__(299);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(524);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49891,7 +50004,11 @@
 	        _react2.default.createElement(
 	          'span',
 	          null,
-	          fandom.title
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/app/fandoms/' + fandom.id },
+	            fandom.title
+	          )
 	        )
 	      );
 	    }
@@ -49933,7 +50050,13 @@
 
 	var _BlogList2 = _interopRequireDefault(_BlogList);
 
+	var _CircleIcon = __webpack_require__(590);
+
+	var _CircleIcon2 = _interopRequireDefault(_CircleIcon);
+
 	var _reactTabView = __webpack_require__(631);
+
+	var _reactRouter = __webpack_require__(524);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50009,6 +50132,40 @@
 	      return componentDidMount;
 	    }()
 	  }, {
+	    key: 'onDeleteClick',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                if (!confirm('Вы уверены, что хотите удалить фэндом?')) {
+	                  _context2.next = 5;
+	                  break;
+	                }
+
+	                _context2.next = 3;
+	                return _Api2.default.deleteFandom(this.state.fandom.id);
+
+	              case 3:
+	                this.context.router.push('/app/fandoms/');
+	                NotificationManager.success('Фэндом удален', 'Успешно');
+
+	              case 5:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function onDeleteClick() {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return onDeleteClick;
+	    }()
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -50030,6 +50187,24 @@
 	              'span',
 	              { className: 'description' },
 	              this.state.fandom.description
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'actions' },
+	              _react2.default.createElement(
+	                _CircleIcon2.default,
+	                { onClick: this.onDeleteClick.bind(this) },
+	                'delete'
+	              ),
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/app/fandoms/' + this.state.fandom.id + '/edit' },
+	                _react2.default.createElement(
+	                  _CircleIcon2.default,
+	                  null,
+	                  'edit'
+	                )
+	              )
 	            )
 	          )
 	        ),
@@ -50048,6 +50223,13 @@
 	          )
 	        )
 	      );
+	    }
+	  }], [{
+	    key: 'contextTypes',
+	    get: function get() {
+	      return {
+	        router: _react2.default.PropTypes.object.isRequired
+	      };
 	    }
 	  }]);
 
@@ -50597,6 +50779,440 @@
 
 
 	ShowBlog.propTypes = {};
+
+/***/ },
+/* 638 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Checkbox = __webpack_require__(622);
+
+	var _Checkbox2 = _interopRequireDefault(_Checkbox);
+
+	var _Single = __webpack_require__(623);
+
+	var _Single2 = _interopRequireDefault(_Single);
+
+	var _Api = __webpack_require__(592);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _reactNotifications = __webpack_require__(595);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var AddFandom = function (_React$Component) {
+	  _inherits(AddFandom, _React$Component);
+
+	  function AddFandom(props) {
+	    _classCallCheck(this, AddFandom);
+
+	    var _this = _possibleConstructorReturn(this, (AddFandom.__proto__ || Object.getPrototypeOf(AddFandom)).call(this, props));
+
+	    _this.state = {
+	      titleValue: '',
+	      descriptionValue: '',
+	      avatarValue: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(AddFandom, [{
+	    key: 'avatarOnChange',
+	    value: function avatarOnChange(e) {
+	      this.setState({ avatarValue: e.target.value });
+	    }
+	  }, {
+	    key: 'titleOnChange',
+	    value: function titleOnChange(e) {
+	      this.setState({ titleValue: e.target.value });
+	    }
+	  }, {
+	    key: 'descriptionOnChange',
+	    value: function descriptionOnChange(e) {
+	      this.setState({ descriptionValue: e.target.value });
+	    }
+	  }, {
+	    key: 'addFandom',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+	        var new_location;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                e.preventDefault();
+	                console.log(this.state.description);
+	                _context.next = 4;
+	                return _Api2.default.addFandom(this.state.titleValue, this.state.descriptionValue, this.state.avatarValue);
+
+	              case 4:
+	                new_location = _context.sent;
+
+	                this.context.router.push('/app' + new_location);
+	                _reactNotifications.NotificationManager.success('Фэндом добавлен', 'Успешно');
+
+	              case 7:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function addFandom(_x) {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return addFandom;
+	    }()
+	  }, {
+	    key: 'onFandomChange',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(e) {
+	        var blogs;
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                this.setState({ fandomValue: e.target.value });
+	                _context2.next = 3;
+	                return _Api2.default.loadBlogs(e.target.value);
+
+	              case 3:
+	                blogs = _context2.sent;
+
+	                this.setState({ blogs: blogs });
+
+	              case 5:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function onFandomChange(_x2) {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return onFandomChange;
+	    }()
+	  }, {
+	    key: 'onBlogChange',
+	    value: function () {
+	      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(e) {
+	        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+	          while (1) {
+	            switch (_context3.prev = _context3.next) {
+	              case 0:
+	                this.setState({ blogValue: e.target.value });
+
+	              case 1:
+	              case 'end':
+	                return _context3.stop();
+	            }
+	          }
+	        }, _callee3, this);
+	      }));
+
+	      function onBlogChange(_x3) {
+	        return _ref3.apply(this, arguments);
+	      }
+
+	      return onBlogChange;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _Single2.default,
+	        { title: 'Add Fandom',
+	          avatar: 'https://www.colourbox.com/avatar/9364894-vector-seamless-pattern-childish-doodles-pattern-set-of-different-school-travel-romantic-things-enjoy-life-concept-use-for-wallpaper-pattern-fills-web-page-background-surface-textures.jpg'
+	        },
+	        _react2.default.createElement(
+	          'form',
+	          null,
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'post-title' },
+	              'Avatar URL:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.avatarOnChange.bind(this), name: 'post-title', type: 'url', placeholder: 'Avatar URL' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'post-title' },
+	              'Fandom title:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.titleOnChange.bind(this), name: 'post-title', type: 'text', placeholder: 'Title' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'post-description' },
+	              'Fandom description:'
+	            ),
+	            _react2.default.createElement('textarea', { onChange: this.descriptionOnChange.bind(this), placeholder: 'description', name: 'post-description' })
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.addFandom.bind(this), type: 'submit',
+	              className: 'btn btn--color-positive submit-button' },
+	            'Send'
+	          )
+	        )
+	      );
+	    }
+	  }], [{
+	    key: 'contextTypes',
+	    get: function get() {
+	      return {
+	        router: _react2.default.PropTypes.object.isRequired
+	      };
+	    }
+	  }]);
+
+	  return AddFandom;
+	}(_react2.default.Component);
+
+	exports.default = AddFandom;
+
+
+	AddFandom.propTypes = {};
+
+/***/ },
+/* 639 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Checkbox = __webpack_require__(622);
+
+	var _Checkbox2 = _interopRequireDefault(_Checkbox);
+
+	var _Single = __webpack_require__(623);
+
+	var _Single2 = _interopRequireDefault(_Single);
+
+	var _Api = __webpack_require__(592);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _reactNotifications = __webpack_require__(595);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EditFandom = function (_React$Component) {
+	  _inherits(EditFandom, _React$Component);
+
+	  function EditFandom(props) {
+	    _classCallCheck(this, EditFandom);
+
+	    var _this = _possibleConstructorReturn(this, (EditFandom.__proto__ || Object.getPrototypeOf(EditFandom)).call(this, props));
+
+	    _this.state = {
+	      fandom: {},
+	      titleValue: '',
+	      descrValue: '',
+	      avatarValue: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(EditFandom, [{
+	    key: 'avatarOnChange',
+	    value: function avatarOnChange(e) {
+	      this.setState({ avatarValue: e.target.value });
+	    }
+	  }, {
+	    key: 'titleOnChange',
+	    value: function titleOnChange(e) {
+	      this.setState({ titleValue: e.target.value });
+	    }
+	  }, {
+	    key: 'descriptionOnChange',
+	    value: function descriptionOnChange(e) {
+	      this.setState({ descriptionValue: e.target.value });
+	    }
+	  }, {
+	    key: 'editFandom',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                e.preventDefault();
+	                console.log(this.state.description);
+	                _context.next = 4;
+	                return _Api2.default.editFandom(this.state.fandom.id, this.state.titleValue, this.state.descriptionValue, this.state.avatarValue);
+
+	              case 4:
+	                this.context.router.push('/app/fandoms/' + this.state.fandom.id);
+	                _reactNotifications.NotificationManager.success('Пост отредактирован', 'Успешно');
+
+	              case 6:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function editFandom(_x) {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return editFandom;
+	    }()
+	  }, {
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	        var fandom;
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                _context2.next = 2;
+	                return _Api2.default.loadFandom(this.props.params.id);
+
+	              case 2:
+	                fandom = _context2.sent;
+
+	                this.setState({
+	                  fandom: fandom,
+	                  titleValue: fandom.title,
+	                  descriptionValue: fandom.description,
+	                  avatarValue: fandom.avatar
+	                });
+
+	              case 4:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _Single2.default,
+	        { title: 'Edit Fandom',
+	          avatar: 'https://www.colourbox.com/avatar/9364894-vector-seamless-pattern-childish-doodles-pattern-set-of-different-school-travel-romantic-things-enjoy-life-concept-use-for-wallpaper-pattern-fills-web-page-background-surface-textures.jpg'
+	        },
+	        _react2.default.createElement(
+	          'form',
+	          null,
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'fandom-title' },
+	              'Fandom avatar URL:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.avatarOnChange.bind(this), value: this.state.avatarValue, name: 'fandom-title', type: 'url', placeholder: 'Avatar URL' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'fandom-title' },
+	              'Fandom title:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.titleOnChange.bind(this), value: this.state.titleValue, name: 'fandom-title', type: 'text', placeholder: 'Title' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'fandom-description' },
+	              'Fandom description:'
+	            ),
+	            _react2.default.createElement('textarea', { onChange: this.descriptionOnChange.bind(this), value: this.state.descriptionValue, placeholder: 'Content', name: 'fandom-description' })
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.editFandom.bind(this), type: 'submit',
+	              className: 'btn btn--color-positive submit-button' },
+	            'Send'
+	          )
+	        )
+	      );
+	    }
+	  }], [{
+	    key: 'contextTypes',
+	    get: function get() {
+	      return {
+	        router: _react2.default.PropTypes.object.isRequired
+	      };
+	    }
+	  }]);
+
+	  return EditFandom;
+	}(_react2.default.Component);
+
+	exports.default = EditFandom;
+
+
+	EditFandom.propTypes = {};
 
 /***/ }
 /******/ ]);

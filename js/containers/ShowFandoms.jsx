@@ -21,6 +21,9 @@ export default class ShowFandoms extends React.Component {
       {this.state.fandoms.map(function(item){
         return <FandomItem key={`fandom_${item.id}`} fandom={item} />
       })}
+      <div className='fandom-item-add'>
+        +
+      </div>
     </div>);
   }
 }

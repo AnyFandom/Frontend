@@ -1,4 +1,6 @@
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router'
+
 
 export default class FandomItem extends React.Component {
   constructor(props) {
@@ -9,7 +11,7 @@ export default class FandomItem extends React.Component {
     let fandom = this.props.fandom
     return (<div className='fandom-item'>
       <img src={fandom.avatar} className='avatar' />
-      <span>{fandom.title}</span>
+      <span><Link to={`/app/fandoms/${fandom.id}`}>{fandom.title}</Link></span>
     </div>);
   }
 }

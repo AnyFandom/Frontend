@@ -2,11 +2,19 @@ import React, {PropTypes} from 'react';
 import Api from '../Api'
 import PostList from '../components/PostList'
 import BlogList from '../components/BlogList'
+import CircleIcon from '../components/CircleIcon'
 import { Tabs, Tab } from 'react-tab-view'
+import {Link} from 'react-router'
 
 export default class ShowFandom extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired,
+    };
   }
 
   state = {
@@ -26,6 +34,14 @@ export default class ShowFandom extends React.Component {
     this.setState({blogs: blogs})
   }
 
+  async onDeleteClick() {
+    if (confirm('Вы уверены, что хотите удалить фэндом?')) {
+      await Api.deleteFandom(this.state.fandom.id)
+      this.context.router.push(`/app/fandoms/`);
+      NotificationManager.success('Фэндом удален', 'Успешно')
+    }
+  }
+
   render() {
     return (<div>
       <div className='fandom'>
@@ -35,6 +51,10 @@ export default class ShowFandom extends React.Component {
           <span className='description'>
             {this.state.fandom.description}
           </span>
+          <div className='actions'>
+            <CircleIcon onClick={this.onDeleteClick.bind(this)}>delete</CircleIcon>
+            <Link to={`/app/fandoms/${this.state.fandom.id}/edit`}><CircleIcon>edit</CircleIcon></Link>
+          </div>
         </section>
       </div>
       <Tabs headers={['Posts', 'Blogs']}>

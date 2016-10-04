@@ -247,6 +247,37 @@ class Api {
     let data = await this.request(`/blogs/${id}/posts`)
     return data.posts
   }
+
+  async addFandom(title, description, avatar) {
+    let data = await this.request(
+      '/fandoms',
+      'post',
+      {
+        title: title,
+        description: description,
+        avatar: avatar,
+      }
+    )
+    return data.Location
+  }
+
+  async editFandom(id, title, description, avatar) {
+    let data = await this.request(
+      `/fandoms/${id}`,
+      'patch',
+      {
+        title: title,
+        description: description,
+        avatar: avatar,
+      }
+    )
+    return
+  }
+
+  async deleteFandom(id) {
+    await this.request(`/fandoms/${id}`, 'delete')
+    return
+  }
 }
 
 export default new Api()
