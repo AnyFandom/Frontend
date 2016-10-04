@@ -37476,6 +37476,14 @@
 
 	var _EditFandom2 = _interopRequireDefault(_EditFandom);
 
+	var _EditBlog = __webpack_require__(640);
+
+	var _EditBlog2 = _interopRequireDefault(_EditBlog);
+
+	var _AddBlog = __webpack_require__(641);
+
+	var _AddBlog2 = _interopRequireDefault(_AddBlog);
+
 	var _Api = __webpack_require__(592);
 
 	var _Api2 = _interopRequireDefault(_Api);
@@ -37517,7 +37525,9 @@
 	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/add', component: _AddFandom2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/:id', component: _ShowFandom2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'fandoms/:id/edit', component: _EditFandom2.default }),
-	          _react2.default.createElement(_reactRouter.Route, { path: 'blogs/:id', component: _ShowBlog2.default })
+	          _react2.default.createElement(_reactRouter.Route, { path: 'blogs/add', component: _AddBlog2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'blogs/:id', component: _ShowBlog2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'blogs/:id/edit', component: _EditBlog2.default })
 	        )
 	      );
 	    }
@@ -44875,6 +44885,103 @@
 
 	      return deleteFandom;
 	    }()
+	  }, {
+	    key: 'editBlog',
+	    value: function () {
+	      var _ref27 = _asyncToGenerator(regeneratorRuntime.mark(function _callee27(id, title, description, avatar) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee27$(_context27) {
+	          while (1) {
+	            switch (_context27.prev = _context27.next) {
+	              case 0:
+	                _context27.next = 2;
+	                return this.request('/blogs/' + id, 'patch', {
+	                  title: title,
+	                  description: description,
+	                  avatar: avatar
+	                });
+
+	              case 2:
+	                data = _context27.sent;
+	                return _context27.abrupt('return');
+
+	              case 4:
+	              case 'end':
+	                return _context27.stop();
+	            }
+	          }
+	        }, _callee27, this);
+	      }));
+
+	      function editBlog(_x48, _x49, _x50, _x51) {
+	        return _ref27.apply(this, arguments);
+	      }
+
+	      return editBlog;
+	    }()
+	  }, {
+	    key: 'addBlog',
+	    value: function () {
+	      var _ref28 = _asyncToGenerator(regeneratorRuntime.mark(function _callee28(title, description, avatar, fandom) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee28$(_context28) {
+	          while (1) {
+	            switch (_context28.prev = _context28.next) {
+	              case 0:
+	                _context28.next = 2;
+	                return this.request('/blogs', 'post', {
+	                  title: title,
+	                  description: description,
+	                  avatar: avatar,
+	                  fandom: fandom
+	                });
+
+	              case 2:
+	                data = _context28.sent;
+	                return _context28.abrupt('return', data.Location);
+
+	              case 4:
+	              case 'end':
+	                return _context28.stop();
+	            }
+	          }
+	        }, _callee28, this);
+	      }));
+
+	      function addBlog(_x52, _x53, _x54, _x55) {
+	        return _ref28.apply(this, arguments);
+	      }
+
+	      return addBlog;
+	    }()
+	  }, {
+	    key: 'deleteBlog',
+	    value: function () {
+	      var _ref29 = _asyncToGenerator(regeneratorRuntime.mark(function _callee29(id) {
+	        return regeneratorRuntime.wrap(function _callee29$(_context29) {
+	          while (1) {
+	            switch (_context29.prev = _context29.next) {
+	              case 0:
+	                _context29.next = 2;
+	                return this.request('/blogs/' + id, 'delete');
+
+	              case 2:
+	                return _context29.abrupt('return');
+
+	              case 3:
+	              case 'end':
+	                return _context29.stop();
+	            }
+	          }
+	        }, _callee29, this);
+	      }));
+
+	      function deleteBlog(_x56) {
+	        return _ref29.apply(this, arguments);
+	      }
+
+	      return deleteBlog;
+	    }()
 	  }]);
 
 	  return Api;
@@ -47411,11 +47518,11 @@
 	            { className: 'navbar-left' },
 	            _react2.default.createElement(
 	              'li',
-	              { className: this.state.current_page == 'index' ? 'active' : '' },
+	              { className: this.state.current_page == 'posts' ? 'active' : '' },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
 	                { to: '/app/' },
-	                'Home'
+	                'Posts'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -47425,6 +47532,15 @@
 	                _reactRouter.Link,
 	                { to: '/app/users' },
 	                'Users'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { className: this.state.current_page == 'fandoms' ? 'active' : '' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/app/fandoms' },
+	                'Fandoms'
 	              )
 	            )
 	          ),
@@ -47987,6 +48103,7 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      _Core2.default.push('current-page-update', 'posts');
 	      this.fetchPosts();
 
 	      _Core2.default.listen('post-list-update', function (event) {
@@ -48080,18 +48197,19 @@
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _context2.next = 2;
+	                _Core2.default.push('current-page-update', 'posts');
+	                _context2.next = 3;
 	                return _Api2.default.loadPost(this.props.params.id);
 
-	              case 2:
+	              case 3:
 	                post = _context2.sent;
 
 	                this.setState({ post: post });
 
-	                _context2.next = 6;
+	                _context2.next = 7;
 	                return _Api2.default.loadPostComments(this.props.params.id);
 
-	              case 6:
+	              case 7:
 	                comments = _context2.sent;
 
 	                this.setState({ comments: comments });
@@ -48118,7 +48236,7 @@
 	                  }, _callee, this);
 	                })).bind(this));
 
-	              case 9:
+	              case 10:
 	              case 'end':
 	                return _context2.stop();
 	            }
@@ -48722,6 +48840,10 @@
 
 	var _reactNotifications = __webpack_require__(595);
 
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -48765,15 +48887,16 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _context.next = 2;
+	                _Core2.default.push('current-page-update', 'fandoms');
+	                _context.next = 3;
 	                return _Api2.default.loadFandoms();
 
-	              case 2:
+	              case 3:
 	                fandoms = _context.sent;
 
 	                this.setState({ fandoms: fandoms });
 
-	              case 4:
+	              case 5:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -49037,6 +49160,10 @@
 
 	var _reactNotifications = __webpack_require__(595);
 
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -49119,10 +49246,11 @@
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _context2.next = 2;
+	                _Core2.default.push('current-page-update', 'posts');
+	                _context2.next = 3;
 	                return _Api2.default.loadPost(this.props.params.id);
 
-	              case 2:
+	              case 3:
 	                post = _context2.sent;
 
 	                this.setState({
@@ -49132,7 +49260,7 @@
 	                  previewValue: post.preview_image
 	                });
 
-	              case 4:
+	              case 5:
 	              case 'end':
 	                return _context2.stop();
 	            }
@@ -49398,6 +49526,10 @@
 
 	var _UserItem2 = _interopRequireDefault(_UserItem);
 
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -49431,15 +49563,16 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _context.next = 2;
+	                _Core2.default.push('current-page-update', 'users');
+	                _context.next = 3;
 	                return _Api2.default.loadUsers();
 
-	              case 2:
+	              case 3:
 	                users = _context.sent;
 
 	                this.setState({ users: users });
 
-	              case 4:
+	              case 5:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -49698,6 +49831,10 @@
 
 	var _reactNotifications = __webpack_require__(595);
 
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -49733,16 +49870,17 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _context.next = 2;
+	                _Core2.default.push('current-page-update', 'users');
+	                _context.next = 3;
 	                return _Api2.default.loadUser(this.props.params.username);
 
-	              case 2:
+	              case 3:
 	                user = _context.sent;
 
 	                this.setState({ user: user, avatarValue: user.avatar, descriptionValue: user.description });
 	                console.log('User', user);
 
-	              case 5:
+	              case 6:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -49877,6 +50015,12 @@
 
 	var _FandomItem2 = _interopRequireDefault(_FandomItem);
 
+	var _reactRouter = __webpack_require__(524);
+
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -49910,15 +50054,16 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _context.next = 2;
+	                _Core2.default.push('current-page-update', 'fandoms');
+	                _context.next = 3;
 	                return _Api2.default.loadFandoms();
 
-	              case 2:
+	              case 3:
 	                fandoms = _context.sent;
 
 	                this.setState({ fandoms: fandoms });
 
-	              case 4:
+	              case 5:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -49942,9 +50087,13 @@
 	          return _react2.default.createElement(_FandomItem2.default, { key: 'fandom_' + item.id, fandom: item });
 	        }),
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'fandom-item-add' },
-	          '+'
+	          _reactRouter.Link,
+	          { to: '/app/fandoms/add' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'fandom-item-add' },
+	            '+'
+	          )
 	        )
 	      );
 	    }
@@ -50058,6 +50207,12 @@
 
 	var _reactRouter = __webpack_require__(524);
 
+	var _reactNotifications = __webpack_require__(595);
+
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -50093,31 +50248,32 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _context.next = 2;
+	                _Core2.default.push('current-page-update', 'fandoms');
+	                _context.next = 3;
 	                return _Api2.default.loadFandom(this.props.params.id);
 
-	              case 2:
+	              case 3:
 	                fandom = _context.sent;
 
 	                this.setState({ fandom: fandom });
 
-	                _context.next = 6;
+	                _context.next = 7;
 	                return _Api2.default.loadFandomPosts(this.props.params.id);
 
-	              case 6:
+	              case 7:
 	                posts = _context.sent;
 
 	                this.setState({ posts: posts });
 
-	                _context.next = 10;
+	                _context.next = 11;
 	                return _Api2.default.loadBlogs(this.props.params.id);
 
-	              case 10:
+	              case 11:
 	                blogs = _context.sent;
 
 	                this.setState({ blogs: blogs });
 
-	              case 12:
+	              case 13:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -50149,7 +50305,7 @@
 
 	              case 3:
 	                this.context.router.push('/app/fandoms/');
-	                NotificationManager.success('Фэндом удален', 'Успешно');
+	                _reactNotifications.NotificationManager.success('Фэндом удален', 'Успешно');
 
 	              case 5:
 	              case 'end':
@@ -50494,6 +50650,8 @@
 
 	var _BlogItem2 = _interopRequireDefault(_BlogItem);
 
+	var _reactRouter = __webpack_require__(524);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50519,7 +50677,16 @@
 	        { className: 'blog-list' },
 	        this.props.blogs.map(function (item) {
 	          return _react2.default.createElement(_BlogItem2.default, { key: 'blogItem_' + item.id, blog: item });
-	        })
+	        }),
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/app/blogs/add' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'blog-item-add' },
+	            '+'
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -50678,6 +50845,18 @@
 
 	var _PostList2 = _interopRequireDefault(_PostList);
 
+	var _CircleIcon = __webpack_require__(590);
+
+	var _CircleIcon2 = _interopRequireDefault(_CircleIcon);
+
+	var _reactRouter = __webpack_require__(524);
+
+	var _reactNotifications = __webpack_require__(595);
+
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -50712,23 +50891,24 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _context.next = 2;
+	                _Core2.default.push('current-page-update', 'fandoms');
+	                _context.next = 3;
 	                return _Api2.default.loadBlog(this.props.params.id);
 
-	              case 2:
+	              case 3:
 	                blog = _context.sent;
 
 	                this.setState({ blog: blog });
 
-	                _context.next = 6;
+	                _context.next = 7;
 	                return _Api2.default.loadBlogPosts(this.props.params.id);
 
-	              case 6:
+	              case 7:
 	                posts = _context.sent;
 
 	                this.setState({ posts: posts });
 
-	              case 8:
+	              case 9:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -50741,6 +50921,40 @@
 	      }
 
 	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'onDeleteClick',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                if (!confirm('Вы уверены, что хотите удалить блог?')) {
+	                  _context2.next = 5;
+	                  break;
+	                }
+
+	                _context2.next = 3;
+	                return _Api2.default.deleteBlog(this.state.blog.id);
+
+	              case 3:
+	                this.context.router.push('/app/fandoms/' + this.state.blog.fandom.id);
+	                _reactNotifications.NotificationManager.success('Блог удален', 'Успешно');
+
+	              case 5:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function onDeleteClick() {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return onDeleteClick;
 	    }()
 	  }, {
 	    key: 'render',
@@ -50764,11 +50978,36 @@
 	              'span',
 	              { className: 'description' },
 	              this.state.blog.description
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'actions' },
+	              _react2.default.createElement(
+	                _CircleIcon2.default,
+	                { onClick: this.onDeleteClick.bind(this) },
+	                'delete'
+	              ),
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/app/blogs/' + this.state.blog.id + '/edit' },
+	                _react2.default.createElement(
+	                  _CircleIcon2.default,
+	                  null,
+	                  'edit'
+	                )
+	              )
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(_PostList2.default, { posts: this.state.posts })
 	      );
+	    }
+	  }], [{
+	    key: 'contextTypes',
+	    get: function get() {
+	      return {
+	        router: _react2.default.PropTypes.object.isRequired
+	      };
 	    }
 	  }]);
 
@@ -50810,6 +51049,10 @@
 
 	var _reactNotifications = __webpack_require__(595);
 
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -50837,6 +51080,11 @@
 	  }
 
 	  _createClass(AddFandom, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _Core2.default.push('current-page-update', 'fandoms');
+	    }
+	  }, {
 	    key: 'avatarOnChange',
 	    value: function avatarOnChange(e) {
 	      this.setState({ avatarValue: e.target.value });
@@ -51038,6 +51286,10 @@
 
 	var _reactNotifications = __webpack_require__(595);
 
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -51120,10 +51372,11 @@
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _context2.next = 2;
+	                _Core2.default.push('current-page-update', 'fandoms');
+	                _context2.next = 3;
 	                return _Api2.default.loadFandom(this.props.params.id);
 
-	              case 2:
+	              case 3:
 	                fandom = _context2.sent;
 
 	                this.setState({
@@ -51133,7 +51386,7 @@
 	                  avatarValue: fandom.avatar
 	                });
 
-	              case 4:
+	              case 5:
 	              case 'end':
 	                return _context2.stop();
 	            }
@@ -51213,6 +51466,482 @@
 
 
 	EditFandom.propTypes = {};
+
+/***/ },
+/* 640 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Checkbox = __webpack_require__(622);
+
+	var _Checkbox2 = _interopRequireDefault(_Checkbox);
+
+	var _Single = __webpack_require__(623);
+
+	var _Single2 = _interopRequireDefault(_Single);
+
+	var _Api = __webpack_require__(592);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _reactNotifications = __webpack_require__(595);
+
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EditBlog = function (_React$Component) {
+	  _inherits(EditBlog, _React$Component);
+
+	  function EditBlog(props) {
+	    _classCallCheck(this, EditBlog);
+
+	    var _this = _possibleConstructorReturn(this, (EditBlog.__proto__ || Object.getPrototypeOf(EditBlog)).call(this, props));
+
+	    _this.state = {
+	      blog: {},
+	      titleValue: '',
+	      descrValue: '',
+	      avatarValue: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(EditBlog, [{
+	    key: 'avatarOnChange',
+	    value: function avatarOnChange(e) {
+	      this.setState({ avatarValue: e.target.value });
+	    }
+	  }, {
+	    key: 'titleOnChange',
+	    value: function titleOnChange(e) {
+	      this.setState({ titleValue: e.target.value });
+	    }
+	  }, {
+	    key: 'descriptionOnChange',
+	    value: function descriptionOnChange(e) {
+	      this.setState({ descriptionValue: e.target.value });
+	    }
+	  }, {
+	    key: 'editBlog',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                e.preventDefault();
+	                console.log(this.state.description);
+	                _context.next = 4;
+	                return _Api2.default.editBlog(this.state.blog.id, this.state.titleValue, this.state.descriptionValue, this.state.avatarValue);
+
+	              case 4:
+	                this.context.router.push('/app/blogs/' + this.state.blog.id);
+	                _reactNotifications.NotificationManager.success('Пост отредактирован', 'Успешно');
+
+	              case 6:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function editBlog(_x) {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return editBlog;
+	    }()
+	  }, {
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	        var blog;
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                _Core2.default.push('current-page-update', 'fandoms');
+	                _context2.next = 3;
+	                return _Api2.default.loadBlog(this.props.params.id);
+
+	              case 3:
+	                blog = _context2.sent;
+
+	                this.setState({
+	                  blog: blog,
+	                  titleValue: blog.title,
+	                  descriptionValue: blog.description,
+	                  avatarValue: blog.avatar
+	                });
+
+	              case 5:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _Single2.default,
+	        { title: 'Edit Blog',
+	          avatar: 'https://www.colourbox.com/avatar/9364894-vector-seamless-pattern-childish-doodles-pattern-set-of-different-school-travel-romantic-things-enjoy-life-concept-use-for-wallpaper-pattern-fills-web-page-background-surface-textures.jpg'
+	        },
+	        _react2.default.createElement(
+	          'form',
+	          null,
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'blog-title' },
+	              'Blog avatar URL:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.avatarOnChange.bind(this), value: this.state.avatarValue, name: 'blog-title', type: 'url', placeholder: 'Avatar URL' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'blog-title' },
+	              'Blog title:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.titleOnChange.bind(this), value: this.state.titleValue, name: 'blog-title', type: 'text', placeholder: 'Title' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'blog-description' },
+	              'Blog description:'
+	            ),
+	            _react2.default.createElement('textarea', { onChange: this.descriptionOnChange.bind(this), value: this.state.descriptionValue, placeholder: 'Content', name: 'blog-description' })
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.editBlog.bind(this), type: 'submit',
+	              className: 'btn btn--color-positive submit-button' },
+	            'Send'
+	          )
+	        )
+	      );
+	    }
+	  }], [{
+	    key: 'contextTypes',
+	    get: function get() {
+	      return {
+	        router: _react2.default.PropTypes.object.isRequired
+	      };
+	    }
+	  }]);
+
+	  return EditBlog;
+	}(_react2.default.Component);
+
+	exports.default = EditBlog;
+
+
+	EditBlog.propTypes = {};
+
+/***/ },
+/* 641 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Checkbox = __webpack_require__(622);
+
+	var _Checkbox2 = _interopRequireDefault(_Checkbox);
+
+	var _Single = __webpack_require__(623);
+
+	var _Single2 = _interopRequireDefault(_Single);
+
+	var _Api = __webpack_require__(592);
+
+	var _Api2 = _interopRequireDefault(_Api);
+
+	var _reactNotifications = __webpack_require__(595);
+
+	var _Core = __webpack_require__(470);
+
+	var _Core2 = _interopRequireDefault(_Core);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var AddBlog = function (_React$Component) {
+	  _inherits(AddBlog, _React$Component);
+
+	  function AddBlog(props) {
+	    _classCallCheck(this, AddBlog);
+
+	    var _this = _possibleConstructorReturn(this, (AddBlog.__proto__ || Object.getPrototypeOf(AddBlog)).call(this, props));
+
+	    _this.state = {
+	      fandoms: [],
+
+	      current_fandom: {},
+
+	      fandomValue: 0,
+	      blogValue: 0,
+	      titleValue: '',
+	      descriptionValue: '',
+	      avatarValue: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(AddBlog, [{
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	        var fandoms;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                _Core2.default.push('current-page-update', 'users');
+	                _context.next = 3;
+	                return _Api2.default.loadFandoms();
+
+	              case 3:
+	                fandoms = _context.sent;
+
+	                this.setState({ fandoms: fandoms });
+
+	              case 5:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return componentDidMount;
+	    }()
+	  }, {
+	    key: 'avatarOnChange',
+	    value: function avatarOnChange(e) {
+	      this.setState({ avatarValue: e.target.value });
+	    }
+	  }, {
+	    key: 'titleOnChange',
+	    value: function titleOnChange(e) {
+	      this.setState({ titleValue: e.target.value });
+	    }
+	  }, {
+	    key: 'descriptionOnChange',
+	    value: function descriptionOnChange(e) {
+	      this.setState({ descriptionValue: e.target.value });
+	    }
+	  }, {
+	    key: 'addBlog',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(e) {
+	        var new_location;
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                e.preventDefault();
+	                console.log(this.state.description);
+	                _context2.next = 4;
+	                return _Api2.default.addBlog(this.state.titleValue, this.state.descriptionValue, this.state.avatarValue, this.state.fandomValue);
+
+	              case 4:
+	                new_location = _context2.sent;
+
+	                this.context.router.push('/app' + new_location);
+	                _reactNotifications.NotificationManager.success('Блог добавлен', 'Успешно');
+
+	              case 7:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function addBlog(_x) {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return addBlog;
+	    }()
+	  }, {
+	    key: 'handleCheckClick',
+	    value: function handleCheckClick(e) {
+	      console.log('Check!');
+	    }
+	  }, {
+	    key: 'onFandomChange',
+	    value: function () {
+	      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(e) {
+	        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+	          while (1) {
+	            switch (_context3.prev = _context3.next) {
+	              case 0:
+	                this.setState({ fandomValue: e.target.value });
+
+	              case 1:
+	              case 'end':
+	                return _context3.stop();
+	            }
+	          }
+	        }, _callee3, this);
+	      }));
+
+	      function onFandomChange(_x2) {
+	        return _ref3.apply(this, arguments);
+	      }
+
+	      return onFandomChange;
+	    }()
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _Single2.default,
+	        { title: 'Add Blog',
+	          avatar: 'https://www.colourbox.com/avatar/9364894-vector-seamless-pattern-childish-doodles-pattern-set-of-different-school-travel-romantic-things-enjoy-life-concept-use-for-wallpaper-pattern-fills-web-page-background-surface-textures.jpg'
+	        },
+	        _react2.default.createElement(
+	          'form',
+	          null,
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'fandom' },
+	              'Fandom:'
+	            ),
+	            _react2.default.createElement(
+	              'select',
+	              { name: 'fandom', onChange: this.onFandomChange.bind(this) },
+	              _react2.default.createElement('option', null),
+	              this.state.fandoms.map(function (item) {
+	                return _react2.default.createElement(
+	                  'option',
+	                  { key: 'fandom_' + item.id, value: item.id },
+	                  item.title
+	                );
+	              })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'blog-title' },
+	              'Blog avatar image URL:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.avatarOnChange.bind(this), name: 'blog-title', type: 'url', placeholder: 'Preview image URL' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'blog-title' },
+	              'Blog title:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.titleOnChange.bind(this), name: 'blog-title', type: 'text', placeholder: 'Title' })
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'blog-description' },
+	              'Blog description:'
+	            ),
+	            _react2.default.createElement('textarea', { onChange: this.descriptionOnChange.bind(this), placeholder: 'Content', name: 'blog-description' })
+	          ),
+	          _react2.default.createElement(_Checkbox2.default, { handleClick: this.handleCheckClick, title: 'Test field', checked: true, label: 'check!' }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.addBlog.bind(this), type: 'submit',
+	              className: 'btn btn--color-positive submit-button' },
+	            'Send'
+	          )
+	        )
+	      );
+	    }
+	  }], [{
+	    key: 'contextTypes',
+	    get: function get() {
+	      return {
+	        router: _react2.default.PropTypes.object.isRequired
+	      };
+	    }
+	  }]);
+
+	  return AddBlog;
+	}(_react2.default.Component);
+
+	exports.default = AddBlog;
+
+
+	AddBlog.propTypes = {};
 
 /***/ }
 /******/ ]);

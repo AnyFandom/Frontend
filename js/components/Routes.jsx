@@ -14,6 +14,8 @@ import ShowFandom from '../containers/ShowFandom'
 import ShowBlog from '../containers/ShowBlog'
 import AddFandom from '../containers/AddFandom'
 import EditFandom from '../containers/EditFandom'
+import EditBlog from '../containers/EditBlog'
+import AddBlog from '../containers/AddBlog'
 import Api from '../Api'
 
 class AppRouter extends React.Component {
@@ -36,7 +38,9 @@ class AppRouter extends React.Component {
           <Route path='fandoms/add' component={AddFandom} />
           <Route path='fandoms/:id' component={ShowFandom} />
           <Route path='fandoms/:id/edit' component={EditFandom} />
+          <Route path='blogs/add' component={AddBlog} />
           <Route path='blogs/:id' component={ShowBlog} />
+          <Route path='blogs/:id/edit' component={EditBlog} />
         </Route>
       </Router>
     )

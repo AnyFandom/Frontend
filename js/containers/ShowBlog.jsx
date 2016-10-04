@@ -1,6 +1,10 @@
 import React, {PropTypes} from 'react';
 import Api from '../Api'
 import PostList from '../components/PostList'
+import CircleIcon from '../components/CircleIcon'
+import {Link} from 'react-router'
+import {NotificationManager} from 'react-notifications';
+import Core from '../Core'
 
 export default class ShowBlog extends React.Component {
   constructor(props) {
@@ -12,12 +16,27 @@ export default class ShowBlog extends React.Component {
     posts: [],
   }
 
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired,
+    };
+  }
+
   async componentDidMount() {
+    Core.push('current-page-update', 'fandoms')
     let blog = await Api.loadBlog(this.props.params.id)
     this.setState({blog:blog})
 
     let posts = await Api.loadBlogPosts(this.props.params.id)
     this.setState({posts: posts})
+  }
+
+  async onDeleteClick() {
+    if (confirm('Вы уверены, что хотите удалить блог?')) {
+      await Api.deleteBlog(this.state.blog.id)
+      this.context.router.push(`/app/fandoms/${this.state.blog.fandom.id}`);
+      NotificationManager.success('Блог удален', 'Успешно')
+    }
   }
 
   render() {
@@ -29,6 +48,10 @@ export default class ShowBlog extends React.Component {
           <span className='description'>
             {this.state.blog.description}
           </span>
+          <div className='actions'>
+            <CircleIcon onClick={this.onDeleteClick.bind(this)}>delete</CircleIcon>
+            <Link to={`/app/blogs/${this.state.blog.id}/edit`}><CircleIcon>edit</CircleIcon></Link>
+          </div>
         </section>
       </div>
       <PostList posts={this.state.posts} />

@@ -3,6 +3,7 @@ import Checkbox from '../components/Checkbox';
 import Single from '../components/Single';
 import Api from '../Api';
 import {NotificationManager} from 'react-notifications';
+import Core from '../Core'
 
 export default class EditPost extends React.Component {
   constructor(props) {
@@ -43,6 +44,7 @@ export default class EditPost extends React.Component {
   }
 
   async componentDidMount() {
+    Core.push('current-page-update', 'posts')
     let post = await Api.loadPost(this.props.params.id)
     this.setState(
       {

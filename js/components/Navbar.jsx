@@ -73,11 +73,14 @@ export default class Navbar extends React.Component {
     let user = Storage.get('user', {})
     return (<div><nav className='navbar'>
       <ul className='navbar-left'>
-        <li className={this.state.current_page=='index'? 'active':''}>
-          <Link to='/app/'>Home</Link>
+        <li className={this.state.current_page=='posts'? 'active':''}>
+          <Link to='/app/'>Posts</Link>
         </li>
         <li className={this.state.current_page=='users'? 'active':''}>
           <Link to='/app/users'>Users</Link>
+        </li>
+        <li className={this.state.current_page=='fandoms'? 'active':''}>
+          <Link to='/app/fandoms'>Fandoms</Link>
         </li>
       </ul>
       <ul className='navbar-right'>

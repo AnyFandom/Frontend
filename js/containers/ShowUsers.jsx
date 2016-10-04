@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import Api from '../Api'
 import UserItem from '../components/UserItem'
+import Core from '../Core'
 
 export default class ShowUsers extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class ShowUsers extends React.Component {
   }
 
   async componentDidMount() {
+    Core.push('current-page-update', 'users')
     let users = await Api.loadUsers()
     this.setState({users: users})
   }

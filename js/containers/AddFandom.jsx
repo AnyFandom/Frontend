@@ -3,10 +3,15 @@ import Checkbox from '../components/Checkbox';
 import Single from '../components/Single';
 import Api from '../Api';
 import {NotificationManager} from 'react-notifications';
+import Core from '../Core'
 
 export default class AddFandom extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    Core.push('current-page-update', 'fandoms')
   }
 
   static get contextTypes() {

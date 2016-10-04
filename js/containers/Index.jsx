@@ -16,6 +16,7 @@ export default class Index extends React.Component {
   state = {posts: []}
 
   componentDidMount() {
+    Core.push('current-page-update', 'posts')
     this.fetchPosts()
 
     Core.listen('post-list-update', function(event){

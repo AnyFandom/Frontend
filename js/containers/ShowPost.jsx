@@ -16,6 +16,7 @@ export default class ShowPost extends React.Component {
   }
 
   async componentDidMount() {
+    Core.push('current-page-update', 'posts')
     let post = await Api.loadPost(this.props.params.id)
     this.setState({post: post})
 

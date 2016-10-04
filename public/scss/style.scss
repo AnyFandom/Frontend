@@ -427,6 +427,7 @@ form fieldset {
   }
 
   .fandom-item-add {
+    height: 100%;
     background: white;
     width: 140px;
     margin-right: 30px;
@@ -566,6 +567,24 @@ form fieldset {
       display:block;
     }
   }
+
+  .blog-item-add {
+    height: 100%;
+    background: white;
+    width: 140px;
+    margin-right: 30px;
+    box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4em;
+    color: rgba(0, 0, 0, 0.21);
+    cursor: pointer;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.31);
+    }
+  }
 }
 
 .blog {
@@ -580,9 +599,9 @@ form fieldset {
   }
 
   .info {
-    position: absolute;
     padding: 0 20px;
     padding-left: 120px;
+    padding-right: 70px;
     top: 20px;
 
     .title {
@@ -595,6 +614,25 @@ form fieldset {
     .description {
       display: inline-block;
       margin-top: 20px;
+    }
+
+    .actions {
+      align-items: center;
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+      height: 100px;
+      width: 50px;
+      float: right;
+      position: absolute;
+      right: 35px;
+      top: 20px;
+
+      .circle-icon {
+        cursor: pointer;
+        width: 48px;
+        height: 48px;
+      }
     }
   }
 }

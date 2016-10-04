@@ -5,13 +5,13 @@ import Api from '../Api';
 import {NotificationManager} from 'react-notifications';
 import Core from '../Core'
 
-export default class EditFandom extends React.Component {
+export default class EditBlog extends React.Component {
   constructor(props) {
     super(props);
   }
 
   state = {
-    fandom: {},
+    blog: {},
     titleValue: '',
     descrValue: '',
     avatarValue: '',
@@ -29,11 +29,11 @@ export default class EditFandom extends React.Component {
     this.setState({descriptionValue: e.target.value})
   }
 
-  async editFandom(e) {
+  async editBlog(e) {
     e.preventDefault();
     console.log(this.state.description);
-    await Api.editFandom(this.state.fandom.id, this.state.titleValue, this.state.descriptionValue, this.state.avatarValue)
-    this.context.router.push(`/app/fandoms/${this.state.fandom.id}`);
+    await Api.editBlog(this.state.blog.id, this.state.titleValue, this.state.descriptionValue, this.state.avatarValue)
+    this.context.router.push(`/app/blogs/${this.state.blog.id}`);
     NotificationManager.success('Пост отредактирован', 'Успешно')
   }
 
@@ -45,40 +45,40 @@ export default class EditFandom extends React.Component {
 
   async componentDidMount() {
     Core.push('current-page-update', 'fandoms')
-    let fandom = await Api.loadFandom(this.props.params.id)
+    let blog = await Api.loadBlog(this.props.params.id)
     this.setState(
       {
-        fandom: fandom,
-        titleValue: fandom.title,
-        descriptionValue: fandom.description,
-        avatarValue: fandom.avatar,
+        blog: blog,
+        titleValue: blog.title,
+        descriptionValue: blog.description,
+        avatarValue: blog.avatar,
       }
     )
   }
 
   render() {
-    return (<Single title='Edit Fandom'
+    return (<Single title='Edit Blog'
               avatar = 'https://www.colourbox.com/avatar/9364894-vector-seamless-pattern-childish-doodles-pattern-set-of-different-school-travel-romantic-things-enjoy-life-concept-use-for-wallpaper-pattern-fills-web-page-background-surface-textures.jpg'
             >
       <form>
         <fieldset>
-          <label htmlFor='fandom-title'>Fandom avatar URL:</label>
-          <input onChange={this.avatarOnChange.bind(this)} value={this.state.avatarValue} name='fandom-title' type='url' placeholder='Avatar URL' />
+          <label htmlFor='blog-title'>Blog avatar URL:</label>
+          <input onChange={this.avatarOnChange.bind(this)} value={this.state.avatarValue} name='blog-title' type='url' placeholder='Avatar URL' />
         </fieldset>
         <fieldset>
-          <label htmlFor='fandom-title'>Fandom title:</label>
-          <input onChange={this.titleOnChange.bind(this)} value={this.state.titleValue} name='fandom-title' type='text' placeholder='Title' />
+          <label htmlFor='blog-title'>Blog title:</label>
+          <input onChange={this.titleOnChange.bind(this)} value={this.state.titleValue} name='blog-title' type='text' placeholder='Title' />
         </fieldset>
         <fieldset>
-          <label htmlFor='fandom-description'>Fandom description:</label>
-          <textarea onChange={this.descriptionOnChange.bind(this)} value={this.state.descriptionValue} placeholder='Content' name='fandom-description' />
+          <label htmlFor='blog-description'>Blog description:</label>
+          <textarea onChange={this.descriptionOnChange.bind(this)} value={this.state.descriptionValue} placeholder='Content' name='blog-description' />
         </fieldset>
-        <button onClick={this.editFandom.bind(this)} type='submit'
+        <button onClick={this.editBlog.bind(this)} type='submit'
         className='btn btn--color-positive submit-button'>Send</button>
       </form>
     </Single>);
   }
 }
 
-EditFandom.propTypes = {
+EditBlog.propTypes = {
 };

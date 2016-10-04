@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import Single from '../components/Single'
 import Api from '../Api'
 import {NotificationManager} from 'react-notifications';
+import Core from '../Core'
 
 export default class EditUser extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class EditUser extends React.Component {
   }
 
   async componentDidMount() {
+    Core.push('current-page-update', 'users')
     let user = await Api.loadUser(this.props.params.username)
     this.setState({user: user, avatarValue: user.avatar, descriptionValue: user.description})
     console.log('User', user);

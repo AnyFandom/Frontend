@@ -5,6 +5,8 @@ import BlogList from '../components/BlogList'
 import CircleIcon from '../components/CircleIcon'
 import { Tabs, Tab } from 'react-tab-view'
 import {Link} from 'react-router'
+import {NotificationManager} from 'react-notifications';
+import Core from '../Core'
 
 export default class ShowFandom extends React.Component {
   constructor(props) {
@@ -24,6 +26,7 @@ export default class ShowFandom extends React.Component {
   }
 
   async componentDidMount() {
+    Core.push('current-page-update', 'fandoms')
     let fandom = await Api.loadFandom(this.props.params.id)
     this.setState({fandom: fandom})
 
