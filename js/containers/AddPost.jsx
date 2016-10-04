@@ -16,9 +16,22 @@ export default class AddPost extends React.Component {
   }
 
   state = {
+    fandoms: [],
+    blogs: [],
+
+    current_fandom: {},
+    current_blog: {},
+
+    fandomValue: 0,
+    blogValue: 0,
     titleValue: '',
     contentValue: '',
     previewValue: '',
+  }
+
+  async componentDidMount() {
+    let fandoms = await Api.loadFandoms()
+    this.setState({fandoms: fandoms})
   }
 
   previewOnChange(e) {
@@ -36,7 +49,7 @@ export default class AddPost extends React.Component {
   async addPost(e) {
     e.preventDefault();
     console.log(this.state.content);
-    let new_location = await Api.addPost(this.state.titleValue, this.state.contentValue, this.state.previewValue)
+    let new_location = await Api.addPost(this.state.titleValue, this.state.contentValue, this.state.previewValue, this.state.blogValue)
     this.context.router.push(`/app${new_location}`);
     NotificationManager.success('Пост добавлен', 'Успешно')
   }
@@ -45,11 +58,38 @@ export default class AddPost extends React.Component {
     console.log('Check!');
   }
 
+  async onFandomChange(e) {
+    this.setState({fandomValue: e.target.value})
+    let blogs = await Api.loadBlogs(e.target.value)
+    this.setState({blogs: blogs})
+  }
+  async onBlogChange(e) {
+    this.setState({blogValue: e.target.value})
+  }
+
   render() {
     return (<Single title='Add Post'
               preview = 'https://www.colourbox.com/preview/9364894-vector-seamless-pattern-childish-doodles-pattern-set-of-different-school-travel-romantic-things-enjoy-life-concept-use-for-wallpaper-pattern-fills-web-page-background-surface-textures.jpg'
             >
       <form>
+        <fieldset>
+          <label htmlFor='fandom'>Fandom:</label>
+          <select name='fandom' value={this.state.fandomValue} onChange={this.onFandomChange.bind(this)}>
+            <option />
+            {this.state.fandoms.map(function(item){
+              return <option key={`fandom_${item.id}`} value={item.id}>{item.title}</option>
+            })}
+          </select>
+        </fieldset>
+        {this.state.blogs.length? <fieldset>
+          <label htmlFor='blog'>Blog:</label>
+          <select name='blog' value={this.state.blogValue} onChange={this.onBlogChange.bind(this)}>
+            <option />
+            {this.state.blogs.map(function(item){
+              return <option key={`fandom_${item.id}`} value={item.id}>{item.title}</option>
+            })}
+          </select>
+        </fieldset>:''}
         <fieldset>
           <label htmlFor='post-title'>Post preview image URL:</label>
           <input onChange={this.previewOnChange.bind(this)} name='post-title' type='url' placeholder='Preview image URL' />
