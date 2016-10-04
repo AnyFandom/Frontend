@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import Checkbox from '../components/Checkbox';
 import Single from '../components/Single';
 import Api from '../Api';
+import {NotificationManager} from 'react-notifications';
 
 export default class EditPost extends React.Component {
   constructor(props) {
@@ -31,7 +32,14 @@ export default class EditPost extends React.Component {
     e.preventDefault();
     console.log(this.state.content);
     await Api.editPost(this.state.post.id, this.state.titleValue, this.state.contentValue, this.state.previewValue)
-    document.location = `/app/posts/${this.state.post.id}`
+    this.context.router.push(`/app/posts/${this.state.post.id}`);
+    NotificationManager.success('Пост отредактирован', 'Успешно')
+  }
+
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired,
+    };
   }
 
   async componentDidMount() {

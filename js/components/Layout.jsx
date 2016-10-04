@@ -4,9 +4,15 @@ import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import Storage from '../Storage'
 
+import {NotificationContainer} from 'react-notifications';
+
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+
   }
 
   render() {
@@ -18,6 +24,7 @@ export default class Layout extends React.Component {
         </div>
         <Sidebar />
       </div>
+      <NotificationContainer/>
     </div>);
   }
 }

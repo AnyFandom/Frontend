@@ -2,10 +2,17 @@ import React, {PropTypes} from 'react';
 import Checkbox from '../components/Checkbox';
 import Single from '../components/Single';
 import Api from '../Api';
+import {NotificationManager} from 'react-notifications';
 
 export default class AddPost extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired,
+    };
   }
 
   state = {
@@ -30,7 +37,8 @@ export default class AddPost extends React.Component {
     e.preventDefault();
     console.log(this.state.content);
     let new_location = await Api.addPost(this.state.titleValue, this.state.contentValue, this.state.previewValue)
-    document.location = `/app${new_location}`
+    this.context.router.push(`/app${new_location}`);
+    NotificationManager.success('Пост добавлен', 'Успешно')
   }
 
   handleCheckClick(e) {
