@@ -13,10 +13,16 @@ export default class ShowFandoms extends React.Component {
     fandoms: []
   }
 
-  async componentDidMount() {
-    Core.push('current-page-update', 'fandoms')
+  async fetchFandoms() {
     let fandoms = await Api.loadFandoms();
     this.setState({fandoms: fandoms})
+  }
+
+  async componentDidMount() {
+    Core.push('current-page-update', 'fandoms')
+    this.fetchFandoms()
+
+    Core.listen('fandom-list-update', this.fetchFandoms.bind(this))
   }
 
   render() {

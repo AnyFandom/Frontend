@@ -2405,6 +2405,7 @@ form fieldset {
     width: 140px;
     padding: 20px;
     margin-right: 30px;
+    margin-bottom: 30px;
     box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4); }
     .users-container .user-item img {
       width: 100px;

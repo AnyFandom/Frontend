@@ -29,7 +29,7 @@ export default class AddBlog extends React.Component {
   }
 
   async componentDidMount() {
-    Core.push('current-page-update', 'users')
+    Core.push('current-page-update', 'fandoms')
     let fandoms = await Api.loadFandoms()
     this.setState({fandoms: fandoms})
   }

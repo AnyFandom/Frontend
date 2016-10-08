@@ -19,6 +19,21 @@ export default class ShowFandom extends React.Component {
     };
   }
 
+  async fetchFandom() {
+    let fandom = await Api.loadFandom(this.props.params.id)
+    this.setState({fandom: fandom})
+  }
+
+  async fetchPosts() {
+    let posts = await Api.loadFandomPosts(this.props.params.id)
+    this.setState({posts: posts})
+  }
+
+  async fetchBlogs() {
+    let blogs = await Api.loadBlogs(this.props.params.id)
+    this.setState({blogs: blogs})
+  }
+
   state = {
     fandom: {},
     posts: [],
@@ -27,14 +42,12 @@ export default class ShowFandom extends React.Component {
 
   async componentDidMount() {
     Core.push('current-page-update', 'fandoms')
-    let fandom = await Api.loadFandom(this.props.params.id)
-    this.setState({fandom: fandom})
+    await this.fetchFandom()
+    this.fetchPosts()
+    this.fetchBlogs()
 
-    let posts = await Api.loadFandomPosts(this.props.params.id)
-    this.setState({posts: posts})
-
-    let blogs = await Api.loadBlogs(this.props.params.id)
-    this.setState({blogs: blogs})
+    Core.listen('post-list-update', this.fetchPosts.bind(this))
+    Core.listen('blog-list-update.fandom-'+this.state.fandom.id, this.fetchBlogs.bind(this))
   }
 
   async onDeleteClick() {

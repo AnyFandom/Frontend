@@ -12,10 +12,15 @@ export default class ShowUsers extends React.Component {
     users: []
   }
 
-  async componentDidMount() {
-    Core.push('current-page-update', 'users')
+  async fetchUsers() {
     let users = await Api.loadUsers()
     this.setState({users: users})
+  }
+
+  async componentDidMount() {
+    Core.push('current-page-update', 'users')
+    this.fetchUsers()
+    Core.listen('user-list-update', this.fetchUsers.bind(this))
   }
 
   render() {
