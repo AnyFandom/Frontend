@@ -45200,6 +45200,34 @@
 
 	      return deleteBlog;
 	    }()
+	  }, {
+	    key: 'deleteUser',
+	    value: function () {
+	      var _ref30 = _asyncToGenerator(regeneratorRuntime.mark(function _callee30(id) {
+	        return regeneratorRuntime.wrap(function _callee30$(_context30) {
+	          while (1) {
+	            switch (_context30.prev = _context30.next) {
+	              case 0:
+	                _context30.next = 2;
+	                return this.request('/users/id/' + +id, 'delete');
+
+	              case 2:
+	                return _context30.abrupt('return');
+
+	              case 3:
+	              case 'end':
+	                return _context30.stop();
+	            }
+	          }
+	        }, _callee30, this);
+	      }));
+
+	      function deleteUser(_x57) {
+	        return _ref30.apply(this, arguments);
+	      }
+
+	      return deleteUser;
+	    }()
 	  }]);
 
 	  return Api;
@@ -49970,6 +49998,14 @@
 
 	var _Post2 = _interopRequireDefault(_Post);
 
+	var _CircleIcon = __webpack_require__(589);
+
+	var _CircleIcon2 = _interopRequireDefault(_CircleIcon);
+
+	var _reactNotifications = __webpack_require__(594);
+
+	var _reactRouter = __webpack_require__(523);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -50090,6 +50126,40 @@
 	      return componentDidMount;
 	    }()
 	  }, {
+	    key: 'onDeleteClick',
+	    value: function () {
+	      var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+	        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+	          while (1) {
+	            switch (_context4.prev = _context4.next) {
+	              case 0:
+	                if (!confirm('Вы уверены, что хотите удалить пользователя?')) {
+	                  _context4.next = 5;
+	                  break;
+	                }
+
+	                _context4.next = 3;
+	                return _Api2.default.deleteUser(this.state.user.id);
+
+	              case 3:
+	                this.context.router.push('/app/users/');
+	                _reactNotifications.NotificationManager.success('Пользователь удален', 'Успешно');
+
+	              case 5:
+	              case 'end':
+	                return _context4.stop();
+	            }
+	          }
+	        }, _callee4, this);
+	      }));
+
+	      function onDeleteClick() {
+	        return _ref4.apply(this, arguments);
+	      }
+
+	      return onDeleteClick;
+	    }()
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -50111,6 +50181,24 @@
 	              'span',
 	              { className: 'description' },
 	              this.state.user.description
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'actions' },
+	              _react2.default.createElement(
+	                _CircleIcon2.default,
+	                { onClick: this.onDeleteClick.bind(this) },
+	                'delete'
+	              ),
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/app/users/' + this.state.user.username + '/edit' },
+	                _react2.default.createElement(
+	                  _CircleIcon2.default,
+	                  null,
+	                  'edit'
+	                )
+	              )
 	            )
 	          )
 	        ),
@@ -50118,6 +50206,13 @@
 	          return _react2.default.createElement(_Post2.default, { post: item, key: item.id, short: true });
 	        })
 	      );
+	    }
+	  }], [{
+	    key: 'contextTypes',
+	    get: function get() {
+	      return {
+	        router: _react2.default.PropTypes.object.isRequired
+	      };
 	    }
 	  }]);
 

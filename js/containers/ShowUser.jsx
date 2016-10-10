@@ -2,6 +2,9 @@ import React, {PropTypes} from 'react';
 import Api from '../Api';
 import Core from '../Core'
 import Post from '../components/Post';
+import CircleIcon from '../components/CircleIcon'
+import {NotificationManager} from 'react-notifications';
+import {Link} from 'react-router'
 
 export default class ShowUser extends React.Component {
   constructor(props) {
@@ -11,6 +14,12 @@ export default class ShowUser extends React.Component {
   state = {
     user: {},
     posts: [],
+  }
+
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired,
+    };
   }
 
   async fetchUser() {
@@ -32,6 +41,14 @@ export default class ShowUser extends React.Component {
     Core.listen('user-update.user-'+this.state.user.id, this.fetchUser.bind(this))
   }
 
+  async onDeleteClick() {
+    if (confirm('Вы уверены, что хотите удалить пользователя?')) {
+      await Api.deleteUser(this.state.user.id)
+      this.context.router.push(`/app/users/`);
+      NotificationManager.success('Пользователь удален', 'Успешно')
+    }
+  }
+
   render() {
     return (<div>
       <div className='user-profile'>
@@ -41,6 +58,10 @@ export default class ShowUser extends React.Component {
           <span className='description'>
             {this.state.user.description}
           </span>
+          <div className='actions'>
+            <CircleIcon onClick={this.onDeleteClick.bind(this)}>delete</CircleIcon>
+            <Link to={`/app/users/${this.state.user.username}/edit`}><CircleIcon>edit</CircleIcon></Link>
+          </div>
         </section>
       </div>
       {this.state.posts.map(function(item){

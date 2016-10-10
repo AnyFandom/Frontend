@@ -311,6 +311,11 @@ class Api {
     return
   }
 
+  async deleteUser(id) {
+    await this.request(`/users/id/${+id}`, 'delete')
+    return
+  }
+
 }
 
 export default new Api()

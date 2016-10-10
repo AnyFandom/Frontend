@@ -378,12 +378,14 @@ form fieldset {
   margin-bottom: 30px;
   background: white;
   min-height: 140px;
+  position: relative;
 
   .avatar {
     float: left;
   }
 
   .info {
+    width: 100%;
     position: absolute;
     padding: 0 20px;
     padding-left: 120px;
@@ -399,6 +401,25 @@ form fieldset {
     .description {
       display: inline-block;
       margin-top: 20px;
+    }
+
+    .actions {
+      align-items: center;
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+      height: 100px;
+      width: 50px;
+      float: right;
+      position: absolute;
+      right: 35px;
+      top: 0px;
+
+      .circle-icon {
+        cursor: pointer;
+        width: 48px;
+        height: 48px;
+      }
     }
   }
 }
