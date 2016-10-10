@@ -20,7 +20,7 @@ class Websocket {
     this.socket.on('update_request', function(data){
       let event = ''
       switch(data.type) {
-        case 'comments':
+        case 'comment-list':
           event = `comments-update.post-${data.id}`
           break
         case 'post-list':
@@ -35,7 +35,24 @@ class Websocket {
         case 'blog-list':
           event = `blog-list-update.fandom-${data.id}`
           break
+
+        case 'comment':
+          event = `comment-update.comment-${data.id}`
+          break
+        case 'blog':
+          event = `blog-update.blog-${data.id}`
+          break
+        case 'fandom':
+          event = `fandom-update.fandom-${data.id}`
+          break
+        case 'post':
+          event = `post-update.post-${data.id}`
+          break
+        case 'user':
+          event = `user-update.user-${data.id}`
+          break
       }
+      console.log('Update', event, data)
       Core.push(event)
     })
   }

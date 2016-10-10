@@ -22,13 +22,23 @@ export default class ShowBlog extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    Core.push('current-page-update', 'fandoms')
+  async fetchBlog() {
     let blog = await Api.loadBlog(this.props.params.id)
     this.setState({blog:blog})
+  }
 
+  async fetchBlogPosts() {
     let posts = await Api.loadBlogPosts(this.props.params.id)
     this.setState({posts: posts})
+  }
+
+  async componentDidMount() {
+    Core.push('current-page-update', 'fandoms')
+
+    await this.fetchBlog()
+    this.fetchBlogPosts()
+
+    Core.listen('blog-update.blog-'+this.state.blog.id, this.fetchBlog.bind(this))
   }
 
   async onDeleteClick() {

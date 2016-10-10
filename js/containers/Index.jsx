@@ -17,11 +17,10 @@ export default class Index extends React.Component {
 
   componentDidMount() {
     Core.push('current-page-update', 'posts')
+
     this.fetchPosts()
 
-    Core.listen('post-list-update', function(event){
-      this.fetchPosts()
-    }.bind(this))
+    Core.listen('post-list-update', this.fetchPosts.bind(this))
   }
 
   render() {

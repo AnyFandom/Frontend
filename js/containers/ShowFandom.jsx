@@ -42,10 +42,12 @@ export default class ShowFandom extends React.Component {
 
   async componentDidMount() {
     Core.push('current-page-update', 'fandoms')
+    
     await this.fetchFandom()
     this.fetchPosts()
     this.fetchBlogs()
 
+    Core.listen('fandom-update.fandom-'+this.state.fandom.id, this.fetchFandom.bind(this))
     Core.listen('post-list-update', this.fetchPosts.bind(this))
     Core.listen('blog-list-update.fandom-'+this.state.fandom.id, this.fetchBlogs.bind(this))
   }

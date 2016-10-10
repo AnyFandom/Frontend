@@ -29915,7 +29915,7 @@
 	  this.socket.on('update_request', function (data) {
 	    var event = '';
 	    switch (data.type) {
-	      case 'comments':
+	      case 'comment-list':
 	        event = 'comments-update.post-' + data.id;
 	        break;
 	      case 'post-list':
@@ -29930,7 +29930,24 @@
 	      case 'blog-list':
 	        event = 'blog-list-update.fandom-' + data.id;
 	        break;
+
+	      case 'comment':
+	        event = 'comment-update.comment-' + data.id;
+	        break;
+	      case 'blog':
+	        event = 'blog-update.blog-' + data.id;
+	        break;
+	      case 'fandom':
+	        event = 'fandom-update.fandom-' + data.id;
+	        break;
+	      case 'post':
+	        event = 'post-update.post-' + data.id;
+	        break;
+	      case 'user':
+	        event = 'user-update.user-' + data.id;
+	        break;
 	    }
+	    console.log('Update', event, data);
 	    _Core2.default.push(event);
 	  });
 	};
@@ -48305,11 +48322,10 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _Core2.default.push('current-page-update', 'posts');
+
 	      this.fetchPosts();
 
-	      _Core2.default.listen('post-list-update', function (event) {
-	        this.fetchPosts();
-	      }.bind(this));
+	      _Core2.default.listen('post-list-update', this.fetchPosts.bind(this));
 	    }
 	  }, {
 	    key: 'render',
@@ -48390,54 +48406,54 @@
 	  }
 
 	  _createClass(ShowPost, [{
-	    key: 'componentDidMount',
+	    key: 'fetchPost',
 	    value: function () {
-	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-	        var post, comments;
+	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	        var post;
+	        return regeneratorRuntime.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                _context.next = 2;
+	                return _Api2.default.loadPost(this.props.params.id);
+
+	              case 2:
+	                post = _context.sent;
+
+	                this.setState({ post: post });
+
+	              case 4:
+	              case 'end':
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee, this);
+	      }));
+
+	      function fetchPost() {
+	        return _ref.apply(this, arguments);
+	      }
+
+	      return fetchPost;
+	    }()
+	  }, {
+	    key: 'fetchComments',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	        var comments;
 	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'posts');
-	                _context2.next = 3;
-	                return _Api2.default.loadPost(this.props.params.id);
-
-	              case 3:
-	                post = _context2.sent;
-
-	                this.setState({ post: post });
-
-	                _context2.next = 7;
+	                _context2.next = 2;
 	                return _Api2.default.loadPostComments(this.props.params.id);
 
-	              case 7:
+	              case 2:
 	                comments = _context2.sent;
 
 	                this.setState({ comments: comments });
 
-	                _Core2.default.listen('comments-update.post-' + this.props.params.id, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-	                  var comments;
-	                  return regeneratorRuntime.wrap(function _callee$(_context) {
-	                    while (1) {
-	                      switch (_context.prev = _context.next) {
-	                        case 0:
-	                          _context.next = 2;
-	                          return _Api2.default.loadPostComments(this.props.params.id);
-
-	                        case 2:
-	                          comments = _context.sent;
-
-	                          this.setState({ comments: comments });
-
-	                        case 4:
-	                        case 'end':
-	                          return _context.stop();
-	                      }
-	                    }
-	                  }, _callee, this);
-	                })).bind(this));
-
-	              case 10:
+	              case 4:
 	              case 'end':
 	                return _context2.stop();
 	            }
@@ -48445,8 +48461,38 @@
 	        }, _callee2, this);
 	      }));
 
+	      function fetchComments() {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return fetchComments;
+	    }()
+	  }, {
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+	        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+	          while (1) {
+	            switch (_context3.prev = _context3.next) {
+	              case 0:
+	                _Core2.default.push('current-page-update', 'posts');
+
+	                this.fetchPost();
+	                this.fetchComments();
+
+	                _Core2.default.listen('comments-update.post-' + this.props.params.id, this.fetchComments.bind(this));
+	                _Core2.default.listen('post-update.post-' + this.props.params.id, this.fetchPost.bind(this));
+
+	              case 5:
+	              case 'end':
+	                return _context3.stop();
+	            }
+	          }
+	        }, _callee3, this);
+	      }));
+
 	      function componentDidMount() {
-	        return _ref.apply(this, arguments);
+	        return _ref3.apply(this, arguments);
 	      }
 
 	      return componentDidMount;
@@ -48848,10 +48894,9 @@
 	              case 3:
 	                data = _context.sent;
 
-	                _Core2.default.push('comments-update.post-' + this.props.postId);
 	                if (this.props.handleAdd) this.props.handleAdd(e);
 
-	              case 6:
+	              case 5:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -49951,33 +49996,23 @@
 	  }
 
 	  _createClass(ShowUser, [{
-	    key: 'componentDidMount',
+	    key: 'fetchUser',
 	    value: function () {
 	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-	        var user, user_posts;
+	        var user;
 	        return regeneratorRuntime.wrap(function _callee$(_context) {
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'users');
-
-	                _context.next = 3;
+	                _context.next = 2;
 	                return _Api2.default.loadUser(this.props.params.username);
 
-	              case 3:
+	              case 2:
 	                user = _context.sent;
 
 	                this.setState({ user: user });
 
-	                _context.next = 7;
-	                return _Api2.default.loadUserPosts(this.props.params.username);
-
-	              case 7:
-	                user_posts = _context.sent;
-
-	                this.setState({ posts: user_posts });
-
-	              case 9:
+	              case 4:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -49985,8 +50020,71 @@
 	        }, _callee, this);
 	      }));
 
-	      function componentDidMount() {
+	      function fetchUser() {
 	        return _ref.apply(this, arguments);
+	      }
+
+	      return fetchUser;
+	    }()
+	  }, {
+	    key: 'fetchUserPosts',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	        var user_posts;
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                _context2.next = 2;
+	                return _Api2.default.loadUserPosts(this.props.params.username);
+
+	              case 2:
+	                user_posts = _context2.sent;
+
+	                this.setState({ posts: user_posts });
+
+	              case 4:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function fetchUserPosts() {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return fetchUserPosts;
+	    }()
+	  }, {
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+	        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+	          while (1) {
+	            switch (_context3.prev = _context3.next) {
+	              case 0:
+	                _Core2.default.push('current-page-update', 'users');
+
+	                _context3.next = 3;
+	                return this.fetchUser();
+
+	              case 3:
+	                this.fetchUserPosts();
+
+	                _Core2.default.listen('user-update.user-' + this.state.user.id, this.fetchUser.bind(this));
+
+	              case 5:
+	              case 'end':
+	                return _context3.stop();
+	            }
+	          }
+	        }, _callee3, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref3.apply(this, arguments);
 	      }
 
 	      return componentDidMount;
@@ -50593,6 +50691,7 @@
 	            switch (_context4.prev = _context4.next) {
 	              case 0:
 	                _Core2.default.push('current-page-update', 'fandoms');
+
 	                _context4.next = 3;
 	                return this.fetchFandom();
 
@@ -50600,10 +50699,11 @@
 	                this.fetchPosts();
 	                this.fetchBlogs();
 
+	                _Core2.default.listen('fandom-update.fandom-' + this.state.fandom.id, this.fetchFandom.bind(this));
 	                _Core2.default.listen('post-list-update', this.fetchPosts.bind(this));
 	                _Core2.default.listen('blog-list-update.fandom-' + this.state.fandom.id, this.fetchBlogs.bind(this));
 
-	              case 7:
+	              case 8:
 	              case 'end':
 	                return _context4.stop();
 	            }
@@ -51213,32 +51313,23 @@
 	  }
 
 	  _createClass(ShowBlog, [{
-	    key: 'componentDidMount',
+	    key: 'fetchBlog',
 	    value: function () {
 	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-	        var blog, posts;
+	        var blog;
 	        return regeneratorRuntime.wrap(function _callee$(_context) {
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'fandoms');
-	                _context.next = 3;
+	                _context.next = 2;
 	                return _Api2.default.loadBlog(this.props.params.id);
 
-	              case 3:
+	              case 2:
 	                blog = _context.sent;
 
 	                this.setState({ blog: blog });
 
-	                _context.next = 7;
-	                return _Api2.default.loadBlogPosts(this.props.params.id);
-
-	              case 7:
-	                posts = _context.sent;
-
-	                this.setState({ posts: posts });
-
-	              case 9:
+	              case 4:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -51246,8 +51337,71 @@
 	        }, _callee, this);
 	      }));
 
-	      function componentDidMount() {
+	      function fetchBlog() {
 	        return _ref.apply(this, arguments);
+	      }
+
+	      return fetchBlog;
+	    }()
+	  }, {
+	    key: 'fetchBlogPosts',
+	    value: function () {
+	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	        var posts;
+	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	          while (1) {
+	            switch (_context2.prev = _context2.next) {
+	              case 0:
+	                _context2.next = 2;
+	                return _Api2.default.loadBlogPosts(this.props.params.id);
+
+	              case 2:
+	                posts = _context2.sent;
+
+	                this.setState({ posts: posts });
+
+	              case 4:
+	              case 'end':
+	                return _context2.stop();
+	            }
+	          }
+	        }, _callee2, this);
+	      }));
+
+	      function fetchBlogPosts() {
+	        return _ref2.apply(this, arguments);
+	      }
+
+	      return fetchBlogPosts;
+	    }()
+	  }, {
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+	        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+	          while (1) {
+	            switch (_context3.prev = _context3.next) {
+	              case 0:
+	                _Core2.default.push('current-page-update', 'fandoms');
+
+	                _context3.next = 3;
+	                return this.fetchBlog();
+
+	              case 3:
+	                this.fetchBlogPosts();
+
+	                _Core2.default.listen('blog-update.blog-' + this.state.blog.id, this.fetchBlog.bind(this));
+
+	              case 5:
+	              case 'end':
+	                return _context3.stop();
+	            }
+	          }
+	        }, _callee3, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref3.apply(this, arguments);
 	      }
 
 	      return componentDidMount;
@@ -51255,17 +51409,17 @@
 	  }, {
 	    key: 'onDeleteClick',
 	    value: function () {
-	      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-	        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	      var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+	        return regeneratorRuntime.wrap(function _callee4$(_context4) {
 	          while (1) {
-	            switch (_context2.prev = _context2.next) {
+	            switch (_context4.prev = _context4.next) {
 	              case 0:
 	                if (!confirm('Вы уверены, что хотите удалить блог?')) {
-	                  _context2.next = 5;
+	                  _context4.next = 5;
 	                  break;
 	                }
 
-	                _context2.next = 3;
+	                _context4.next = 3;
 	                return _Api2.default.deleteBlog(this.state.blog.id);
 
 	              case 3:
@@ -51274,14 +51428,14 @@
 
 	              case 5:
 	              case 'end':
-	                return _context2.stop();
+	                return _context4.stop();
 	            }
 	          }
-	        }, _callee2, this);
+	        }, _callee4, this);
 	      }));
 
 	      function onDeleteClick() {
-	        return _ref2.apply(this, arguments);
+	        return _ref4.apply(this, arguments);
 	      }
 
 	      return onDeleteClick;

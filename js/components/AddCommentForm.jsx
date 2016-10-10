@@ -22,7 +22,6 @@ export default class AddCommentForm extends React.Component {
       this.props.parentId,
       this.state.contentValue
     )
-    Core.push('comments-update.post-'+this.props.postId)
     if (this.props.handleAdd) this.props.handleAdd(e)
   }
 

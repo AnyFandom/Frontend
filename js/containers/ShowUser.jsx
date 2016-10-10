@@ -13,14 +13,23 @@ export default class ShowUser extends React.Component {
     posts: [],
   }
 
+  async fetchUser() {
+    let user = await Api.loadUser(this.props.params.username)
+    this.setState({user: user})
+  }
+
+  async fetchUserPosts() {
+    let user_posts = await Api.loadUserPosts(this.props.params.username)
+    this.setState({posts: user_posts})
+  }
+
   async componentDidMount() {
     Core.push('current-page-update', 'users')
 
-    let user = await Api.loadUser(this.props.params.username)
-    this.setState({user: user})
+    await this.fetchUser()
+    this.fetchUserPosts()
 
-    let user_posts = await Api.loadUserPosts(this.props.params.username)
-    this.setState({posts: user_posts})
+    Core.listen('user-update.user-'+this.state.user.id, this.fetchUser.bind(this))
   }
 
   render() {

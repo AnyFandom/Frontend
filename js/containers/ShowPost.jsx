@@ -15,18 +15,24 @@ export default class ShowPost extends React.Component {
     comments: [],
   }
 
-  async componentDidMount() {
-    Core.push('current-page-update', 'posts')
+  async fetchPost() {
     let post = await Api.loadPost(this.props.params.id)
     this.setState({post: post})
+  }
 
+  async fetchComments() {
     let comments = await Api.loadPostComments(this.props.params.id)
     this.setState({comments: comments})
+  }
 
-    Core.listen('comments-update.post-'+this.props.params.id, async function(){
-      let comments = await Api.loadPostComments(this.props.params.id)
-      this.setState({comments: comments})
-    }.bind(this))
+  async componentDidMount() {
+    Core.push('current-page-update', 'posts')
+
+    this.fetchPost()
+    this.fetchComments()
+
+    Core.listen('comments-update.post-'+this.props.params.id, this.fetchComments.bind(this))
+    Core.listen('post-update.post-'+this.props.params.id, this.fetchPost.bind(this))
   }
 
   render() {
