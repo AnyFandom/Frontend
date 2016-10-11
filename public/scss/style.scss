@@ -37,10 +37,11 @@
 }
 
 .comment-tree {
-  background: white;
-  box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+  background: $main-color;
+  box-shadow: $box-shadow;
 
   h3 {
+    color: $header-color;
     margin: 0;
     padding-top: 20px;
     display: flex;
@@ -62,7 +63,7 @@
     top: 15px;
     position: absolute;
     width: 64px;
-    box-shadow: 0px 1px 6px 0px rgb(152, 152, 152);
+    box-shadow: $box-shadow;
     border-radius: 10px;
     left: 10px;
   }
@@ -72,7 +73,7 @@
   }
 
   .comment-content {
-    border-bottom: 1.5px solid #f4f4f4;
+    border-bottom: 1.5px solid $second-color;
     display: block;
     min-height: 74px;
 
@@ -122,7 +123,7 @@
       .comment-reply {
         position: relative;
         cursor: pointer;
-        border: 2px solid white;
+        border: 2px solid $main-color;
         transition: all .2s;
         display: block;
         width: 30px;
@@ -136,7 +137,7 @@
           display: flex;
           width: 30px;
           height: 30px;
-          background: white;
+          background: $main-color;
           color: #969090;
           border: 1px solid #dedede;
           box-shadow: none;
@@ -154,7 +155,7 @@
           }
 
           &:hover {
-            color: white;
+            color: $main-color;
             background: $brand-color;
           }
         }
@@ -165,8 +166,8 @@
           width: 85px;
           .circle-icon {
             background: $brand-color;
-            color: white;
-            border: 1px solid #4aaf75;
+            color: $main-color;
+            border: 1px solid $brand-color;
             box-shadow: 0px 0px 6px 0px rgba(62, 62, 62, 0.4);
           }
 
@@ -182,7 +183,7 @@
         .comment-reply-label {
           margin: auto;
           z-index: 0;
-          color: white;
+          color: $main-color;
           font-size: 15px;
           line-height: 15px;
           display: block;
@@ -228,9 +229,9 @@
   position: relative;
   max-width: 900px;
   width: 100%;
-  box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+  box-shadow: $box-shadow;
   min-height: 100px;
-  background: white;
+  background: $main-color;
   margin-bottom: 30px;
 
   .header-wrapper {
@@ -249,7 +250,7 @@
         font-size: 30px;
         position: absolute;
         bottom: 15px;
-        color: white;
+        color: $main-color;
         left: 15px;
       }
     }
@@ -294,7 +295,7 @@ form fieldset {
     }
 
     .content {
-      background: white;
+      background: $main-color;
       padding: 20px 0;;
     }
 
@@ -334,7 +335,7 @@ form fieldset {
 
           &:hover {
             background: $brand-color;
-            color: white;
+            color: $main-color;
           }
         }
       }
@@ -354,12 +355,12 @@ form fieldset {
   margin: 0 auto;
 
   .user-item {
-    background: white;
+    background: $main-color;
     width: 140px;
     padding:20px;
     margin-right: 30px;
     margin-bottom: 30px;
-    box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+    box-shadow: $box-shadow;
     img {
       width: 100px;
       height: 100px;
@@ -374,9 +375,9 @@ form fieldset {
 
 .user-profile {
   padding: 20px;
-  box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+  box-shadow: $box-shadow;
   margin-bottom: 30px;
-  background: white;
+  background: $main-color;
   min-height: 140px;
   position: relative;
 
@@ -395,7 +396,7 @@ form fieldset {
       display: inline-block;
       width: 100%;
       font-size: 25px;
-      color: #424242;
+      color: $header-color;
     }
 
     .description {
@@ -432,11 +433,11 @@ form fieldset {
   margin: 0 auto;
 
   .fandom-item {
-    background: white;
+    background: $main-color;
     width: 140px;
     padding:20px;
     margin-right: 30px;
-    box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+    box-shadow: $box-shadow;
     img {
       width: 100px;
       height: 100px;
@@ -450,10 +451,10 @@ form fieldset {
 
   .fandom-item-add {
     height: 100%;
-    background: white;
+    background: $main-color;
     width: 140px;
     margin-right: 30px;
-    box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+    box-shadow: $box-shadow;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -469,9 +470,9 @@ form fieldset {
 
 .fandom {
   padding: 20px;
-  box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+  box-shadow: $box-shadow;
   margin-bottom: 30px;
-  background: white;
+  background: $main-color;
   min-height: 140px;
 
   .avatar {
@@ -488,7 +489,7 @@ form fieldset {
       display: inline-block;
       width: 100%;
       font-size: 25px;
-      color: #424242;
+      color: $header-color;
     }
 
     .description {
@@ -519,8 +520,8 @@ form fieldset {
 
 .react-tabs {
   .header {
-    background: white;
-    box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+    background: $main-color;
+    box-shadow: $box-shadow;
 
     ul {
       margin: 0;
@@ -574,11 +575,11 @@ form fieldset {
   margin: 0 auto;
 
   .blog-item {
-    background: white;
+    background: $main-color;
     width: 140px;
     padding:20px;
     margin-right: 30px;
-    box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+    box-shadow: $box-shadow;
     img {
       width: 100px;
       height: 100px;
@@ -592,10 +593,10 @@ form fieldset {
 
   .blog-item-add {
     height: 100%;
-    background: white;
+    background: $main-color;
     width: 140px;
     margin-right: 30px;
-    box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+    box-shadow: $box-shadow;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -611,9 +612,9 @@ form fieldset {
 
 .blog {
   padding: 20px;
-  box-shadow: 0px 0px 6px 0px rgba(201, 201, 201, 0.4);
+  box-shadow: $box-shadow;
   margin-bottom: 30px;
-  background: white;
+  background: $main-color;
   min-height: 140px;
 
   .avatar {
@@ -630,7 +631,7 @@ form fieldset {
       display: inline-block;
       width: 100%;
       font-size: 25px;
-      color: #424242;
+      color: $header-color;
     }
 
     .description {

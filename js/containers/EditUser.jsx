@@ -40,7 +40,9 @@ export default class EditUser extends React.Component {
 
   async editUser(e) {
     e.preventDefault();
+    console.log(this.state)
     await Api.editUser(this.state.user.username, this.state.avatarValue, this.state.descriptionValue)
+    Api.getUserCurrent()
     this.context.router.push(`/app/users/${this.state.user.username}`);
     NotificationManager.success('Пользователь отредактирован', 'Успешно')
   }

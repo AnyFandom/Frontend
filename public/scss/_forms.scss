@@ -47,12 +47,12 @@ input[type="search"]                                        { -webkit-padding-st
 /***********************************************
 Select
 ***********************************************/
-.select                                                     { margin:0; padding:0; position:relative; display:block; width:100%; right:0; top:0; height:40px; background:#FFF; overflow:hidden; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; }
-.select:after                                               { margin:0; padding:0; content:''; background-color:#FFF; background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzlFNERGRkExNTgwMTFFNjlCOTU5QjY1QkU5MkYyMDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzlFNERGRkIxNTgwMTFFNjlCOTU5QjY1QkU5MkYyMDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDOUU0REZGODE1ODAxMUU2OUI5NTlCNjVCRTkyRjIwOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDOUU0REZGOTE1ODAxMUU2OUI5NTlCNjVCRTkyRjIwOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PksuSU4AAADRSURBVHjaxNPNCkFBFMDxeyWPwDtYWLCwkZWQKFE+yhPwFLyCvRVWLJTIV8ra1sbSkhQlRXT91SwG9+rqklO/1XTOzJwzo2qaplgJm2IxLBewl8rVr5yghuAHeVlU5AJO9BAwkZxDAy65QAZzdOF/k5xGHS0U5QJHxLHAAF6d5ASa6KCA6/MUDohhiSE80lpU7DpCHhejMe4RxgpjuBFCG1NxhfPDGHWOukMEE9EXB2ZI4fTyDgyatRE797FFUvRJMVvgHmv4fv6U1b//xpsAAwDgFiuTckGaBAAAAABJRU5ErkJggg=="); background-repeat:no-repeat; background-size:10px; background-position:center; color:#999; line-height:38px; text-align:center; right:0; top:0; width:38px; height:38px; border-radius:0px; position:absolute; top:1px; right:1px; pointer-events:none; }
-.select select                                              { padding:10px; padding-top:11px; background-color:#FFF; -webkit-padding-before:0; -webkit-padding-start:10px; width:100%; height:40px; font-size:14px; line-height:40px; float:left; color:#555; border:solid 1px #BBB; display:block; -webkit-appearance:none; -moz-appearance:none; appearance:none; cursor:pointer; }
+.select                                                     { margin:0; padding:0; position:relative; display:block; width:100%; right:0; top:0; height:40px; background:$main-color; overflow:hidden; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; }
+.select:after                                               { margin:0; padding:0; content:''; background-color:$main-color; background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzlFNERGRkExNTgwMTFFNjlCOTU5QjY1QkU5MkYyMDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzlFNERGRkIxNTgwMTFFNjlCOTU5QjY1QkU5MkYyMDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDOUU0REZGODE1ODAxMUU2OUI5NTlCNjVCRTkyRjIwOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDOUU0REZGOTE1ODAxMUU2OUI5NTlCNjVCRTkyRjIwOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PksuSU4AAADRSURBVHjaxNPNCkFBFMDxeyWPwDtYWLCwkZWQKFE+yhPwFLyCvRVWLJTIV8ra1sbSkhQlRXT91SwG9+rqklO/1XTOzJwzo2qaplgJm2IxLBewl8rVr5yghuAHeVlU5AJO9BAwkZxDAy65QAZzdOF/k5xGHS0U5QJHxLHAAF6d5ASa6KCA6/MUDohhiSE80lpU7DpCHhejMe4RxgpjuBFCG1NxhfPDGHWOukMEE9EXB2ZI4fTyDgyatRE797FFUvRJMVvgHmv4fv6U1b//xpsAAwDgFiuTckGaBAAAAABJRU5ErkJggg=="); background-repeat:no-repeat; background-size:10px; background-position:center; color:#999; line-height:38px; text-align:center; right:0; top:0; width:38px; height:38px; border-radius:0px; position:absolute; top:1px; right:1px; pointer-events:none; }
+.select select                                              { padding:10px; padding-top:11px; background-color:$main-color; -webkit-padding-before:0; -webkit-padding-start:10px; width:100%; height:40px; font-size:14px; line-height:40px; float:left; color:#555; border:solid 1px #BBB; display:block; -webkit-appearance:none; -moz-appearance:none; appearance:none; cursor:pointer; }
 .select option                                              { padding:10px; border-bottom:1px solid #F3F3F3; font-size:14px; line-height:40px; }
-.select optgroup                                            { padding:0; color:#000; background-color:#FFF; }
-.select optgroup[label]                                     { padding-top:10px; background-color:#FFF; font-size:14px; line-height:40px; font-weight:normal; font-style:normal; }
+.select optgroup                                            { padding:0; color:#000; background-color:$main-color; }
+.select optgroup[label]                                     { padding-top:10px; background-color:$main-color; font-size:14px; line-height:40px; font-weight:normal; font-style:normal; }
 .select optgroup option:first-child                         { margin:10px 0 0 0; border-top:1px solid #F2F2F2; }
 
 
@@ -85,13 +85,13 @@ Checkboxes
 .checkbox > span                                            { margin:0 0 10px; padding:0 20px 0 0; float:left; position:relative; top:0; left:0; width:auto; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; }
 .checkbox > span label                                      { padding:2px 0 0 32px; width:100%; min-height:20px; font-size:14px; line-height:20px; text-align:left; cursor:pointer; float:none; display:block; position:relative; left:0; top:0; }
 .checkbox input                                             { display:none; }
-.checkbox input + label:before                              { margin:0; content:''; background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QTFCRTE4Q0IxNTc5MTFFNjlCOTU5QjY1QkU5MkYyMDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QTFCRTE4Q0MxNTc5MTFFNjlCOTU5QjY1QkU5MkYyMDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0MkMxNjBDNjBFMTYxMUU2OUI5NTlCNjVCRTkyRjIwOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpBMUJFMThDQTE1NzkxMUU2OUI5NTlCNjVCRTkyRjIwOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuFgne4AAADHSURBVHjaYvj//z8DGdgFiL8BcSM5mlWA+N1/CPhDqmY+IL72HwE6SNHMBMSbkDRvBImRYkArkuYLQMwDEidWcziS5hdALAeTAxFsQGyAR7MhNMRB4DsQWyDLg4j1UMkSLJrFgfghku2R6GoYkEwHgTAkSZDLDiHJNWNzIYiIQFL0E4htoZIzkcRXAjEjLgNAOB9J8Wcg3ofEPwPEXLjCCFc0wcATIJbEF0PIHJAT5yJpBoWNEaEoRhdgBuIV0OgKICaNAAQYAPD/2FJuxgMsAAAAAElFTkSuQmCC"); background-repeat:no-repeat; background-size:1px; background-position:center; position:absolute; left:0; top:0; background-color:#FFF; border-width:1px; border-radius:0px; border-style:solid; cursor:pointer; display:inline-block; height:20px; width:20px; text-align:center; font-size:10px; line-height:22px; color:#CCC;
+.checkbox input + label:before                              { margin:0; content:''; background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QTFCRTE4Q0IxNTc5MTFFNjlCOTU5QjY1QkU5MkYyMDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QTFCRTE4Q0MxNTc5MTFFNjlCOTU5QjY1QkU5MkYyMDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0MkMxNjBDNjBFMTYxMUU2OUI5NTlCNjVCRTkyRjIwOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpBMUJFMThDQTE1NzkxMUU2OUI5NTlCNjVCRTkyRjIwOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuFgne4AAADHSURBVHjaYvj//z8DGdgFiL8BcSM5mlWA+N1/CPhDqmY+IL72HwE6SNHMBMSbkDRvBImRYkArkuYLQMwDEidWcziS5hdALAeTAxFsQGyAR7MhNMRB4DsQWyDLg4j1UMkSLJrFgfghku2R6GoYkEwHgTAkSZDLDiHJNWNzIYiIQFL0E4htoZIzkcRXAjEjLgNAOB9J8Wcg3ofEPwPEXLjCCFc0wcATIJbEF0PIHJAT5yJpBoWNEaEoRhdgBuIV0OgKICaNAAQYAPD/2FJuxgMsAAAAAElFTkSuQmCC"); background-repeat:no-repeat; background-size:1px; background-position:center; position:absolute; left:0; top:0; background-color:$main-color; border-width:1px; border-radius:0px; border-style:solid; cursor:pointer; display:inline-block; height:20px; width:20px; text-align:center; font-size:10px; line-height:22px; color:#CCC;
     transition:all .2s linear 0s;
     -moz-transition:all .2s linear 0s;
     -webkit-transition:all .2s linear 0s;
     -o-transition:all .2s linear 0s;
 }
-.checkbox input:checked + label:before                      { background-color:#29B765; content:''; background-size:10px; border-color:#29B765; color:#FFF;
+.checkbox input:checked + label:before                      { background-color:#29B765; content:''; background-size:10px; border-color:#29B765; color:$main-color;
     transition:all .2s linear 0s;
     -moz-transition:all .2s linear 0s;
     -webkit-transition:all .2s linear 0s;
@@ -119,7 +119,7 @@ Toggle Checkboxes & Radios
 }
 .toggle span span                                           { position:relative; z-index:9; }
 .radio.toggle input:checked + label:before                  { border:none; }
-.radio.toggle input:checked + label                         { color:#FFF; }
+.radio.toggle input:checked + label                         { color:$main-color; }
 
 .toggle .positive input:checked + label:before              { background-color:#29B765; }
 .toggle .info input:checked + label:before                  { background-color:#3498DB; }
@@ -140,7 +140,7 @@ Switch Checkboxes
     -webkit-transition:all 0.2s cubic-bezier(0.33, 0, 0.2, 1) 0s;
     -o-transition:all 0.2s cubic-bezier(0.33, 0, 0.2, 1) 0s;
 }
-.checkbox.switch input + label:before                       { background-color:#FFF; content:'\2630'; display:block; width:24px; height:24px; color:#C0C2C3; font-size:10px; line-height:24px; border:none; border-radius:0px; top:2px; left:2px; transform:rotate(90deg); }
+.checkbox.switch input + label:before                       { background-color:$main-color; content:'\2630'; display:block; width:24px; height:24px; color:#C0C2C3; font-size:10px; line-height:24px; border:none; border-radius:0px; top:2px; left:2px; transform:rotate(90deg); }
 
 .checkbox.switch input:checked + label                      { background-color:#29B765; }
 .checkbox.switch input:checked + label:before               { left:50%; }
@@ -156,8 +156,8 @@ Toggle Labeled Checkboxes
     -o-transition:all 0.2s cubic-bezier(0.33, 0, 0.2, 1) 0s;
 }
 
-.toggle--has-labels input + label span:first-child          { color:#FFF; }
-.toggle--has-labels input:checked + label span:last-child   { color:#FFF; }
+.toggle--has-labels input + label span:first-child          { color:$main-color; }
+.toggle--has-labels input:checked + label span:last-child   { color:$main-color; }
 
 .toggle--has-labels input + label span:last-child           { color:#555; }
 .toggle--has-labels input:checked + label span:first-child  { color:#555; }
@@ -187,7 +187,7 @@ Inline items
 
 .flex-grow                                                  { flex-grow:1; }
 
-.inline-btn-group                                           { padding:0 0 0 10px; width:1%; white-space:nowrap; vertical-align:middle; display:table-cell; }
+.inline-btn-group                                           { padding:0 0 0 10px; width:1%; $main-color-space:nowrap; vertical-align:middle; display:table-cell; }
 
 /***********************************************
 Inline elements
@@ -319,7 +319,7 @@ input.btn-amazium                                         { padding:0; backgroun
 input::-moz-focus-inner, button::-moz-focus-inner           { border:0; padding:0; }
 
 /***** btn class setup *****/
-.btn-amazium, input.btn-amazium                                             { margin:0 5px 10px 0; padding:0 15px; background:#26343E; border:none; font-size:14px; line-height:40px; color:#FFF; fill:#FFF; border-radius:0px; height:40px; min-width:40px; vertical-align:top; text-align:center; text-decoration:none; width:auto; letter-spacing:0; display:inline-block; position:relative; top:0; left:0; cursor:pointer;
+.btn-amazium, input.btn-amazium                                             { margin:0 5px 10px 0; padding:0 15px; background:#26343E; border:none; font-size:14px; line-height:40px; color:$main-color; fill:$main-color; border-radius:0px; height:40px; min-width:40px; vertical-align:top; text-align:center; text-decoration:none; width:auto; letter-spacing:0; display:inline-block; position:relative; top:0; left:0; cursor:pointer;
     transition:all 0.2s cubic-bezier(0.33, 0, 0.2, 1) 0s;
     -moz-transition:all 0.2s cubic-bezier(0.33, 0, 0.2, 1) 0s;
     -webkit-transition:all 0.2s cubic-bezier(0.33, 0, 0.2, 1) 0s;
@@ -379,22 +379,22 @@ input::-moz-focus-inner, button::-moz-focus-inner           { border:0; padding:
 
 /***** Ghost *****/
 .btn-amazium--style-ghost                                           { background-color:transparent; color:#26343E; fill:#26343E; border:1px solid #BBB; }
-.btn-amazium--style-ghost:hover                                     { background-color:#26343E; color:#FFF; fill:#FFF; }
+.btn-amazium--style-ghost:hover                                     { background-color:#26343E; color:$main-color; fill:$main-color; }
 
 /***** Link *****/
 .btn-amazium--style-link                                            { background-color:transparent; color:#26343E; fill:#26343E; border:none; }
 .btn-amazium--style-link:hover                                      { background-color:transparent; text-decoration:underline; }
 
 /***** Color - Hover *****/
-.btn-amazium--hoverColor-positive:hover                             { border-color:#29B765; background-color:#29B765; color:#FFF; fill:#FFF; }
-.btn-amazium--hoverColor-info:hover                                 { border-color:#3498DB; background-color:#3498DB; color:#FFF; fill:#FFF; }
-.btn-amazium--hoverColor-warning:hover                              { border-color:#FFC82C; background-color:#FFC82C; color:#FFF; fill:#FFF; }
-.btn-amazium--hoverColor-negative:hover                             { border-color:#E74C3C; background-color:#E74C3C; color:#FFF; fill:#FFF; }
+.btn-amazium--hoverColor-positive:hover                             { border-color:#29B765; background-color:#29B765; color:$main-color; fill:$main-color; }
+.btn-amazium--hoverColor-info:hover                                 { border-color:#3498DB; background-color:#3498DB; color:$main-color; fill:$main-color; }
+.btn-amazium--hoverColor-warning:hover                              { border-color:#FFC82C; background-color:#FFC82C; color:$main-color; fill:$main-color; }
+.btn-amazium--hoverColor-negative:hover                             { border-color:#E74C3C; background-color:#E74C3C; color:$main-color; fill:$main-color; }
 
 /***** Buttons groups *****/
 .btn-amazium-group                                                  { margin:0 0 10px 0; border:1px solid #BBB; border-radius:0px; display:inline-block; overflow:hidden; }
 .btn-amazium-group .btn-amazium                                             { margin:0; float:left; border-radius:0; border-right:1px solid #BBB; color:#26343E; background-color:transparent; }
-.btn-amazium-group .btn-amazium:hover                                       { background-color:#26343E; border-color:#26343E; color:#FFF; }
+.btn-amazium-group .btn-amazium:hover                                       { background-color:#26343E; border-color:#26343E; color:$main-color; }
 .btn-amazium-group .btn-amazium:last-of-type                                { border:none; }
 
 /***** Loading States *****/
@@ -408,7 +408,7 @@ input::-moz-focus-inner, button::-moz-focus-inner           { border:0; padding:
 
 .btn-amazium--state-loading:before,
 .btn-amazium--state-successful:before,
-.btn-amazium--state-failure:before                                  { content:''; display:block; width:16px; height:16px; color:#FFF; line-height:16px; text-align:center; background-repeat:no-repeat; background-size:100%; position:absolute; top:calc(50% - 8px); left:15px; }
+.btn-amazium--state-failure:before                                  { content:''; display:block; width:16px; height:16px; color:$main-color; line-height:16px; text-align:center; background-repeat:no-repeat; background-size:100%; position:absolute; top:calc(50% - 8px); left:15px; }
 
 .btn-amazium--state-loading,
 .btn-amazium--state-loading:hover                                   { background-color:#26343E; border-color:#26343E; }

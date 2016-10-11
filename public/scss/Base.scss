@@ -31,7 +31,7 @@ blockquote:before, blockquote:after,
 q:before, q:after                               { content:''; content:none; }
 
 html                                            { overflow:-moz-scrollbars-vertical; overflow-y:scroll; }
-body                                            { margin:0; padding:0; background-color:#FFF; font-family:sans-serif; font-size:16px; line-height:22px; color:#333; }
+body                                            { margin:0; padding:0; background-color:$main-color; font-family:sans-serif; font-size:16px; line-height:22px; color:#333; }
 
 /***********************************************
 Typography
@@ -55,7 +55,7 @@ sub                                             { bottom:-5px; }
 
 pre                                             { margin:0 0 50px; padding:0; display:table; table-layout:fixed; width:100%; }
 pre code                                        { padding:20px; overflow:auto; width:100%; }
-code                                            { margin:0; padding:0 3px; font-family:'Consolas', Courier, monospace; font-size:12px; line-height:16px; text-align:left; color:#F1F1F1; display:inline-block; vertical-align:middle; background-color:#111; border:1px solid #111; overflow:hidden; white-space:pre; }
+code                                            { margin:0; padding:0 3px; font-family:'Consolas', Courier, monospace; font-size:12px; line-height:16px; text-align:left; color:#F1F1F1; display:inline-block; vertical-align:middle; background-color:#111; border:1px solid #111; overflow:hidden; $main-color-space:pre; }
 
 abbr[title],
 abbr[data-original-title]                       { border-bottom:1px dotted #999999; cursor:help; }
@@ -95,7 +95,7 @@ blockquote a                                    { display:inline-block; }
 
 figcaption:before                               { content:'\2014'; display:block; }
 figcaption                                      { margin:0; padding:0; font-size:14px; }
-figcaption span                                 { padding:0 5px; display:inline-block; background-color:#26343E; color:#FFF; border-radius:3px; }
+figcaption span                                 { padding:0 5px; display:inline-block; background-color:#26343E; color:$main-color; border-radius:3px; }
 
 /***********************************************
 Links
@@ -142,8 +142,8 @@ Tables
 table, tbody, tr, th, td                        { display:block; text-align:left; }
 table                                           { margin:0 0 40px 0; width:100%; overflow:visible; text-align:left; border:none; border-collapse:collapse; border-spacing:0; table-layout:fixed; }
 caption                                         { margin:0 0 10px; width:100%; text-align:left; font-weight:bold; display:block; }
-tr                                              { padding:3px; background-color:#FFF; border-bottom:4px solid #EEE; min-height:35px; transition:background 0.33s cubic-bezier(0.33, 0, 0.2, 1) 0s; }
-thead                                           { padding:10px; background-color:#FFF; border:none; font-weight:bold; text-align:left; display:none; }
+tr                                              { padding:3px; background-color:$main-color; border-bottom:4px solid #EEE; min-height:35px; transition:background 0.33s cubic-bezier(0.33, 0, 0.2, 1) 0s; }
+thead                                           { padding:10px; background-color:$main-color; border:none; font-weight:bold; text-align:left; display:none; }
 td                                              { padding:6px 10px 6px 0; min-width:60px; background-color:transparent; border:none; word-wrap:break-word; position:relative; top:0; left:0; }
 td:empty                                        { display:none; visibility:hidden; }
 td.align-vertical                               { vertical-align:middle; }
@@ -167,7 +167,7 @@ Icons Setup
 /***********************************************
 Message Blocks
 ***********************************************/
-.message                                        { margin:0 0 20px; padding:8px 10px; font-size:12px; line-height:16px; color:#FFF; letter-spacing:.5px; background-color:#26343E; border-radius:3px; width:100%; position:relative; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; }
+.message                                        { margin:0 0 20px; padding:8px 10px; font-size:12px; line-height:16px; color:$main-color; letter-spacing:.5px; background-color:#26343E; border-radius:3px; width:100%; position:relative; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; }
 .message--color-positive                        { background-color:#29B765; }
 .message--color-info                            { background-color:#3498DB; }
 .message--color-warning                         { background-color:#FFC82C; color:#444; }
@@ -195,8 +195,8 @@ Utility Classes
 .txt--lineHeight-xxs                            { line-height:14px; }
 
 /***** Text truncate *****/
-.txt--truncate                                  { white-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
-.txt--noWrap                                    { white-space:nowrap; }
+.txt--truncate                                  { $main-color-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
+.txt--noWrap                                    { $main-color-space:nowrap; }
 
 /***** Font weight *****/
 .txt--fontWeight-300                            { font-weight:300; }
@@ -248,7 +248,7 @@ textarea:focus, button:focus                    { outline:none; }
 .show-screen                                    { display:none; }
 
 body {
-  background: #f7f7f7;
+  background: $second-color;
   color: #7d7d7d;
   font-family: 'Roboto Light', sans-serif;
 }
@@ -278,7 +278,7 @@ img {
   width: 58px;
   height: 58px;
   background: $brand-color;
-  color: white;
+  color: $main-color;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -345,19 +345,19 @@ img {
   cursor: pointer;
   color: #565656;
   padding: 5px 15px;
-  background: white;
+  background: $main-color;
   border: 1px solid #bbbbbb;
   border-radius: 50px;
   transition: all 0.3s;
 
   &:hover {
-    color:white;
+    color:$main-color;
     background: $brand-color;
     border: 1px solid darken($brand-color, 3%);
   }
 
   &:focus {
-    color: white;
+    color: $main-color;
     background: darken($brand-color, 13%);
     border: 1px solid darken($brand-color, 13%);
   }

@@ -50334,14 +50334,16 @@
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
 	                e.preventDefault();
-	                _context2.next = 3;
+	                console.log(this.state);
+	                _context2.next = 4;
 	                return _Api2.default.editUser(this.state.user.username, this.state.avatarValue, this.state.descriptionValue);
 
-	              case 3:
+	              case 4:
+	                _Api2.default.getUserCurrent();
 	                this.context.router.push('/app/users/' + this.state.user.username);
 	                _reactNotifications.NotificationManager.success('Пользователь отредактирован', 'Успешно');
 
-	              case 5:
+	              case 7:
 	              case 'end':
 	                return _context2.stop();
 	            }
