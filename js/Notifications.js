@@ -1,5 +1,5 @@
 var Notify=require('notifyjs').default
-import Core from './Core';
+import Emitter from './Emitter';
 
 class Notifications {
   construstor(){
@@ -17,7 +17,7 @@ class Notifications {
   }
 
   init() {
-    Core.listen('new-notification', function(options){
+    Emitter.listen('new-notification', function(options){
       if (!options.timeout) {
         options.timeout = 5
       }

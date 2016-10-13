@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import Api from '../Api'
 import FandomItem from '../components/FandomItem'
 import {Link} from 'react-router'
-import Core from '../Core'
+import Emitter from '../Emitter'
 
 export default class ShowFandoms extends React.Component {
   constructor(props) {
@@ -19,10 +19,10 @@ export default class ShowFandoms extends React.Component {
   }
 
   async componentDidMount() {
-    Core.push('current-page-update', 'fandoms')
+    Emitter.push('current-page-update', 'fandoms')
     this.fetchFandoms()
 
-    Core.listen('fandom-list-update', this.fetchFandoms.bind(this))
+    Emitter.listen('fandom-list-update', this.fetchFandoms.bind(this))
   }
 
   render() {

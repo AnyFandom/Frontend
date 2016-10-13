@@ -1,6 +1,6 @@
 var reqwest = require('reqwest');
 import Storage from './Storage'
-import Core from './Core'
+import Emitter from './Emitter'
 import {NotificationManager} from 'react-notifications';
 
 class Api {
@@ -74,7 +74,7 @@ class Api {
   async getUserCurrent() {
     let data = await this.request('/users/current')
     Storage.set('user', data.user)
-    Core.push('update-user-current')
+    Emitter.push('update-user-current')
     return
   }
 

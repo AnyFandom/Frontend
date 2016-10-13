@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
+import Emitter from './Emitter';
+
 import Notifications from './Notifications'
 import Websocket from './Websockets'
 
@@ -12,3 +14,21 @@ Notify.init()
 new Websocket()
 
 ReactDOM.render(<Routes />, document.getElementById('app-root'));
+
+window.getCoords = function(elem) { // кроме IE8-
+  var box = elem.getBoundingClientRect();
+
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset
+  };
+
+}
+
+window.scroller = require('scroll-to-js')
+
+window.scrollToComment = async function(id) {
+  let comment = document.querySelector('#comment-'+id)
+  await scroller(document.body, comment.offsetTop-200, 500)
+  Emitter.push('current-comment-set', id)
+}

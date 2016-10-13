@@ -6,7 +6,7 @@ import CircleIcon from '../components/CircleIcon'
 import { Tabs, Tab } from 'react-tab-view'
 import {Link} from 'react-router'
 import {NotificationManager} from 'react-notifications';
-import Core from '../Core'
+import Emitter from '../Emitter'
 
 export default class ShowFandom extends React.Component {
   constructor(props) {
@@ -41,15 +41,15 @@ export default class ShowFandom extends React.Component {
   }
 
   async componentDidMount() {
-    Core.push('current-page-update', 'fandoms')
+    Emitter.push('current-page-update', 'fandoms')
     
     await this.fetchFandom()
     this.fetchPosts()
     this.fetchBlogs()
 
-    Core.listen('fandom-update.fandom-'+this.state.fandom.id, this.fetchFandom.bind(this))
-    Core.listen('post-list-update', this.fetchPosts.bind(this))
-    Core.listen('blog-list-update.fandom-'+this.state.fandom.id, this.fetchBlogs.bind(this))
+    Emitter.listen('fandom-update.fandom-'+this.state.fandom.id, this.fetchFandom.bind(this))
+    Emitter.listen('post-list-update', this.fetchPosts.bind(this))
+    Emitter.listen('blog-list-update.fandom-'+this.state.fandom.id, this.fetchBlogs.bind(this))
   }
 
   async onDeleteClick() {

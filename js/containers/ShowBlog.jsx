@@ -4,7 +4,7 @@ import PostList from '../components/PostList'
 import CircleIcon from '../components/CircleIcon'
 import {Link} from 'react-router'
 import {NotificationManager} from 'react-notifications';
-import Core from '../Core'
+import Emitter from '../Emitter'
 
 export default class ShowBlog extends React.Component {
   constructor(props) {
@@ -33,12 +33,12 @@ export default class ShowBlog extends React.Component {
   }
 
   async componentDidMount() {
-    Core.push('current-page-update', 'fandoms')
+    Emitter.push('current-page-update', 'fandoms')
 
     await this.fetchBlog()
     this.fetchBlogPosts()
 
-    Core.listen('blog-update.blog-'+this.state.blog.id, this.fetchBlog.bind(this))
+    Emitter.listen('blog-update.blog-'+this.state.blog.id, this.fetchBlog.bind(this))
   }
 
   async onDeleteClick() {

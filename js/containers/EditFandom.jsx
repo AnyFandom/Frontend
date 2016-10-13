@@ -3,7 +3,7 @@ import Checkbox from '../components/Checkbox';
 import Single from '../components/Single';
 import Api from '../Api';
 import {NotificationManager} from 'react-notifications';
-import Core from '../Core'
+import Emitter from '../Emitter'
 
 export default class EditFandom extends React.Component {
   constructor(props) {
@@ -44,7 +44,7 @@ export default class EditFandom extends React.Component {
   }
 
   async componentDidMount() {
-    Core.push('current-page-update', 'fandoms')
+    Emitter.push('current-page-update', 'fandoms')
     let fandom = await Api.loadFandom(this.props.params.id)
     this.setState(
       {

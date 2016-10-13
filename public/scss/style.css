@@ -2209,7 +2209,12 @@ img {
   min-height: 84px;
   display: block;
   position: relative;
-  padding-top: 10px; }
+  padding-top: 10px;
+  transition: background .3s; }
+  .comment.current {
+    background: rgba(0, 0, 0, 0.4); }
+  .comment.new {
+    background: rgba(0, 0, 0, 0.2); }
   .comment .author-avatar {
     top: 15px;
     position: absolute;

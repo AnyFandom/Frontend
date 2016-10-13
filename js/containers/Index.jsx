@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import Post from '../components/Post'
 import Api from '../Api'
-import Core from '../Core';
+import Emitter from '../Emitter';
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -16,11 +16,11 @@ export default class Index extends React.Component {
   state = {posts: []}
 
   componentDidMount() {
-    Core.push('current-page-update', 'posts')
+    Emitter.push('current-page-update', 'posts')
 
     this.fetchPosts()
 
-    Core.listen('post-list-update', this.fetchPosts.bind(this))
+    Emitter.listen('post-list-update', this.fetchPosts.bind(this))
   }
 
   render() {

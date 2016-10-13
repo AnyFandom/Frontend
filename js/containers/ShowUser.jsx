@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Api from '../Api';
-import Core from '../Core'
+import Emitter from '../Emitter'
 import Post from '../components/Post';
 import CircleIcon from '../components/CircleIcon'
 import {NotificationManager} from 'react-notifications';
@@ -33,12 +33,12 @@ export default class ShowUser extends React.Component {
   }
 
   async componentDidMount() {
-    Core.push('current-page-update', 'users')
+    Emitter.push('current-page-update', 'users')
 
     await this.fetchUser()
     this.fetchUserPosts()
 
-    Core.listen('user-update.user-'+this.state.user.id, this.fetchUser.bind(this))
+    Emitter.listen('user-update.user-'+this.state.user.id, this.fetchUser.bind(this))
   }
 
   async onDeleteClick() {

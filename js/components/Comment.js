@@ -4,7 +4,7 @@ import CircleIcon from './CircleIcon';
 import AddCommentForm from './AddCommentForm';
 import EditCommentForm from './EditCommentForm';
 import Api from '../Api';
-import Core from '../Core';
+import Emitter from '../Emitter';
 
 export default class Comment extends React.Component {
   constructor(props) {
@@ -14,6 +14,7 @@ export default class Comment extends React.Component {
   state = {
     answerIsOpen: false,
     editIsOpen: false,
+    current: false,
   }
 
   answerOnClick(e) {
@@ -30,15 +31,26 @@ export default class Comment extends React.Component {
     e.preventDefault()
     if (confirm('Вы уверены, что хотите удалить этот комментарий?')) {
       await Api.deleteComment(this.props.comment.id)
-      Core.push('comments-update.post-'+this.props.comment.post.id)
+      Emitter.push('comments-update.post-'+this.props.comment.post.id)
     }
+  }
+
+  componentDidMount() {
+    let comment = this.props.comment
+    Emitter.listen('current-comment-set', function(id){
+      if (id == comment.id) {
+        this.setState({current: true})
+      } else {
+        this.setState({current: false})
+      }
+    }.bind(this))
   }
 
   render() {
     let comment = this.props.comment
     let max_padding = this.props.containerWidth-400
     let padding = (64*comment.depth)<max_padding? (64*comment.depth) : max_padding
-    return (<div className='comment-wrapper' style={{'paddingLeft': padding+'px'}}><div className='comment'>
+    return (<div className='comment-wrapper' style={{'paddingLeft': padding+'px'}}><div className={'comment'+(this.state.current? ' current':'')} id={'comment-'+comment.id}>
       <img className='author-avatar' src={comment.owner.avatar} />
       <div className='comment-content'>
         <ul className='comment-info'>

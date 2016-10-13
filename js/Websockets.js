@@ -1,6 +1,6 @@
 var io = require('socket.io-client');
 import Storage from './Storage'
-import Core from './Core'
+import Emitter from './Emitter'
 
 class Websocket {
   constructor() {
@@ -14,7 +14,7 @@ class Websocket {
     }.bind(this))
 
     this.socket.on('notification', function(data){
-      Core.push('new-notification', data.options)
+      Emitter.push('new-notification', data.options)
     })
 
     this.socket.on('update_request', function(data){
@@ -53,7 +53,7 @@ class Websocket {
           break
       }
       console.log('Update', event, data)
-      Core.push(event)
+      Emitter.push(event)
     })
   }
 }

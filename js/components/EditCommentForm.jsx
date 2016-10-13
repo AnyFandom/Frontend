@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Api from '../Api'
-import Core from '../Core'
+import Emitter from '../Emitter'
 
 export default class EditCommentForm extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class EditCommentForm extends React.Component {
       this.props.comment.id,
       this.state.contentValue
     )
-    Core.push('comments-update.post-'+this.props.comment.post.id)
+    Emitter.push('comments-update.post-'+this.props.comment.post.id)
     if (this.props.handleSubmit) this.props.handleSubmit(e)
   }
 

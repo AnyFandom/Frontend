@@ -3,7 +3,7 @@ import Post from '../components/Post'
 import Api from '../Api'
 import CommentTree from '../components/CommentTree'
 
-import Core from '../Core';
+import Emitter from '../Emitter';
 
 export default class ShowPost extends React.Component {
   constructor(props) {
@@ -26,13 +26,13 @@ export default class ShowPost extends React.Component {
   }
 
   async componentDidMount() {
-    Core.push('current-page-update', 'posts')
+    Emitter.push('current-page-update', 'posts')
 
     this.fetchPost()
     this.fetchComments()
 
-    Core.listen('comments-update.post-'+this.props.params.id, this.fetchComments.bind(this))
-    Core.listen('post-update.post-'+this.props.params.id, this.fetchPost.bind(this))
+    Emitter.listen('comments-update.post-'+this.props.params.id, this.fetchComments.bind(this))
+    Emitter.listen('post-update.post-'+this.props.params.id, this.fetchPost.bind(this))
   }
 
   render() {

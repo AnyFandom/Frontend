@@ -5,7 +5,7 @@ import ImageModal from './Modal/ImageModal'
 import {Link} from 'react-router';
 import Storage from '../Storage'
 import Api from '../Api'
-import Core from '../Core';
+import Emitter from '../Emitter';
 import {NotificationManager} from 'react-notifications';
 
 export default class Post extends React.Component {
@@ -19,7 +19,7 @@ export default class Post extends React.Component {
     if (confirm('Вы уверены, что хотите удалить пост?')) {
       await Api.deletePost(this.props.post.id)
       NotificationManager.success('Пост удален', 'Успешно')
-      Core.push('post-list-update')
+      Emitter.push('post-list-update')
     }
   }
 

@@ -8187,6 +8187,10 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _Emitter = __webpack_require__(650);
+
+	var _Emitter2 = _interopRequireDefault(_Emitter);
+
 	var _Notifications = __webpack_require__(469);
 
 	var _Notifications2 = _interopRequireDefault(_Notifications);
@@ -8201,12 +8205,53 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 	var Notify = new _Notifications2.default('');
 	Notify.init();
 
 	new _Websockets2.default();
 
 	_reactDom2.default.render(_react2.default.createElement(_Routes2.default, null), document.getElementById('app-root'));
+
+	window.getCoords = function (elem) {
+	  // кроме IE8-
+	  var box = elem.getBoundingClientRect();
+
+	  return {
+	    top: box.top + pageYOffset,
+	    left: box.left + pageXOffset
+	  };
+	};
+
+	window.scroller = __webpack_require__(648);
+
+	window.scrollToComment = function () {
+	  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+	    var comment;
+	    return regeneratorRuntime.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            comment = document.querySelector('#comment-' + id);
+	            _context.next = 3;
+	            return scroller(document.body, comment.offsetTop - 200, 500);
+
+	          case 3:
+	            _Emitter2.default.push('current-comment-set', id);
+
+	          case 4:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, this);
+	  }));
+
+	  return function (_x) {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
 
 /***/ },
 /* 299 */
@@ -29401,9 +29446,9 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29434,7 +29479,7 @@
 	  }, {
 	    key: 'init',
 	    value: function init() {
-	      _Core2.default.listen('new-notification', function (options) {
+	      _Emitter2.default.listen('new-notification', function (options) {
 	        if (!options.timeout) {
 	          options.timeout = 5;
 	        }
@@ -29450,219 +29495,7 @@
 	exports.default = Notifications;
 
 /***/ },
-/* 470 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	/**
-	 * By Oscar Godson ( @oscargodson / oscargodson.com )
-	 * License:http://www.opensource.org/licenses/mit-license.php
-	 */
-	var Core = function () {
-	  /**
-	   * Change these if you want
-	   */
-	  var settings = {
-	    widgetWrapperElement: 'div',
-	    prefixOnWidgetId: 'core-'
-	  };
-
-	  //change to "true" to get error logs in your console
-	  var errors = false,
-	      extensions = {},
-	      listeners = {};
-
-	  //Used to check if objects are actually DOM nodes
-	  function isNode(o) {
-	    return (typeof Node === 'undefined' ? 'undefined' : _typeof(Node)) === "object" ? o instanceof Node : (typeof o === 'undefined' ? 'undefined' : _typeof(o)) === "object" && typeof o.nodeType === "number" && typeof o.nodeName === "string";
-	  }
-
-	  /**
-	   * @description
-	   * Core.extend() creates a new widget but doesn't actually run any code until Core.load() is
-	   * called. You can pass it parameters in the callback function so that you can set options
-	   * when you use Core.load().
-	   *
-	   * @argument {String} name  Name of your widget so that you can call .remove() and .load()
-	   * @argument {Function} func  The callback function to be called when .load() is invoked
-	   * @argument {Function} removeFunc  The callback function to be called when .unload() or .remove()
-	   *           is invoked
-	   * @returns {Object} the Core
-	   */
-	  var extend = function extend(name, func, removeFunc) {
-	    name = name || '';
-	    func = func || function () {};
-	    removeFunc = removeFunc || function () {};
-	    if (typeof extensions[name] == 'undefined') {
-	      extensions[name] = {
-	        name: name,
-	        onLoad: func,
-	        onUnload: removeFunc,
-	        loaded: false
-	      };
-	    } else {
-	      if (errors) {
-	        throw new Error('Core extend() error: the extension "' + name + '" already exists');
-	      }
-	    }
-	    return this;
-	  };
-
-	  /**
-	   * @description
-	   * Core.load() loads and runs a widget that was defined by Core.extend(). The options you
-	   * pass here will be run in the callback of the Core.extend() method. The location param is
-	   * optional, but if you are doing any DOM manipulation or attaching any event listeners you
-	   * should put a location.
-	   *
-	   * @argument {String} name  The name of your widget which you named with .extend()
-	   * @argument {String}{Object} params  Whatever you want to give back to extend() to use as params
-	   * @argument {Object}  sel  The optional param which places the generated HTML as a child of
-	   * @returns {Object} the Core
-	   */
-	  var load = function load(name, params, sel) {
-	    name = name || '';
-	    params = params || '';
-
-	    if ((typeof params === 'undefined' ? 'undefined' : _typeof(params)) == 'object' && isNode(params)) {
-	      sel = params;
-	    }
-
-	    if (typeof extensions[name] !== 'undefined') {
-	      if (extensions[name].loaded == false) {
-	        if (sel) {
-	          var widgetElement = document.createElement(settings.widgetWrapperElement);
-	          widgetElement.setAttribute('id', settings.prefixOnWidgetId + name);
-	          sel.appendChild(widgetElement);
-	        }
-	        extensions[name].loaded = true;
-	        extensions[name].onLoad.call(widgetElement, params);
-	      } else {
-	        if (errors) {
-	          throw new Error('Core load() error: the extension "' + name + '" is already loaded');
-	        }
-	      }
-	    } else {
-	      if (errors) {
-	        throw new Error('Core load() error: the extension "' + name + '" doesn\'t exist');
-	      }
-	    }
-	    return this;
-	  };
-
-	  /**
-	   * @description
-	   * Core.remove() does what it says and completely removed a widget. If the widget was built
-	   * correctly all pushes, listens, and bound events will stop working since all of the widget's DOM
-	   * and code is completely removed.
-	   *
-	   * @param {String} name  The name of the extension you want to remove
-	   * @param {String}{Object} params  Params to be given to the 3rd param of extend upon removal
-	   * @returns {Object} the Core
-	   */
-	  var remove = function remove(name, params) {
-	    name = name || '';
-	    params = params || '';
-	    if (typeof extensions[name] !== 'undefined') {
-	      var el = document.getElementById(settings.prefixOnWidgetId + name),
-	          elParent = el.parentNode;
-	      elParent.removeChild(el);
-	      extensions[name].onUnload.call(el, params);
-	      delete extensions[name];
-	    } else {
-	      if (errors) {
-	        throw new Error('Core remove() error: the extension "' + name + '" doesn\'t exist');
-	      }
-	    }
-	  };
-
-	  /**
-	   * @description
-	   * Core.unload() "unloads" a widget. This means that you can then recall it with Core.load().
-	   * If you use Core.remove() you won't be able to call it back because everything is removed.
-	   * Core.unload() will call remove, so anything a widget had as the 3rd param in the .extend()
-	   * method will be run and everything else will be removed as well.
-	   *
-	   * @param {String} name  The name of the extension you want to unload
-	   * @param {String}{Object} params  Params to be given to the 3rd param of extend upon removal
-	   * @returns {Object} the Core
-	   */
-	  var unload = function unload(name, params) {
-	    name = name || '';
-	    params = params || '';
-	    if (typeof extensions[name] !== 'undefined') {
-	      var temp = extensions[name];
-	      temp.loaded = false;
-	      remove(name, params);
-	      extensions[name] = temp;
-	    } else {
-	      if (errors) {
-	        throw new Error('Core unload() error: the extension "' + name + '" doesn\'t exist');
-	      }
-	    }
-	    return this;
-	  };
-
-	  /**
-	   * @description
-	   * Push events make your code a lot cleaner and more flexible and allows you to interact with
-	   * other widgets without them ever having to know if you exist. When you call Core.push() it
-	   * tells all the Core.listen() methods to run their code. If the event never happens, such as
-	   * getting tweets and Twitter is down, a "timeline" widget would just never get updated and there
-	   * would be no JS errors.
-	   *
-	   * @param {String} name  The name of the event you want to push
-	   * @param {String}{Object} value  The value you want to send to .listen()
-	   * @returns {Object} the Core
-	   */
-	  var push = function push(name, value) {
-	    name = name || '';
-	    value = value || '';
-	    if (typeof listeners[name] !== 'undefined') {
-	      listeners[name].call(this, value);
-	    } else {
-	      if (errors) {
-	        throw new Error('Core push() error: the extension "' + name + '" doesn\'t exist');
-	      }
-	    }
-	  };
-
-	  /**
-	   * @description
-	   * After a push is sent all Core.listen()s that are listening for that specific push's name are
-	   * notified and the callback is run. In the callback, the value of the push is returned.
-	   *
-	   * @param {String} name  The name of the push event you are listening for
-	   * @param {Function} callback  The function to invoke when the push event is sent
-	   * @returns {Object} the Core
-	   */
-	  var listen = function listen(name, callback) {
-	    name = name || '';
-	    callback = callback || function () {};
-	    listeners[name] = callback;
-	  };
-
-	  return {
-	    extend: extend,
-	    load: load,
-	    remove: remove,
-	    unload: unload,
-	    push: push,
-	    listen: listen
-	  };
-	}();
-
-	module.exports = Core;
-	exports.default = Core;
-
-/***/ },
+/* 470 */,
 /* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -29886,9 +29719,9 @@
 
 	var _Storage2 = _interopRequireDefault(_Storage);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29909,7 +29742,7 @@
 	  }.bind(this));
 
 	  this.socket.on('notification', function (data) {
-	    _Core2.default.push('new-notification', data.options);
+	    _Emitter2.default.push('new-notification', data.options);
 	  });
 
 	  this.socket.on('update_request', function (data) {
@@ -29948,7 +29781,7 @@
 	        break;
 	    }
 	    console.log('Update', event, data);
-	    _Core2.default.push(event);
+	    _Emitter2.default.push(event);
 	  });
 	};
 
@@ -43530,9 +43363,9 @@
 
 	var _Api2 = _interopRequireDefault(_Api);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	var _reactNotifications = __webpack_require__(594);
 
@@ -43576,7 +43409,7 @@
 
 	              case 5:
 	                _reactNotifications.NotificationManager.success('Пост удален', 'Успешно');
-	                _Core2.default.push('post-list-update');
+	                _Emitter2.default.push('post-list-update');
 
 	              case 7:
 	              case 'end':
@@ -44200,9 +44033,9 @@
 
 	var _Storage2 = _interopRequireDefault(_Storage);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	var _reactNotifications = __webpack_require__(594);
 
@@ -44321,7 +44154,7 @@
 	                data = _context2.sent;
 
 	                _Storage2.default.set('user', data.user);
-	                _Core2.default.push('update-user-current');
+	                _Emitter2.default.push('update-user-current');
 	                return _context2.abrupt('return');
 
 	              case 6:
@@ -47623,9 +47456,9 @@
 
 	var _Api2 = _interopRequireDefault(_Api);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47749,7 +47582,7 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      _Core2.default.listen('current-page-update', function (page) {
+	      _Emitter2.default.listen('current-page-update', function (page) {
 	        this.setState({ current_page: page });
 	        console.log('Current page', page);
 	      }.bind(this));
@@ -48299,9 +48132,9 @@
 
 	var _Api2 = _interopRequireDefault(_Api);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48359,11 +48192,11 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      _Core2.default.push('current-page-update', 'posts');
+	      _Emitter2.default.push('current-page-update', 'posts');
 
 	      this.fetchPosts();
 
-	      _Core2.default.listen('post-list-update', this.fetchPosts.bind(this));
+	      _Emitter2.default.listen('post-list-update', this.fetchPosts.bind(this));
 	    }
 	  }, {
 	    key: 'render',
@@ -48414,9 +48247,9 @@
 
 	var _CommentTree2 = _interopRequireDefault(_CommentTree);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48513,13 +48346,13 @@
 	          while (1) {
 	            switch (_context3.prev = _context3.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'posts');
+	                _Emitter2.default.push('current-page-update', 'posts');
 
 	                this.fetchPost();
 	                this.fetchComments();
 
-	                _Core2.default.listen('comments-update.post-' + this.props.params.id, this.fetchComments.bind(this));
-	                _Core2.default.listen('post-update.post-' + this.props.params.id, this.fetchPost.bind(this));
+	                _Emitter2.default.listen('comments-update.post-' + this.props.params.id, this.fetchComments.bind(this));
+	                _Emitter2.default.listen('post-update.post-' + this.props.params.id, this.fetchPost.bind(this));
 
 	              case 5:
 	              case 'end':
@@ -48687,9 +48520,9 @@
 
 	var _Api2 = _interopRequireDefault(_Api);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48711,7 +48544,8 @@
 
 	    _this.state = {
 	      answerIsOpen: false,
-	      editIsOpen: false
+	      editIsOpen: false,
+	      current: false
 	    };
 	    return _this;
 	  }
@@ -48747,7 +48581,7 @@
 	                return _Api2.default.deleteComment(this.props.comment.id);
 
 	              case 4:
-	                _Core2.default.push('comments-update.post-' + this.props.comment.post.id);
+	                _Emitter2.default.push('comments-update.post-' + this.props.comment.post.id);
 
 	              case 5:
 	              case 'end':
@@ -48764,6 +48598,18 @@
 	      return onDeleteClick;
 	    }()
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var comment = this.props.comment;
+	      _Emitter2.default.listen('current-comment-set', function (id) {
+	        if (id == comment.id) {
+	          this.setState({ current: true });
+	        } else {
+	          this.setState({ current: false });
+	        }
+	      }.bind(this));
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var comment = this.props.comment;
@@ -48774,7 +48620,7 @@
 	        { className: 'comment-wrapper', style: { 'paddingLeft': padding + 'px' } },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'comment' },
+	          { className: 'comment' + (this.state.current ? ' current' : ''), id: 'comment-' + comment.id },
 	          _react2.default.createElement('img', { className: 'author-avatar', src: comment.owner.avatar }),
 	          _react2.default.createElement(
 	            'div',
@@ -48893,9 +48739,9 @@
 
 	var _Api2 = _interopRequireDefault(_Api);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49006,9 +48852,9 @@
 
 	var _Api2 = _interopRequireDefault(_Api);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49055,7 +48901,7 @@
 	              case 3:
 	                data = _context.sent;
 
-	                _Core2.default.push('comments-update.post-' + this.props.comment.post.id);
+	                _Emitter2.default.push('comments-update.post-' + this.props.comment.post.id);
 	                if (this.props.handleSubmit) this.props.handleSubmit(e);
 
 	              case 6:
@@ -49134,9 +48980,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49181,7 +49027,7 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'fandoms');
+	                _Emitter2.default.push('current-page-update', 'fandoms');
 	                _context.next = 3;
 	                return _Api2.default.loadFandoms();
 
@@ -49609,9 +49455,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49695,7 +49541,7 @@
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'posts');
+	                _Emitter2.default.push('current-page-update', 'posts');
 	                _context2.next = 3;
 	                return _Api2.default.loadPost(this.props.params.id);
 
@@ -49820,9 +49666,9 @@
 
 	var _UserItem2 = _interopRequireDefault(_UserItem);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49887,9 +49733,9 @@
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'users');
+	                _Emitter2.default.push('current-page-update', 'users');
 	                this.fetchUsers();
-	                _Core2.default.listen('user-list-update', this.fetchUsers.bind(this));
+	                _Emitter2.default.listen('user-list-update', this.fetchUsers.bind(this));
 
 	              case 3:
 	              case 'end':
@@ -50010,9 +49856,9 @@
 
 	var _Api2 = _interopRequireDefault(_Api);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	var _Post = __webpack_require__(587);
 
@@ -50121,7 +49967,7 @@
 	          while (1) {
 	            switch (_context3.prev = _context3.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'users');
+	                _Emitter2.default.push('current-page-update', 'users');
 
 	                _context3.next = 3;
 	                return this.fetchUser();
@@ -50129,7 +49975,7 @@
 	              case 3:
 	                this.fetchUserPosts();
 
-	                _Core2.default.listen('user-update.user-' + this.state.user.id, this.fetchUser.bind(this));
+	                _Emitter2.default.listen('user-update.user-' + this.state.user.id, this.fetchUser.bind(this));
 
 	              case 5:
 	              case 'end':
@@ -50270,9 +50116,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50309,7 +50155,7 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'users');
+	                _Emitter2.default.push('current-page-update', 'users');
 	                _context.next = 3;
 	                return _Api2.default.loadUser(this.props.params.username);
 
@@ -50458,9 +50304,9 @@
 
 	var _reactRouter = __webpack_require__(523);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50525,10 +50371,10 @@
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'fandoms');
+	                _Emitter2.default.push('current-page-update', 'fandoms');
 	                this.fetchFandoms();
 
-	                _Core2.default.listen('fandom-list-update', this.fetchFandoms.bind(this));
+	                _Emitter2.default.listen('fandom-list-update', this.fetchFandoms.bind(this));
 
 	              case 3:
 	              case 'end':
@@ -50676,9 +50522,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50807,7 +50653,7 @@
 	          while (1) {
 	            switch (_context4.prev = _context4.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'fandoms');
+	                _Emitter2.default.push('current-page-update', 'fandoms');
 
 	                _context4.next = 3;
 	                return this.fetchFandom();
@@ -50816,9 +50662,9 @@
 	                this.fetchPosts();
 	                this.fetchBlogs();
 
-	                _Core2.default.listen('fandom-update.fandom-' + this.state.fandom.id, this.fetchFandom.bind(this));
-	                _Core2.default.listen('post-list-update', this.fetchPosts.bind(this));
-	                _Core2.default.listen('blog-list-update.fandom-' + this.state.fandom.id, this.fetchBlogs.bind(this));
+	                _Emitter2.default.listen('fandom-update.fandom-' + this.state.fandom.id, this.fetchFandom.bind(this));
+	                _Emitter2.default.listen('post-list-update', this.fetchPosts.bind(this));
+	                _Emitter2.default.listen('blog-list-update.fandom-' + this.state.fandom.id, this.fetchBlogs.bind(this));
 
 	              case 8:
 	              case 'end':
@@ -51400,9 +51246,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51499,7 +51345,7 @@
 	          while (1) {
 	            switch (_context3.prev = _context3.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'fandoms');
+	                _Emitter2.default.push('current-page-update', 'fandoms');
 
 	                _context3.next = 3;
 	                return this.fetchBlog();
@@ -51507,7 +51353,7 @@
 	              case 3:
 	                this.fetchBlogPosts();
 
-	                _Core2.default.listen('blog-update.blog-' + this.state.blog.id, this.fetchBlog.bind(this));
+	                _Emitter2.default.listen('blog-update.blog-' + this.state.blog.id, this.fetchBlog.bind(this));
 
 	              case 5:
 	              case 'end':
@@ -51650,9 +51496,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51683,7 +51529,7 @@
 	  _createClass(AddFandom, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      _Core2.default.push('current-page-update', 'fandoms');
+	      _Emitter2.default.push('current-page-update', 'fandoms');
 	    }
 	  }, {
 	    key: 'avatarOnChange',
@@ -51887,9 +51733,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51973,7 +51819,7 @@
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'fandoms');
+	                _Emitter2.default.push('current-page-update', 'fandoms');
 	                _context2.next = 3;
 	                return _Api2.default.loadFandom(this.props.params.id);
 
@@ -52098,9 +51944,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52184,7 +52030,7 @@
 	          while (1) {
 	            switch (_context2.prev = _context2.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'fandoms');
+	                _Emitter2.default.push('current-page-update', 'fandoms');
 	                _context2.next = 3;
 	                return _Api2.default.loadBlog(this.props.params.id);
 
@@ -52309,9 +52155,9 @@
 
 	var _reactNotifications = __webpack_require__(594);
 
-	var _Core = __webpack_require__(470);
+	var _Emitter = __webpack_require__(650);
 
-	var _Core2 = _interopRequireDefault(_Core);
+	var _Emitter2 = _interopRequireDefault(_Emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52354,7 +52200,7 @@
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _Core2.default.push('current-page-update', 'fandoms');
+	                _Emitter2.default.push('current-page-update', 'fandoms');
 	                _context.next = 3;
 	                return _Api2.default.loadFandoms();
 
@@ -52543,6 +52389,846 @@
 
 
 	AddBlog.propTypes = {};
+
+/***/ },
+/* 641 */,
+/* 642 */,
+/* 643 */,
+/* 644 */,
+/* 645 */,
+/* 646 */,
+/* 647 */,
+/* 648 */
+/***/ function(module, exports) {
+
+	module.exports = function(element, target, duration) {
+	  target   = Math.round(target);
+	  duration = Math.round(duration);
+
+	  if (duration < 0) {
+	    return Promise.reject("bad duration");
+	  }
+
+	  if (duration === 0) {
+	    element.scrollTop = target;
+	    return Promise.resolve();
+	  }
+
+	  var start_time = Date.now();
+	  var end_time   = start_time + duration;
+
+	  var start_top = element.scrollTop;
+	  var distance  = target - start_top;
+
+	  var smooth_step = function(start, end, point) {
+	    if(point <= start) { return 0; }
+	    if(point >= end) { return 1; }
+
+	    var x = (point - start) / (end - start);
+
+	    return x*x*(3 - 2*x);
+	  }
+
+	  return new Promise(function(resolve, reject) {
+	    var previous_top = element.scrollTop;
+
+	    var scroll_frame = function() {
+	      if(element.scrollTop != previous_top) {
+	        reject("interrupted");
+	        return;
+	      }
+
+	      var now      = Date.now();
+	      var point    = smooth_step(start_time, end_time, now);
+	      var frameTop = Math.round(start_top + (distance * point));
+
+	      element.scrollTop = frameTop;
+
+	      if(now >= end_time) {
+	        resolve();
+	        return;
+	      }
+
+	      if(element.scrollTop === previous_top
+	        && element.scrollTop !== frameTop) {
+	        resolve();
+	        return;
+	      }
+
+	      previous_top = element.scrollTop;
+
+	      setTimeout(scroll_frame, 0);
+	    }
+
+	    setTimeout(scroll_frame, 0);
+	  });
+	}
+
+
+/***/ },
+/* 649 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * EventEmitter2
+	 * https://github.com/hij1nx/EventEmitter2
+	 *
+	 * Copyright (c) 2013 hij1nx
+	 * Licensed under the MIT license.
+	 */
+	;!function(undefined) {
+
+	  var isArray = Array.isArray ? Array.isArray : function _isArray(obj) {
+	    return Object.prototype.toString.call(obj) === "[object Array]";
+	  };
+	  var defaultMaxListeners = 10;
+
+	  function init() {
+	    this._events = {};
+	    if (this._conf) {
+	      configure.call(this, this._conf);
+	    }
+	  }
+
+	  function configure(conf) {
+	    if (conf) {
+	      this._conf = conf;
+
+	      conf.delimiter && (this.delimiter = conf.delimiter);
+	      this._events.maxListeners = conf.maxListeners !== undefined ? conf.maxListeners : defaultMaxListeners;
+	      conf.wildcard && (this.wildcard = conf.wildcard);
+	      conf.newListener && (this.newListener = conf.newListener);
+
+	      if (this.wildcard) {
+	        this.listenerTree = {};
+	      }
+	    } else {
+	      this._events.maxListeners = defaultMaxListeners;
+	    }
+	  }
+
+	  function logPossibleMemoryLeak(count) {
+	    console.error('(node) warning: possible EventEmitter memory ' +
+	      'leak detected. %d listeners added. ' +
+	      'Use emitter.setMaxListeners() to increase limit.',
+	      count);
+
+	    if (console.trace){
+	      console.trace();
+	    }
+	  }
+
+	  function EventEmitter(conf) {
+	    this._events = {};
+	    this.newListener = false;
+	    configure.call(this, conf);
+	  }
+	  EventEmitter.EventEmitter2 = EventEmitter; // backwards compatibility for exporting EventEmitter property
+
+	  //
+	  // Attention, function return type now is array, always !
+	  // It has zero elements if no any matches found and one or more
+	  // elements (leafs) if there are matches
+	  //
+	  function searchListenerTree(handlers, type, tree, i) {
+	    if (!tree) {
+	      return [];
+	    }
+	    var listeners=[], leaf, len, branch, xTree, xxTree, isolatedBranch, endReached,
+	        typeLength = type.length, currentType = type[i], nextType = type[i+1];
+	    if (i === typeLength && tree._listeners) {
+	      //
+	      // If at the end of the event(s) list and the tree has listeners
+	      // invoke those listeners.
+	      //
+	      if (typeof tree._listeners === 'function') {
+	        handlers && handlers.push(tree._listeners);
+	        return [tree];
+	      } else {
+	        for (leaf = 0, len = tree._listeners.length; leaf < len; leaf++) {
+	          handlers && handlers.push(tree._listeners[leaf]);
+	        }
+	        return [tree];
+	      }
+	    }
+
+	    if ((currentType === '*' || currentType === '**') || tree[currentType]) {
+	      //
+	      // If the event emitted is '*' at this part
+	      // or there is a concrete match at this patch
+	      //
+	      if (currentType === '*') {
+	        for (branch in tree) {
+	          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
+	            listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i+1));
+	          }
+	        }
+	        return listeners;
+	      } else if(currentType === '**') {
+	        endReached = (i+1 === typeLength || (i+2 === typeLength && nextType === '*'));
+	        if(endReached && tree._listeners) {
+	          // The next element has a _listeners, add it to the handlers.
+	          listeners = listeners.concat(searchListenerTree(handlers, type, tree, typeLength));
+	        }
+
+	        for (branch in tree) {
+	          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
+	            if(branch === '*' || branch === '**') {
+	              if(tree[branch]._listeners && !endReached) {
+	                listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], typeLength));
+	              }
+	              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i));
+	            } else if(branch === nextType) {
+	              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i+2));
+	            } else {
+	              // No match on this one, shift into the tree but not in the type array.
+	              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i));
+	            }
+	          }
+	        }
+	        return listeners;
+	      }
+
+	      listeners = listeners.concat(searchListenerTree(handlers, type, tree[currentType], i+1));
+	    }
+
+	    xTree = tree['*'];
+	    if (xTree) {
+	      //
+	      // If the listener tree will allow any match for this part,
+	      // then recursively explore all branches of the tree
+	      //
+	      searchListenerTree(handlers, type, xTree, i+1);
+	    }
+
+	    xxTree = tree['**'];
+	    if(xxTree) {
+	      if(i < typeLength) {
+	        if(xxTree._listeners) {
+	          // If we have a listener on a '**', it will catch all, so add its handler.
+	          searchListenerTree(handlers, type, xxTree, typeLength);
+	        }
+
+	        // Build arrays of matching next branches and others.
+	        for(branch in xxTree) {
+	          if(branch !== '_listeners' && xxTree.hasOwnProperty(branch)) {
+	            if(branch === nextType) {
+	              // We know the next element will match, so jump twice.
+	              searchListenerTree(handlers, type, xxTree[branch], i+2);
+	            } else if(branch === currentType) {
+	              // Current node matches, move into the tree.
+	              searchListenerTree(handlers, type, xxTree[branch], i+1);
+	            } else {
+	              isolatedBranch = {};
+	              isolatedBranch[branch] = xxTree[branch];
+	              searchListenerTree(handlers, type, { '**': isolatedBranch }, i+1);
+	            }
+	          }
+	        }
+	      } else if(xxTree._listeners) {
+	        // We have reached the end and still on a '**'
+	        searchListenerTree(handlers, type, xxTree, typeLength);
+	      } else if(xxTree['*'] && xxTree['*']._listeners) {
+	        searchListenerTree(handlers, type, xxTree['*'], typeLength);
+	      }
+	    }
+
+	    return listeners;
+	  }
+
+	  function growListenerTree(type, listener) {
+
+	    type = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+
+	    //
+	    // Looks for two consecutive '**', if so, don't add the event at all.
+	    //
+	    for(var i = 0, len = type.length; i+1 < len; i++) {
+	      if(type[i] === '**' && type[i+1] === '**') {
+	        return;
+	      }
+	    }
+
+	    var tree = this.listenerTree;
+	    var name = type.shift();
+
+	    while (name !== undefined) {
+
+	      if (!tree[name]) {
+	        tree[name] = {};
+	      }
+
+	      tree = tree[name];
+
+	      if (type.length === 0) {
+
+	        if (!tree._listeners) {
+	          tree._listeners = listener;
+	        }
+	        else {
+	          if (typeof tree._listeners === 'function') {
+	            tree._listeners = [tree._listeners];
+	          }
+
+	          tree._listeners.push(listener);
+
+	          if (
+	            !tree._listeners.warned &&
+	            this._events.maxListeners > 0 &&
+	            tree._listeners.length > this._events.maxListeners
+	          ) {
+	            tree._listeners.warned = true;
+	            logPossibleMemoryLeak(tree._listeners.length);
+	          }
+	        }
+	        return true;
+	      }
+	      name = type.shift();
+	    }
+	    return true;
+	  }
+
+	  // By default EventEmitters will print a warning if more than
+	  // 10 listeners are added to it. This is a useful default which
+	  // helps finding memory leaks.
+	  //
+	  // Obviously not all Emitters should be limited to 10. This function allows
+	  // that to be increased. Set to zero for unlimited.
+
+	  EventEmitter.prototype.delimiter = '.';
+
+	  EventEmitter.prototype.setMaxListeners = function(n) {
+	    if (n !== undefined) {
+	      this._events || init.call(this);
+	      this._events.maxListeners = n;
+	      if (!this._conf) this._conf = {};
+	      this._conf.maxListeners = n;
+	    }
+	  };
+
+	  EventEmitter.prototype.event = '';
+
+	  EventEmitter.prototype.once = function(event, fn) {
+	    this.many(event, 1, fn);
+	    return this;
+	  };
+
+	  EventEmitter.prototype.many = function(event, ttl, fn) {
+	    var self = this;
+
+	    if (typeof fn !== 'function') {
+	      throw new Error('many only accepts instances of Function');
+	    }
+
+	    function listener() {
+	      if (--ttl === 0) {
+	        self.off(event, listener);
+	      }
+	      fn.apply(this, arguments);
+	    }
+
+	    listener._origin = fn;
+
+	    this.on(event, listener);
+
+	    return self;
+	  };
+
+	  EventEmitter.prototype.emit = function() {
+
+	    this._events || init.call(this);
+
+	    var type = arguments[0];
+
+	    if (type === 'newListener' && !this.newListener) {
+	      if (!this._events.newListener) {
+	        return false;
+	      }
+	    }
+
+	    var al = arguments.length;
+	    var args,l,i,j;
+	    var handler;
+
+	    if (this._all && this._all.length) {
+	      handler = this._all.slice();
+	      if (al > 3) {
+	        args = new Array(al);
+	        for (j = 0; j < al; j++) args[j] = arguments[j];
+	      }
+
+	      for (i = 0, l = handler.length; i < l; i++) {
+	        this.event = type;
+	        switch (al) {
+	        case 1:
+	          handler[i].call(this, type);
+	          break;
+	        case 2:
+	          handler[i].call(this, type, arguments[1]);
+	          break;
+	        case 3:
+	          handler[i].call(this, type, arguments[1], arguments[2]);
+	          break;
+	        default:
+	          handler[i].apply(this, args);
+	        }
+	      }
+	    }
+
+	    if (this.wildcard) {
+	      handler = [];
+	      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+	      searchListenerTree.call(this, handler, ns, this.listenerTree, 0);
+	    } else {
+	      handler = this._events[type];
+	      if (typeof handler === 'function') {
+	        this.event = type;
+	        switch (al) {
+	        case 1:
+	          handler.call(this);
+	          break;
+	        case 2:
+	          handler.call(this, arguments[1]);
+	          break;
+	        case 3:
+	          handler.call(this, arguments[1], arguments[2]);
+	          break;
+	        default:
+	          args = new Array(al - 1);
+	          for (j = 1; j < al; j++) args[j - 1] = arguments[j];
+	          handler.apply(this, args);
+	        }
+	        return true;
+	      } else if (handler) {
+	        // need to make copy of handlers because list can change in the middle
+	        // of emit call
+	        handler = handler.slice();
+	      }
+	    }
+
+	    if (handler && handler.length) {
+	      if (al > 3) {
+	        args = new Array(al - 1);
+	        for (j = 1; j < al; j++) args[j - 1] = arguments[j];
+	      }
+	      for (i = 0, l = handler.length; i < l; i++) {
+	        this.event = type;
+	        switch (al) {
+	        case 1:
+	          handler[i].call(this);
+	          break;
+	        case 2:
+	          handler[i].call(this, arguments[1]);
+	          break;
+	        case 3:
+	          handler[i].call(this, arguments[1], arguments[2]);
+	          break;
+	        default:
+	          handler[i].apply(this, args);
+	        }
+	      }
+	      return true;
+	    } else if (!this._all && type === 'error') {
+	      if (arguments[1] instanceof Error) {
+	        throw arguments[1]; // Unhandled 'error' event
+	      } else {
+	        throw new Error("Uncaught, unspecified 'error' event.");
+	      }
+	      return false;
+	    }
+
+	    return !!this._all;
+	  };
+
+	  EventEmitter.prototype.emitAsync = function() {
+
+	    this._events || init.call(this);
+
+	    var type = arguments[0];
+
+	    if (type === 'newListener' && !this.newListener) {
+	        if (!this._events.newListener) { return Promise.resolve([false]); }
+	    }
+
+	    var promises= [];
+
+	    var al = arguments.length;
+	    var args,l,i,j;
+	    var handler;
+
+	    if (this._all) {
+	      if (al > 3) {
+	        args = new Array(al);
+	        for (j = 1; j < al; j++) args[j] = arguments[j];
+	      }
+	      for (i = 0, l = this._all.length; i < l; i++) {
+	        this.event = type;
+	        switch (al) {
+	        case 1:
+	          promises.push(this._all[i].call(this, type));
+	          break;
+	        case 2:
+	          promises.push(this._all[i].call(this, type, arguments[1]));
+	          break;
+	        case 3:
+	          promises.push(this._all[i].call(this, type, arguments[1], arguments[2]));
+	          break;
+	        default:
+	          promises.push(this._all[i].apply(this, args));
+	        }
+	      }
+	    }
+
+	    if (this.wildcard) {
+	      handler = [];
+	      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+	      searchListenerTree.call(this, handler, ns, this.listenerTree, 0);
+	    } else {
+	      handler = this._events[type];
+	    }
+
+	    if (typeof handler === 'function') {
+	      this.event = type;
+	      switch (al) {
+	      case 1:
+	        promises.push(handler.call(this));
+	        break;
+	      case 2:
+	        promises.push(handler.call(this, arguments[1]));
+	        break;
+	      case 3:
+	        promises.push(handler.call(this, arguments[1], arguments[2]));
+	        break;
+	      default:
+	        args = new Array(al - 1);
+	        for (j = 1; j < al; j++) args[j - 1] = arguments[j];
+	        promises.push(handler.apply(this, args));
+	      }
+	    } else if (handler && handler.length) {
+	      if (al > 3) {
+	        args = new Array(al - 1);
+	        for (j = 1; j < al; j++) args[j - 1] = arguments[j];
+	      }
+	      for (i = 0, l = handler.length; i < l; i++) {
+	        this.event = type;
+	        switch (al) {
+	        case 1:
+	          promises.push(handler[i].call(this));
+	          break;
+	        case 2:
+	          promises.push(handler[i].call(this, arguments[1]));
+	          break;
+	        case 3:
+	          promises.push(handler[i].call(this, arguments[1], arguments[2]));
+	          break;
+	        default:
+	          promises.push(handler[i].apply(this, args));
+	        }
+	      }
+	    } else if (!this._all && type === 'error') {
+	      if (arguments[1] instanceof Error) {
+	        return Promise.reject(arguments[1]); // Unhandled 'error' event
+	      } else {
+	        return Promise.reject("Uncaught, unspecified 'error' event.");
+	      }
+	    }
+
+	    return Promise.all(promises);
+	  };
+
+	  EventEmitter.prototype.on = function(type, listener) {
+	    if (typeof type === 'function') {
+	      this.onAny(type);
+	      return this;
+	    }
+
+	    if (typeof listener !== 'function') {
+	      throw new Error('on only accepts instances of Function');
+	    }
+	    this._events || init.call(this);
+
+	    // To avoid recursion in the case that type == "newListeners"! Before
+	    // adding it to the listeners, first emit "newListeners".
+	    this.emit('newListener', type, listener);
+
+	    if (this.wildcard) {
+	      growListenerTree.call(this, type, listener);
+	      return this;
+	    }
+
+	    if (!this._events[type]) {
+	      // Optimize the case of one listener. Don't need the extra array object.
+	      this._events[type] = listener;
+	    }
+	    else {
+	      if (typeof this._events[type] === 'function') {
+	        // Change to array.
+	        this._events[type] = [this._events[type]];
+	      }
+
+	      // If we've already got an array, just append.
+	      this._events[type].push(listener);
+
+	      // Check for listener leak
+	      if (
+	        !this._events[type].warned &&
+	        this._events.maxListeners > 0 &&
+	        this._events[type].length > this._events.maxListeners
+	      ) {
+	        this._events[type].warned = true;
+	        logPossibleMemoryLeak(this._events[type].length);
+	      }
+	    }
+
+	    return this;
+	  };
+
+	  EventEmitter.prototype.onAny = function(fn) {
+	    if (typeof fn !== 'function') {
+	      throw new Error('onAny only accepts instances of Function');
+	    }
+
+	    if (!this._all) {
+	      this._all = [];
+	    }
+
+	    // Add the function to the event listener collection.
+	    this._all.push(fn);
+	    return this;
+	  };
+
+	  EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
+	  EventEmitter.prototype.off = function(type, listener) {
+	    if (typeof listener !== 'function') {
+	      throw new Error('removeListener only takes instances of Function');
+	    }
+
+	    var handlers,leafs=[];
+
+	    if(this.wildcard) {
+	      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+	      leafs = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
+	    }
+	    else {
+	      // does not use listeners(), so no side effect of creating _events[type]
+	      if (!this._events[type]) return this;
+	      handlers = this._events[type];
+	      leafs.push({_listeners:handlers});
+	    }
+
+	    for (var iLeaf=0; iLeaf<leafs.length; iLeaf++) {
+	      var leaf = leafs[iLeaf];
+	      handlers = leaf._listeners;
+	      if (isArray(handlers)) {
+
+	        var position = -1;
+
+	        for (var i = 0, length = handlers.length; i < length; i++) {
+	          if (handlers[i] === listener ||
+	            (handlers[i].listener && handlers[i].listener === listener) ||
+	            (handlers[i]._origin && handlers[i]._origin === listener)) {
+	            position = i;
+	            break;
+	          }
+	        }
+
+	        if (position < 0) {
+	          continue;
+	        }
+
+	        if(this.wildcard) {
+	          leaf._listeners.splice(position, 1);
+	        }
+	        else {
+	          this._events[type].splice(position, 1);
+	        }
+
+	        if (handlers.length === 0) {
+	          if(this.wildcard) {
+	            delete leaf._listeners;
+	          }
+	          else {
+	            delete this._events[type];
+	          }
+	        }
+
+	        this.emit("removeListener", type, listener);
+
+	        return this;
+	      }
+	      else if (handlers === listener ||
+	        (handlers.listener && handlers.listener === listener) ||
+	        (handlers._origin && handlers._origin === listener)) {
+	        if(this.wildcard) {
+	          delete leaf._listeners;
+	        }
+	        else {
+	          delete this._events[type];
+	        }
+
+	        this.emit("removeListener", type, listener);
+	      }
+	    }
+
+	    function recursivelyGarbageCollect(root) {
+	      if (root === undefined) {
+	        return;
+	      }
+	      var keys = Object.keys(root);
+	      for (var i in keys) {
+	        var key = keys[i];
+	        var obj = root[key];
+	        if ((obj instanceof Function) || (typeof obj !== "object") || (obj === null))
+	          continue;
+	        if (Object.keys(obj).length > 0) {
+	          recursivelyGarbageCollect(root[key]);
+	        }
+	        if (Object.keys(obj).length === 0) {
+	          delete root[key];
+	        }
+	      }
+	    }
+	    recursivelyGarbageCollect(this.listenerTree);
+
+	    return this;
+	  };
+
+	  EventEmitter.prototype.offAny = function(fn) {
+	    var i = 0, l = 0, fns;
+	    if (fn && this._all && this._all.length > 0) {
+	      fns = this._all;
+	      for(i = 0, l = fns.length; i < l; i++) {
+	        if(fn === fns[i]) {
+	          fns.splice(i, 1);
+	          this.emit("removeListenerAny", fn);
+	          return this;
+	        }
+	      }
+	    } else {
+	      fns = this._all;
+	      for(i = 0, l = fns.length; i < l; i++)
+	        this.emit("removeListenerAny", fns[i]);
+	      this._all = [];
+	    }
+	    return this;
+	  };
+
+	  EventEmitter.prototype.removeListener = EventEmitter.prototype.off;
+
+	  EventEmitter.prototype.removeAllListeners = function(type) {
+	    if (arguments.length === 0) {
+	      !this._events || init.call(this);
+	      return this;
+	    }
+
+	    if (this.wildcard) {
+	      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+	      var leafs = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
+
+	      for (var iLeaf=0; iLeaf<leafs.length; iLeaf++) {
+	        var leaf = leafs[iLeaf];
+	        leaf._listeners = null;
+	      }
+	    }
+	    else if (this._events) {
+	      this._events[type] = null;
+	    }
+	    return this;
+	  };
+
+	  EventEmitter.prototype.listeners = function(type) {
+	    if (this.wildcard) {
+	      var handlers = [];
+	      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+	      searchListenerTree.call(this, handlers, ns, this.listenerTree, 0);
+	      return handlers;
+	    }
+
+	    this._events || init.call(this);
+
+	    if (!this._events[type]) this._events[type] = [];
+	    if (!isArray(this._events[type])) {
+	      this._events[type] = [this._events[type]];
+	    }
+	    return this._events[type];
+	  };
+
+	  EventEmitter.prototype.listenerCount = function(type) {
+	    return this.listeners(type).length;
+	  };
+
+	  EventEmitter.prototype.listenersAny = function() {
+
+	    if(this._all) {
+	      return this._all;
+	    }
+	    else {
+	      return [];
+	    }
+
+	  };
+
+	  if (true) {
+	     // AMD. Register as an anonymous module.
+	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	      return EventEmitter;
+	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof exports === 'object') {
+	    // CommonJS
+	    module.exports = EventEmitter;
+	  }
+	  else {
+	    // Browser global.
+	    window.EventEmitter2 = EventEmitter;
+	  }
+	}();
+
+
+/***/ },
+/* 650 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EventEmitter2 = __webpack_require__(649).EventEmitter2;
+
+	var Emitter = function (_EventEmitter) {
+	  _inherits(Emitter, _EventEmitter);
+
+	  function Emitter() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, Emitter);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Emitter.__proto__ || Object.getPrototypeOf(Emitter)).call.apply(_ref, [this].concat(args))), _this), _this.listen = _this.on, _this.removeListener = _this.removeListener, _this.push = _this.emit, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  return Emitter;
+	}(EventEmitter2);
+
+	exports.default = new Emitter({
+	  wildcard: true,
+	  delimiter: '.',
+	  newListener: false,
+	  maxListeners: 20
+	});
 
 /***/ }
 /******/ ]);

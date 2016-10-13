@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import Api from '../Api'
 import UserItem from '../components/UserItem'
-import Core from '../Core'
+import Emitter from '../Emitter'
 
 export default class ShowUsers extends React.Component {
   constructor(props) {
@@ -18,9 +18,9 @@ export default class ShowUsers extends React.Component {
   }
 
   async componentDidMount() {
-    Core.push('current-page-update', 'users')
+    Emitter.push('current-page-update', 'users')
     this.fetchUsers()
-    Core.listen('user-list-update', this.fetchUsers.bind(this))
+    Emitter.listen('user-list-update', this.fetchUsers.bind(this))
   }
 
   render() {

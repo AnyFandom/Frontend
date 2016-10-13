@@ -8,7 +8,7 @@ import {Link} from 'react-router';
 import Storage from '../Storage'
 
 import Api from '../Api'
-import Core from '../Core'
+import Emitter from '../Emitter'
 
 export default class Navbar extends React.Component {
   constructor(props) {
@@ -64,7 +64,7 @@ export default class Navbar extends React.Component {
   }
 
   componentDidMount() {
-    Core.listen('current-page-update', function(page) {
+    Emitter.listen('current-page-update', function(page) {
       this.setState({current_page: page})
       console.log('Current page', page)
     }.bind(this))

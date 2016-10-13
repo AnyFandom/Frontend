@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Api from '../Api';
-import Core from '../Core';
+import Emitter from '../Emitter';
 
 export default class AddCommentForm extends React.Component {
   constructor(props) {
