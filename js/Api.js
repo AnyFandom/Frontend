@@ -315,8 +315,18 @@ class Api {
   }
 
   async deleteUser(id) {
-    await this.request(`/users/id/${+id}`, 'delete')
+    await this.request(`/users/id/${id}`, 'delete')
     return
+  }
+
+  async loadPostLastComment(id) {
+    let data = await  this.request(`/posts/${id}/comments/last`)
+    return data.last_comment
+  }
+
+  async setPostLastComment(post, comment) {
+    let data = await  this.request(`/posts/${post}/comments/last`, 'post', {post:post, comment:comment})
+    return data.last_comment
   }
 
 }

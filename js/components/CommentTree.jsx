@@ -26,7 +26,7 @@ export default class CommentTree extends React.Component {
     <h3><span className='title-deco' /> Comments ({this.props.comments.length}):</h3>
       <section>
         {this.props.comments.map((item)=> {
-          return <Comment key={'comment_'+item.id} comment={item} containerWidth={this.state.width} />
+          return <Comment key={'comment_'+item.id} comment={item} containerWidth={this.state.width} new={this.props.new.indexOf(item.id)>=0} />
         })}
         <a href='#' className='comment-add-title' onClick={this.addCommentOnClick.bind(this)}>Add comment</a>
         {this.state.addFormIsOpen? <AddCommentForm postId={this.props.postId} parentId={0} handleAdd={this.addCommentOnClick.bind(this)} />:''}

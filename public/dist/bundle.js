@@ -45046,7 +45046,7 @@
 	            switch (_context30.prev = _context30.next) {
 	              case 0:
 	                _context30.next = 2;
-	                return this.request('/users/id/' + +id, 'delete');
+	                return this.request('/users/id/' + id, 'delete');
 
 	              case 2:
 	                return _context30.abrupt('return');
@@ -45064,6 +45064,66 @@
 	      }
 
 	      return deleteUser;
+	    }()
+	  }, {
+	    key: 'loadPostLastComment',
+	    value: function () {
+	      var _ref31 = _asyncToGenerator(regeneratorRuntime.mark(function _callee31(id) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee31$(_context31) {
+	          while (1) {
+	            switch (_context31.prev = _context31.next) {
+	              case 0:
+	                _context31.next = 2;
+	                return this.request('/posts/' + id + '/comments/last');
+
+	              case 2:
+	                data = _context31.sent;
+	                return _context31.abrupt('return', data.last_comment);
+
+	              case 4:
+	              case 'end':
+	                return _context31.stop();
+	            }
+	          }
+	        }, _callee31, this);
+	      }));
+
+	      function loadPostLastComment(_x58) {
+	        return _ref31.apply(this, arguments);
+	      }
+
+	      return loadPostLastComment;
+	    }()
+	  }, {
+	    key: 'setPostLastComment',
+	    value: function () {
+	      var _ref32 = _asyncToGenerator(regeneratorRuntime.mark(function _callee32(post, comment) {
+	        var data;
+	        return regeneratorRuntime.wrap(function _callee32$(_context32) {
+	          while (1) {
+	            switch (_context32.prev = _context32.next) {
+	              case 0:
+	                _context32.next = 2;
+	                return this.request('/posts/' + post + '/comments/last', 'post', { post: post, comment: comment });
+
+	              case 2:
+	                data = _context32.sent;
+	                return _context32.abrupt('return', data.last_comment);
+
+	              case 4:
+	              case 'end':
+	                return _context32.stop();
+	            }
+	          }
+	        }, _callee32, this);
+	      }));
+
+	      function setPostLastComment(_x59, _x60) {
+	        return _ref32.apply(this, arguments);
+	      }
+
+	      return setPostLastComment;
 	    }()
 	  }]);
 
@@ -48271,7 +48331,9 @@
 
 	    _this.state = {
 	      post: {},
-	      comments: []
+	      comments: [],
+	      last_comment: 0,
+	      comments_new: []
 	    };
 	    return _this;
 	  }
@@ -48323,8 +48385,9 @@
 	                comments = _context2.sent;
 
 	                this.setState({ comments: comments });
+	                window.comments = comments;
 
-	              case 4:
+	              case 5:
 	              case 'end':
 	                return _context2.stop();
 	            }
@@ -48339,22 +48402,23 @@
 	      return fetchComments;
 	    }()
 	  }, {
-	    key: 'componentDidMount',
+	    key: 'fetchLastComment',
 	    value: function () {
 	      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+	        var last_comment;
 	        return regeneratorRuntime.wrap(function _callee3$(_context3) {
 	          while (1) {
 	            switch (_context3.prev = _context3.next) {
 	              case 0:
-	                _Emitter2.default.push('current-page-update', 'posts');
+	                _context3.next = 2;
+	                return _Api2.default.loadPostLastComment(this.props.params.id);
 
-	                this.fetchPost();
-	                this.fetchComments();
+	              case 2:
+	                last_comment = _context3.sent;
 
-	                _Emitter2.default.listen('comments-update.post-' + this.props.params.id, this.fetchComments.bind(this));
-	                _Emitter2.default.listen('post-update.post-' + this.props.params.id, this.fetchPost.bind(this));
+	                this.setState({ last_comment: last_comment });
 
-	              case 5:
+	              case 4:
 	              case 'end':
 	                return _context3.stop();
 	            }
@@ -48362,8 +48426,63 @@
 	        }, _callee3, this);
 	      }));
 
-	      function componentDidMount() {
+	      function fetchLastComment() {
 	        return _ref3.apply(this, arguments);
+	      }
+
+	      return fetchLastComment;
+	    }()
+	  }, {
+	    key: 'calcCommentsNew',
+	    value: function calcCommentsNew() {
+	      var c_ids = this.state.comments.map(function (i) {
+	        return i.id;
+	      });
+	      var new_ids = c_ids.slice(c_ids.indexOf(this.state.last_comment) + 1);
+	      console.log(c_ids, new_ids);
+	      this.setState({ comments_new: new_ids });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function () {
+	      var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+	        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+	          while (1) {
+	            switch (_context4.prev = _context4.next) {
+	              case 0:
+	                _Emitter2.default.push('current-page-update', 'posts');
+
+	                this.fetchPost();
+	                _context4.next = 4;
+	                return this.fetchComments();
+
+	              case 4:
+	                _context4.next = 6;
+	                return this.fetchLastComment();
+
+	              case 6:
+	                this.calcCommentsNew();
+
+	                _Emitter2.default.listen('comments-update.post-' + this.props.params.id, this.fetchComments.bind(this));
+	                _Emitter2.default.listen('post-update.post-' + this.props.params.id, this.fetchPost.bind(this));
+
+	                _Emitter2.default.listen('current-comment-set', function (id) {
+	                  _Api2.default.setPostLastComment(this.props.params.id, id);
+	                  this.setState({ last_comment: id });
+	                  this.calcCommentsNew();
+	                  console.log(this.state.last_comment);
+	                }.bind(this));
+
+	              case 10:
+	              case 'end':
+	                return _context4.stop();
+	            }
+	          }
+	        }, _callee4, this);
+	      }));
+
+	      function componentDidMount() {
+	        return _ref4.apply(this, arguments);
 	      }
 
 	      return componentDidMount;
@@ -48371,11 +48490,14 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      window.goToNextComment = function () {
+	        scrollToComment(this.state.comments_new[0]);
+	      }.bind(this);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(_Post2.default, { post: this.state.post }),
-	        _react2.default.createElement(_CommentTree2.default, { comments: this.state.comments, postId: this.state.post.id })
+	        _react2.default.createElement(_CommentTree2.default, { comments: this.state.comments, postId: this.state.post.id, 'new': this.state.comments_new })
 	      );
 	    }
 	  }]);
@@ -48463,7 +48585,7 @@
 	          'section',
 	          null,
 	          this.props.comments.map(function (item) {
-	            return _react2.default.createElement(_Comment2.default, { key: 'comment_' + item.id, comment: item, containerWidth: _this2.state.width });
+	            return _react2.default.createElement(_Comment2.default, { key: 'comment_' + item.id, comment: item, containerWidth: _this2.state.width, 'new': _this2.props.new.indexOf(item.id) >= 0 });
 	          }),
 	          _react2.default.createElement(
 	            'a',
@@ -48620,7 +48742,7 @@
 	        { className: 'comment-wrapper', style: { 'paddingLeft': padding + 'px' } },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'comment' + (this.state.current ? ' current' : ''), id: 'comment-' + comment.id },
+	          { className: 'comment' + (this.state.current ? ' current' : '') + (this.props.new ? ' new' : ''), id: 'comment-' + comment.id },
 	          _react2.default.createElement('img', { className: 'author-avatar', src: comment.owner.avatar }),
 	          _react2.default.createElement(
 	            'div',
