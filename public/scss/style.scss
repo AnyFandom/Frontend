@@ -85,7 +85,8 @@
   }
 
   .comment-info {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
     min-height: 25px;
     margin: 0;
@@ -139,7 +140,7 @@
           height: 30px;
           background: $main-color;
           color: #969090;
-          border: 1px solid #dedede;
+          border: 1px solid $second-color;
           box-shadow: none;
           font-size: 15px;
           margin-top: -2px;

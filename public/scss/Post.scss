@@ -82,12 +82,12 @@
       li {
         a {
           cursor: pointer;
-          color: lighten($main-color, 30%);
+          color: $header-color;
           margin: 0px;
           float: left;
           display: inline-flex;
           height: 100%;
-          background: darken($main-color, 3%);
+          background: darken($main-color, 8%);
           border-radius: 30px;
           padding: 0px 10px;
           margin-right: 5px;

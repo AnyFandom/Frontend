@@ -36,7 +36,9 @@ export default class Comment extends React.Component {
 
   render() {
     let comment = this.props.comment
-    return (<div className='comment-wrapper' style={{'paddingLeft': ('64'*comment.depth)+'px'}}><div className='comment'>
+    let max_padding = this.props.containerWidth-400
+    let padding = (64*comment.depth)<max_padding? (64*comment.depth) : max_padding
+    return (<div className='comment-wrapper' style={{'paddingLeft': padding+'px'}}><div className='comment'>
       <img className='author-avatar' src={comment.owner.avatar} />
       <div className='comment-content'>
         <ul className='comment-info'>

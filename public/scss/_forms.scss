@@ -469,3 +469,9 @@ Mobile (portrait 300px)
     .inline-parent .inline-child--width-8,
     .inline-parent .inline-child--width-9                   { width:100%; }
 }
+
+textarea, input {
+  background-color: $input-background;
+  border: 1px solid $input-border-color;
+  color: $input-color;
+}

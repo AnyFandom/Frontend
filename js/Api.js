@@ -1,6 +1,7 @@
 var reqwest = require('reqwest');
 import Storage from './Storage'
 import Core from './Core'
+import {NotificationManager} from 'react-notifications';
 
 class Api {
 
@@ -46,6 +47,7 @@ class Api {
         function(data) {
           if (data.status != 'success') {
             console.warn(data.data.code, data.data.message);
+            NotificationManager.error(data.data.code, data.data.message)
             reject(data)
           } else {
             resolve(data.data)
@@ -55,6 +57,7 @@ class Api {
           let data = JSON.parse(resp.responseText)
           if (data.status != 'success') {
             console.warn(data.data.code, data.data.message);
+            NotificationManager.error(data.data.code, data.data.message)
             reject(data)
           } else {
             resolve(data.data)

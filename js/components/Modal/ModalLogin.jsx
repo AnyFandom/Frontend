@@ -25,7 +25,7 @@ class ModalLogin extends React.Component {
                    placeholder="Your password" tabIndex="1" />
         </fieldset>
            <button onClick={this.props.handleLogin} type='submit'
-           className='btn btn--color-positive submit-button'> Test</button>
+           className='btn btn--color-positive submit-button'>Log in</button>
          </form>
        </Modal>
        )

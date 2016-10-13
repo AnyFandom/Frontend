@@ -25,7 +25,8 @@ export default class Navbar extends React.Component {
     current_page: 'index',
   }
 
-  handleLoginModalClick() {
+  handleLoginModalClick(e) {
+    e.preventDefault()
     this.setState({loginModalIsOpen: this.state.loginModalIsOpen? false : true})
     console.log(this.state);
   }
@@ -83,6 +84,7 @@ export default class Navbar extends React.Component {
           <Link to='/app/fandoms'>Fandoms</Link>
         </li>
       </ul>
+      <div className='logo'>AF</div>
       <ul className='navbar-right'>
         <li>
           <a href='#'>

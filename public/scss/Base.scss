@@ -37,7 +37,7 @@ body                                            { margin:0; padding:0; backgroun
 Typography
 ***********************************************/
 h1, .h1, h2, .h2, h3, .h3,
-h4, .h4, h5, .h5, h6, .h6                       { margin:0 0 16px; padding:0; color:#333; font-weight:normal; display:block; position:relative; }
+h4, .h4, h5, .h5, h6, .h6                       { margin:0 0 16px; padding:0; color:$header-color; font-weight:normal; display:block; position:relative; }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a              { font-weight:inherit; color:inherit; }
 h1, .h1                                         { font-size:33px; line-height:35px; }
 h2, .h2                                         { font-size:28px; line-height:30px; }
@@ -167,11 +167,11 @@ Icons Setup
 /***********************************************
 Message Blocks
 ***********************************************/
-.message                                        { margin:0 0 20px; padding:8px 10px; font-size:12px; line-height:16px; color:$main-color; letter-spacing:.5px; background-color:#26343E; border-radius:3px; width:100%; position:relative; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; }
-.message--color-positive                        { background-color:#29B765; }
-.message--color-info                            { background-color:#3498DB; }
-.message--color-warning                         { background-color:#FFC82C; color:#444; }
-.message--color-negative                        { background-color:#E74C3C; }
+.amz-message                                        { margin:0 0 20px; padding:8px 10px; font-size:12px; line-height:16px; color:$main-color; letter-spacing:.5px; background-color:#26343E; border-radius:3px; width:100%; position:relative; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; }
+.amz-message--color-positive                        { background-color:#29B765; }
+.amz-message--color-info                            { background-color:#3498DB; }
+.amz-message--color-warning                         { background-color:#FFC82C; color:#444; }
+.amz-message--color-negative                        { background-color:#E74C3C; }
 
 /***********************************************
 Utility Classes
@@ -311,11 +311,11 @@ img {
 
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
+    background-color: $main-color;
     position: relative;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #e3e4e8;
+    border: 1px solid $second-color;
     width: 25%; /* Could be more or less, depending on screen size */
 
     fieldset {
@@ -343,7 +343,7 @@ img {
 
 .btn {
   cursor: pointer;
-  color: #565656;
+  color: $btn-color;
   padding: 5px 15px;
   background: $main-color;
   border: 1px solid #bbbbbb;

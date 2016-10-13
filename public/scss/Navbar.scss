@@ -28,6 +28,7 @@
         align-items: center;
         text-decoration: none;
         color: $font-main;
+        transition: background .3s;
 
         .navbar-avatar {
           width: 48px;
@@ -44,6 +45,7 @@
           box-shadow: none;
           width: 48px;
           height: 48px;
+          transition: background .3s;
 
           i {
             color: lighten($brand-color, 15%);
@@ -52,7 +54,7 @@
         }
       }
 
-      &.active a {
+      &.active a, a:hover {
         background-color: $accent-color;
       }
     }
@@ -64,6 +66,26 @@
     &.navbar-center {
       width: 20%;
       text-align: center;
+    }
+  }
+
+  .logo {
+    width: 4%;
+    margin: 0 auto;
+    line-height: 40px;
+    position: fixed;
+    color: white;
+    height: 65px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 48%;
+    cursor: pointer;
+    transition: background .3s;
+
+    &:hover {
+      background-color: $accent-color;
     }
   }
 }

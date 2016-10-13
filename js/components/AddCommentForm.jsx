@@ -28,7 +28,7 @@ export default class AddCommentForm extends React.Component {
   render() {
     return (<div className='add-comment-form'>
       <form>
-        <textarea onChange={this.contentOnChange.bind(this)} name='comment-content' />
+        <textarea onChange={this.contentOnChange.bind(this)} name='comment-content' autoFocus />
         <button type='submit' className='btn btn-submit' onClick={this.handleSubmit.bind(this)}>Post</button>
       </form>
     </div>);

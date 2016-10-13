@@ -44204,6 +44204,8 @@
 
 	var _Core2 = _interopRequireDefault(_Core);
 
+	var _reactNotifications = __webpack_require__(594);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -44267,6 +44269,7 @@
 	                  reqwest(options).then(function (data) {
 	                    if (data.status != 'success') {
 	                      console.warn(data.data.code, data.data.message);
+	                      _reactNotifications.NotificationManager.error(data.data.code, data.data.message);
 	                      reject(data);
 	                    } else {
 	                      resolve(data.data);
@@ -44275,6 +44278,7 @@
 	                    var data = JSON.parse(resp.responseText);
 	                    if (data.status != 'success') {
 	                      console.warn(data.data.code, data.data.message);
+	                      _reactNotifications.NotificationManager.error(data.data.code, data.data.message);
 	                      reject(data);
 	                    } else {
 	                      resolve(data.data);
@@ -47655,7 +47659,8 @@
 
 	  _createClass(Navbar, [{
 	    key: 'handleLoginModalClick',
-	    value: function handleLoginModalClick() {
+	    value: function handleLoginModalClick(e) {
+	      e.preventDefault();
 	      this.setState({ loginModalIsOpen: this.state.loginModalIsOpen ? false : true });
 	      console.log(this.state);
 	    }
@@ -47789,6 +47794,11 @@
 	                'Fandoms'
 	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'logo' },
+	            'AF'
 	          ),
 	          _react2.default.createElement(
 	            'ul',
@@ -47980,7 +47990,7 @@
 	            'button',
 	            { onClick: this.props.handleLogin, type: 'submit',
 	              className: 'btn btn--color-positive submit-button' },
-	            ' Test'
+	            'Log in'
 	          )
 	        )
 	      );
@@ -48583,7 +48593,8 @@
 	    var _this = _possibleConstructorReturn(this, (CommentTree.__proto__ || Object.getPrototypeOf(CommentTree)).call(this, props));
 
 	    _this.state = {
-	      addFormIsOpen: false
+	      addFormIsOpen: false,
+	      width: 0
 	    };
 	    return _this;
 	  }
@@ -48595,11 +48606,18 @@
 	      this.setState({ addFormIsOpen: this.state.addFormIsOpen ? false : true });
 	    }
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.setState({ width: this.refs.comment_tree.offsetWidth });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'comment-tree' },
+	        { className: 'comment-tree', ref: 'comment_tree' },
 	        _react2.default.createElement(
 	          'h3',
 	          null,
@@ -48612,7 +48630,7 @@
 	          'section',
 	          null,
 	          this.props.comments.map(function (item) {
-	            return _react2.default.createElement(_Comment2.default, { key: 'comment_' + item.id, comment: item });
+	            return _react2.default.createElement(_Comment2.default, { key: 'comment_' + item.id, comment: item, containerWidth: _this2.state.width });
 	          }),
 	          _react2.default.createElement(
 	            'a',
@@ -48749,9 +48767,11 @@
 	    key: 'render',
 	    value: function render() {
 	      var comment = this.props.comment;
+	      var max_padding = this.props.containerWidth - 400;
+	      var padding = 64 * comment.depth < max_padding ? 64 * comment.depth : max_padding;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'comment-wrapper', style: { 'paddingLeft': '64' * comment.depth + 'px' } },
+	        { className: 'comment-wrapper', style: { 'paddingLeft': padding + 'px' } },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'comment' },
@@ -48947,7 +48967,7 @@
 	        _react2.default.createElement(
 	          'form',
 	          null,
-	          _react2.default.createElement('textarea', { onChange: this.contentOnChange.bind(this), name: 'comment-content' }),
+	          _react2.default.createElement('textarea', { onChange: this.contentOnChange.bind(this), name: 'comment-content', autoFocus: true }),
 	          _react2.default.createElement(
 	            'button',
 	            { type: 'submit', className: 'btn btn-submit', onClick: this.handleSubmit.bind(this) },
