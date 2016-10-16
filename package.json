@@ -3,7 +3,7 @@
     "start": "npm run scss | npm run serve | npm run dev",
     "serve": "node server.js",
     "dev": "webpack --progress --watch --colors --port 8090",
-    "scss": "scss --watch public/scss/style.scss:public/scss/style.css"
+    "scss": "scss --watch public/scss/style.scss:public/dist/style.css"
   },
   "name": "basic-property-grid",
   "version": "0.1.0",

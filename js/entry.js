@@ -24,11 +24,3 @@ window.getCoords = function(elem) { // кроме IE8-
   };
 
 }
-
-window.scroller = require('scroll-to-js')
-
-window.scrollToComment = async function(id) {
-  let comment = document.querySelector('#comment-'+id)
-  await scroller(document.body, comment.offsetTop-200, 500)
-  Emitter.push('current-comment-set', id)
-}

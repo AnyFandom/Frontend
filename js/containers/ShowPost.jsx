@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import Post from '../components/Post'
 import Api from '../Api'
 import CommentTree from '../components/CommentTree'
+import NewCommentsCounter from '../components/NewCommentsCounter'
 
 import Emitter from '../Emitter';
 
@@ -25,7 +26,7 @@ export default class ShowPost extends React.Component {
   async fetchComments() {
     let comments = await Api.loadPostComments(this.props.params.id)
     this.setState({comments: comments})
-    window.comments = comments
+    this.calcCommentsNew()
   }
 
   async fetchLastComment() {
@@ -40,6 +41,14 @@ export default class ShowPost extends React.Component {
     this.setState({comments_new: new_ids})
   }
 
+
+  async clearAllNew() {
+    console.log(this.state.comments_new[this.state.comments_new.length-1])
+    await Api.setPostLastComment(this.props.params.id, this.state.comments_new[this.state.comments_new.length-1])
+    await this.fetchLastComment()
+    this.calcCommentsNew()
+  }
+
   async componentDidMount() {
     Emitter.push('current-page-update', 'posts')
 
@@ -47,7 +56,6 @@ export default class ShowPost extends React.Component {
     await this.fetchComments()
     await this.fetchLastComment()
     this.calcCommentsNew()
-
     Emitter.listen('comments-update.post-'+this.props.params.id, this.fetchComments.bind(this))
     Emitter.listen('post-update.post-'+this.props.params.id, this.fetchPost.bind(this))
 
@@ -55,8 +63,11 @@ export default class ShowPost extends React.Component {
       Api.setPostLastComment(this.props.params.id, id)
       this.setState({last_comment: id})
       this.calcCommentsNew()
-      console.log(this.state.last_comment)
     }.bind(this))
+  }
+
+  componentDidUpdate() {
+    //this.calcCommentsNew()
   }
 
   render() {
@@ -66,6 +77,7 @@ export default class ShowPost extends React.Component {
     return (<div>
       <Post post={this.state.post} />
       <CommentTree comments={this.state.comments} postId={this.state.post.id} new={this.state.comments_new} />
+      <NewCommentsCounter comments={this.state.comments_new} clear={this.clearAllNew.bind(this)} />
     </div>);
   }
 }

@@ -18,7 +18,7 @@ export default class Comment extends React.Component {
   }
 
   answerOnClick(e) {
-    e.preventDefault()
+    //e.preventDefault()
     this.setState({answerIsOpen: this.state.answerIsOpen? false:true})
   }
 
@@ -47,9 +47,10 @@ export default class Comment extends React.Component {
   }
 
   render() {
+    let padding_size = 32
     let comment = this.props.comment
-    let max_padding = this.props.containerWidth-400
-    let padding = (64*comment.depth)<max_padding? (64*comment.depth) : max_padding
+    let max_padding = padding_size*Math.floor((this.props.containerWidth-400)/padding_size)
+    let padding = (padding_size*comment.depth)<max_padding? (padding_size*comment.depth) : max_padding
     return (<div className='comment-wrapper' style={{'paddingLeft': padding+'px'}}><div className={'comment'+(this.state.current? ' current':'')+(this.props.new? ' new':'')} id={'comment-'+comment.id}>
       <img className='author-avatar' src={comment.owner.avatar} />
       <div className='comment-content'>

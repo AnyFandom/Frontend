@@ -669,3 +669,38 @@ form fieldset {
     }
   }
 }
+
+.comment-counter {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+
+  .comment-count {
+    cursor: pointer;
+    background: #3970b8;
+    height: 34px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: $box-shadow;
+  }
+
+  .comment-counter-clear {
+    cursor: pointer;
+    background: #3970b8;
+    height: 34px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: $box-shadow;
+  }
+}

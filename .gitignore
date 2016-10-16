@@ -8,3 +8,5 @@ public/scss/style.css
 public/scss/style.css.map
 bundle.js
 
+public/dist/
+public/dist/*

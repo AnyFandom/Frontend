@@ -320,12 +320,12 @@ class Api {
   }
 
   async loadPostLastComment(id) {
-    let data = await  this.request(`/posts/${id}/comments/last`)
+    let data = await this.request(`/posts/${id}/comments/last`)
     return data.last_comment
   }
 
   async setPostLastComment(post, comment) {
-    let data = await  this.request(`/posts/${post}/comments/last`, 'post', {post:post, comment:comment})
+    let data = await this.request(`/posts/${post}/comments/last`, 'patch', {comment:comment})
     return data.last_comment
   }
 
