@@ -1,4 +1,4 @@
-var Notify=require('notifyjs').default
+  var Notify=require('notifyjs').default
 import Emitter from './Emitter';
 
 class Notifications {

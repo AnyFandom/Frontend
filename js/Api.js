@@ -9,7 +9,7 @@ class Api {
    * Переменные, основная функция request
    */
 
-  http_host = 'http://localhost'+':5000'
+  http_host = location.protocol+'//'+location.hostname+':5000';
 
   async request(url, method='get', data={}) {
     return new Promise(function(resolve, reject){

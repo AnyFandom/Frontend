@@ -84,7 +84,7 @@ export default class Navbar extends React.Component {
           <Link to='/app/fandoms'>Fandoms</Link>
         </li>
       </ul>
-      <div className='logo'>AF</div>
+      <div className='logo'>AF<span className='logo-alpha'>α</span></div>
       <ul className='navbar-right'>
         <li>
           <a href='#'>

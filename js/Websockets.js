@@ -1,10 +1,11 @@
 var io = require('socket.io-client');
 import Storage from './Storage'
 import Emitter from './Emitter'
+import Api from './Api'
 
 class Websocket {
   constructor() {
-    this.socket = io('http://localhost:5000')
+    this.socket = io(Api.http_host)
     this.socket.on('my response', function(data){
       console.log(data)
     }.bind(this))

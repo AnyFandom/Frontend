@@ -6,7 +6,7 @@ export default class NewCommentsCounter extends React.Component {
   async scrollToComment(id) {
     if (!id) return
     let comment = document.querySelector('#comment-'+id)
-    await scroller(document.body, comment.offsetTop-200, 500)
+    await scroller(document.body, comment.offsetTop-200, 200)
     Emitter.push('current-comment-set', id)
   }
 
