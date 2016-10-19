@@ -10,5 +10,5 @@ export default new Emitter({
   wildcard: true,
   delimiter: '.',
   newListener: false,
-  maxListeners: 20
+  maxListeners: 200
 });

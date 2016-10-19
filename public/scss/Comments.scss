@@ -1,0 +1,231 @@
+.comment-tree {
+  background: $main-color;
+  box-shadow: $box-shadow;
+
+  h3 {
+    color: $header-color;
+    margin: 0;
+    padding-top: 20px;
+    display: flex;
+  }
+
+  section {
+    padding: 20px;
+  }
+}
+
+.comment {
+  padding-left: 94px;
+  min-height: 84px;
+  display: block;
+  position: relative;
+  padding-top: 10px;
+  transition: background .3s;
+
+  &.current {
+    background:rgba(0, 0, 0, 0.4);
+  }
+
+  &.new {
+    background:rgba(0, 0, 0, 0.2);
+  }
+
+  .author-avatar {
+    @include avatar(64px);
+    top: 15px;
+    position: absolute;
+    left: 10px;
+  }
+
+  .comment-date {
+    font-style: italic;
+  }
+
+  .comment-content {
+    border-bottom: 1.5px solid $second-color;
+    display: block;
+    min-height: 74px;
+
+    .comment-text {
+      display: inline-block;
+      padding-top: 5px;
+      padding-left: 15px;
+    }
+  }
+
+  .comment-info {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 25px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: inline-block;
+      float: left;
+      margin: 0;
+      padding: 0;
+      margin-right: 5px;
+
+      &.comment-author {
+        font-family: 'Roboto Regular';
+      }
+    }
+  }
+
+  .comment-actions {
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    margin: 0;
+    padding: 10px 0 10px 10px;
+    list-style: none;
+
+    li {
+      display: inline-block;
+      float: left;
+      margin: 0;
+      padding: 0;
+      margin-right: 5px;
+
+      .comment-reply {
+        position: relative;
+        cursor: pointer;
+        border: 2px solid $main-color;
+        transition: all .2s;
+        display: block;
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
+
+        .circle-icon {
+          cursor: pointer;
+          z-index: 2;
+          float: left;
+          display: flex;
+          width: 30px;
+          height: 30px;
+          background: $main-color;
+          color: #969090;
+          border: 1px solid $second-color;
+          box-shadow: none;
+          font-size: 15px;
+          margin-top: -2px;
+          transition: background .4s, border .4s, box-shadow .4s, color .4s;
+
+          i {
+            cursor: pointer;
+            z-index: 2;
+            margin: auto;
+            height: 18px;
+            font-size: 18px;
+            line-height: 18px;
+          }
+
+          &:hover {
+            color: $main-color;
+            background: $brand-color;
+          }
+        }
+
+        &:hover {
+          z-index: 2;
+          background: $brand-color;
+          width: 85px;
+          .circle-icon {
+            background: $brand-color;
+            color: $main-color;
+            border: 1px solid $brand-color;
+            box-shadow: 0px 0px 6px 0px rgba(62, 62, 62, 0.4);
+          }
+
+          .comment-reply-label {
+
+            &::after {
+              content: 'Reply';
+            }
+            display: inline-block;
+          }
+        }
+
+        .comment-reply-label {
+          margin: auto;
+          z-index: 0;
+          color: $main-color;
+          font-size: 15px;
+          line-height: 15px;
+          display: block;
+          position: absolute;
+          right: 9px;
+          top: 6px;
+        }
+      }
+    }
+  }
+}
+.сomment-edit {
+  color: #e67e22;
+  &:hover {
+    color: #d35400;
+  }
+}
+
+.сomment-delete {
+  color: #e74c3c;
+  &:hover {
+    color: #c0392b;
+  }
+}
+.comment-add-title {
+  font-size: 25px;
+  line-height: 25px;
+  margin-top:20px;
+  display: inline-block;
+}
+
+.add-comment-form {
+  form {
+    margin-top:10px;
+
+    .btn-submit {
+      margin-top: 10px;
+    }
+  }
+}
+
+.comment-counter {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+
+  .comment-count {
+    cursor: pointer;
+    background: #3970b8;
+    height: 34px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: $box-shadow;
+  }
+
+  .comment-counter-clear {
+    cursor: pointer;
+    background: #3970b8;
+    height: 34px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: $box-shadow;
+  }
+}

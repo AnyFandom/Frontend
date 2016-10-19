@@ -39,7 +39,6 @@ export default class ShowPost extends React.Component {
     let new_ids = []
     for (let key in c_ids) {
       let i = c_ids[key]
-      console.log(c_ids[i],this.state.last_comment)
       if (i > this.state.last_comment) {
         new_ids.push(i)
       }

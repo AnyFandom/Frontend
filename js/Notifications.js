@@ -2,7 +2,7 @@
 import Emitter from './Emitter';
 
 class Notifications {
-  construstor(){
+  init() {
     if (Notify.needsPermission && Notify.isSupported()) {
       Notify.requestPermission(onPermissionGranted, onPermissionDenied);
     }
@@ -14,9 +14,6 @@ class Notifications {
     function onPermissionDenied() {
       console.warn('Permission has been denied by the user');
     }
-  }
-
-  init() {
     Emitter.listen('new-notification', function(options){
       if (!options.timeout) {
         options.timeout = 5

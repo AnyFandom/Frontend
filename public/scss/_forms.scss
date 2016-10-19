@@ -475,3 +475,7 @@ textarea, input {
   border: 1px solid $input-border-color;
   color: $input-color;
 }
+
+form fieldset {
+  margin-bottom: 20px;
+}

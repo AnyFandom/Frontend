@@ -1,0 +1,78 @@
+
+.users-container {
+  padding-right: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+
+  .user-item {
+    background: $main-color;
+    width: 140px;
+    padding:20px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    box-shadow: $box-shadow;
+    img {
+      @include avatar(100px);
+    }
+    span {
+      text-align: center;
+      padding-top: 10px;
+      display:block;
+    }
+  }
+}
+
+.user-profile {
+  padding: 20px;
+  box-shadow: $box-shadow;
+  margin-bottom: 30px;
+  background: $main-color;
+  min-height: 140px;
+  position: relative;
+
+  .avatar {
+    float: left;
+    @include avatar(100px);
+  }
+
+  .info {
+    width: 100%;
+    position: absolute;
+    padding: 0 20px;
+    padding-left: 120px;
+    top: 20px;
+
+    .username {
+      display: inline-block;
+      width: 100%;
+      font-size: 25px;
+      color: $header-color;
+    }
+
+    .description {
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .actions {
+      align-items: center;
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+      height: 100px;
+      width: 50px;
+      float: right;
+      position: absolute;
+      right: 35px;
+      top: 0px;
+
+      .circle-icon {
+        cursor: pointer;
+        width: 48px;
+        height: 48px;
+      }
+    }
+  }
+}

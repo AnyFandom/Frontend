@@ -3,6 +3,7 @@ $accent-color: #2d5993;
 
 $navbar-height: 65px;
 
+
 // Light theme:
 
 /*
@@ -33,3 +34,10 @@ $input-border-color: #212121;
 $btn-color: white;
 
 $font-bold: 'Roboto Regular';
+
+@mixin avatar($size) {
+  box-shadow: $box-shadow;
+  width: $size;
+  height: $size;
+  border-radius: 10px;
+}

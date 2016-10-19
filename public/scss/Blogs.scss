@@ -1,0 +1,96 @@
+
+.blog-list {
+  padding-right: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+
+  .blog-item {
+    background: $main-color;
+    width: 140px;
+    padding:20px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    box-shadow: $box-shadow;
+    img {
+      width: 100px;
+      height: 100px;
+    }
+    span {
+      text-align: center;
+      padding-top: 10px;
+      display:block;
+    }
+  }
+
+  .blog-item-add {
+    height: 100%;
+    background: $main-color;
+    width: 140px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    box-shadow: $box-shadow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4em;
+    color: rgba(0, 0, 0, 0.21);
+    cursor: pointer;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.31);
+    }
+  }
+}
+
+.blog {
+  padding: 20px;
+  box-shadow: $box-shadow;
+  margin-bottom: 30px;
+  background: $main-color;
+  min-height: 140px;
+
+  .avatar {
+    float: left;
+    @include avatar(100px);
+  }
+
+  .info {
+    padding: 0 20px;
+    padding-left: 120px;
+    padding-right: 70px;
+    top: 20px;
+
+    .title {
+      display: inline-block;
+      width: 100%;
+      font-size: 25px;
+      color: $header-color;
+    }
+
+    .description {
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .actions {
+      align-items: center;
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+      height: 100px;
+      width: 50px;
+      float: right;
+      position: absolute;
+      right: 35px;
+      top: 20px;
+
+      .circle-icon {
+        cursor: pointer;
+        width: 48px;
+        height: 48px;
+      }
+    }
+  }
+}

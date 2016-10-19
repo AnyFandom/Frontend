@@ -8,7 +8,7 @@ import Websocket from './Websockets'
 
 import Routes from './components/Routes'
 
-var Notify = new Notifications('')
+var Notify = new Notifications()
 Notify.init()
 
 new Websocket()
