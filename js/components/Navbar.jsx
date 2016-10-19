@@ -113,9 +113,14 @@ export default class Navbar extends React.Component {
         </li>
         <li style={{display: user.id? 'block' : 'none'}} onClick={this.handleLogout}>
           <a href='#'>
+            <CircleIcon>exit_to_app</CircleIcon>
+          </a>
+        </li>
+        <li style={{display: user.id? 'block' : 'none'}}>
+          <Link to={`/app/users/${user.username}`}>
             <img className='navbar-avatar' src={user.avatar} />
             <span className='navbar-login'>{user.username}</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>      <ModalLogin
