@@ -36,8 +36,18 @@ export default class ShowPost extends React.Component {
 
   calcCommentsNew() {
     let c_ids = this.state.comments.map((i)=>{return i.id})
-    let new_ids = c_ids.slice(c_ids.indexOf(this.state.last_comment)+1)
-    console.log(c_ids, new_ids)
+    let new_ids = []
+    for (let key in c_ids) {
+      let i = c_ids[key]
+      console.log(c_ids[i],this.state.last_comment)
+      if (i > this.state.last_comment) {
+        new_ids.push(i)
+      }
+    }
+    function sortByPlace(id_1, id_2) {
+      return c_ids.indexOf(id_1)-c_ids.indexOf(id_2)
+    }
+    new_ids.sort(sortByPlace)
     this.setState({comments_new: new_ids})
   }
 
