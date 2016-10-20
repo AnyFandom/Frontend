@@ -60,8 +60,7 @@ export default class Post extends React.Component {
         </span>
         <Link to={'/app/posts/'+post.id}><span className='post-title'>{post.title || 'Steins;Gate ZERO'}</span></Link>
       </section>
-      <section className='post-content'>
-        {post.content || fish}
+      <section className='post-content' dangerouslySetInnerHTML={{__html: (post.content || fish).replace(new RegExp('\r?\n','g'), '<br />')}}>
       </section>
       <footer>
         <ul className='tags'>

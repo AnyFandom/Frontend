@@ -66,9 +66,11 @@ export default class ShowFandom extends React.Component {
         <img className='avatar' src={this.state.fandom.avatar} />
         <section className='info'>
           <span className='title'>{this.state.fandom.title}</span>
-          <span className='description'>
-            {this.state.fandom.description}
-          </span>
+          <span className='description'
+            dangerouslySetInnerHTML={
+              {__html: (this.state.fandom.description||'').replace(
+                new RegExp('\r?\n','g'), '<br />'
+              )}} />
           <div className='actions'>
             <CircleIcon onClick={this.onDeleteClick.bind(this)}>delete</CircleIcon>
             <Link to={`/app/fandoms/${this.state.fandom.id}/edit`}><CircleIcon>edit</CircleIcon></Link>

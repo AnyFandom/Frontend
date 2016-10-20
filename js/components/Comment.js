@@ -37,6 +37,7 @@ export default class Comment extends React.Component {
 
   componentDidMount() {
     let comment = this.props.comment
+    console.log(comment);
     Emitter.listen('current-comment-set', function(id){
       if (id == comment.id) {
         this.setState({current: true})
@@ -63,7 +64,7 @@ export default class Comment extends React.Component {
           <li>/</li>
           <li><a href='#' onClick={this.onDeleteClick.bind(this)} className='сomment-delete'>delete</a></li>
         </ul>
-        <span className='comment-text'>{comment.content}</span>
+        <span className='comment-text' dangerouslySetInnerHTML={{__html: comment.content.replace(new RegExp('\r?\n','g'), '<br />')}} />
         <ul className='comment-actions'>
           <li>
             <span className='comment-reply' onClick={this.answerOnClick.bind(this)}>

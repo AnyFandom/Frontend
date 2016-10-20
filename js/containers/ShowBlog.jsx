@@ -55,9 +55,11 @@ export default class ShowBlog extends React.Component {
         <img className='avatar' src={this.state.blog.avatar} />
         <section className='info'>
           <span className='title'>{this.state.blog.title}</span>
-          <span className='description'>
-            {this.state.blog.description}
-          </span>
+          <span className='description'
+            dangerouslySetInnerHTML={
+              {__html: (this.state.blog.description||'').replace(
+                new RegExp('\r?\n','g'), '<br />'
+              )}} />
           <div className='actions'>
             <CircleIcon onClick={this.onDeleteClick.bind(this)}>delete</CircleIcon>
             <Link to={`/app/blogs/${this.state.blog.id}/edit`}><CircleIcon>edit</CircleIcon></Link>

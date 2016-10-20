@@ -55,9 +55,11 @@ export default class ShowUser extends React.Component {
         <img className='avatar' src={this.state.user.avatar} />
         <section className='info'>
           <span className='username'>{this.state.user.username}</span>
-          <span className='description'>
-            {this.state.user.description}
-          </span>
+          <span className='description'
+            dangerouslySetInnerHTML={
+              {__html: (this.state.user.description||'').replace(
+                new RegExp('\r?\n','g'), '<br />'
+              )}} />
           <div className='actions'>
             <CircleIcon onClick={this.onDeleteClick.bind(this)}>delete</CircleIcon>
             <Link to={`/app/users/${this.state.user.username}/edit`}><CircleIcon>edit</CircleIcon></Link>
