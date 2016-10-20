@@ -42,7 +42,7 @@ export default class ShowFandom extends React.Component {
 
   async componentDidMount() {
     Emitter.push('current-page-update', 'fandoms')
-    
+
     await this.fetchFandom()
     this.fetchPosts()
     this.fetchBlogs()

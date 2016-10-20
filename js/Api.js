@@ -24,6 +24,12 @@ class Api {
       /*
        * Подготовка данных для отправки через get
        */
+
+      for (let key in data) {
+        if (data[key] == null) {
+          delete data[key]
+        }
+      }
       if (method == 'get') {
         let tmp = []
         for (let key in data) {
@@ -115,6 +121,7 @@ class Api {
 
   async loadPost(id) {
     let data = await this.request(`/posts/${id}`)
+    console.log(data.post);
     return data.post
   }
 
@@ -153,7 +160,7 @@ class Api {
       {
         title: title,
         content: content,
-        preview: preview,
+        preview_image: preview.length?preview:null,
         blog: blog_id
       }
     )
@@ -172,7 +179,7 @@ class Api {
       {
         title: title,
         content: content,
-        preview: preview,
+        preview_image: preview.length?preview:null,
         blog: blog_id
       }
     )
@@ -214,7 +221,7 @@ class Api {
       `/users/${mode}/${user}`,
       'patch',
       {
-        avatar: avatar,
+        avatar: avatar.length?avatar:null,
         description: description,
       }
     )
@@ -252,15 +259,18 @@ class Api {
   }
 
   async addFandom(title, description, avatar) {
+    let options = {
+      title: title,
+      description: description,
+      avatar: avatar.length?avatar:null,
+    }
+    console.log('OPTIONS: ', options);
     let data = await this.request(
       '/fandoms',
       'post',
-      {
-        title: title,
-        description: description,
-        avatar: avatar,
-      }
+      options
     )
+    console.log(avatar.length?avatar:null)
     return data.Location
   }
 
@@ -271,7 +281,7 @@ class Api {
       {
         title: title,
         description: description,
-        avatar: avatar,
+        avatar: avatar.length?avatar:null,
       }
     )
     return
@@ -289,7 +299,7 @@ class Api {
       {
         title: title,
         description: description,
-        avatar: avatar,
+        avatar: avatar.length?avatar:null,
       }
     )
     return
@@ -302,7 +312,7 @@ class Api {
       {
         title: title,
         description: description,
-        avatar: avatar,
+        avatar: avatar.length?avatar:null,
         fandom: fandom
       }
     )

@@ -32,7 +32,7 @@ export default class Post extends React.Component {
         blog: {
           fandom: {}
         },
-        date: new Date()
+        created_at: new Date()
       }
     }
 
@@ -56,7 +56,7 @@ export default class Post extends React.Component {
           {post.owner.username || 'ADMIN'} в {post.blog.fandom.title || 'Аниме'} / {post.blog.title || 'Steins;Gate'}
         </span>
         <span className='date'>
-          {dateformat(new Date(post.date), "dddd, mm.d.yy, H:MM")}
+          {dateformat(new Date(post['created_at']), "dddd, mm.d.yy, H:MM")}
         </span>
         <Link to={'/app/posts/'+post.id}><span className='post-title'>{post.title || 'Steins;Gate ZERO'}</span></Link>
       </section>
