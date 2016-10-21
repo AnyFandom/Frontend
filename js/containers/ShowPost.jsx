@@ -34,20 +34,10 @@ export default class ShowPost extends React.Component {
     this.setState({last_comment: last_comment})
   }
 
-  calcCommentsNew() {
-    let c_ids = this.state.comments.map((i)=>{return i.id})
-    let new_ids = []
-    for (let key in c_ids) {
-      let i = c_ids[key]
-      if (i > this.state.last_comment) {
-        new_ids.push(i)
-      }
-    }
-    function sortByPlace(id_1, id_2) {
-      return c_ids.indexOf(id_1)-c_ids.indexOf(id_2)
-    }
-    new_ids.sort(sortByPlace)
-    this.setState({comments_new: new_ids})
+  async calcCommentsNew() {
+    let newComments = await Api.loadCommentsNew(this.props.params.id)
+    console.log('Comments New: ',newComments);
+    this.setState({comments_new: newComments.map((item)=>{return item.id})})
   }
 
 

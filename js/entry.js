@@ -8,12 +8,16 @@ import Websocket from './Websockets'
 
 import Routes from './components/Routes'
 
+import Api from './Api'
+
 var Notify = new Notifications()
 Notify.init()
 
 new Websocket()
 
 ReactDOM.render(<Routes />, document.getElementById('app-root'));
+
+window.Api = Api
 
 window.getCoords = function(elem) { // кроме IE8-
   var box = elem.getBoundingClientRect();

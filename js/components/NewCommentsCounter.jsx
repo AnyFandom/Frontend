@@ -1,11 +1,14 @@
 import React, {PropTypes} from 'react';
 import Emitter from '../Emitter'
+import Api from '../Api'
 var scroller = require('scroll-to-js')
+
 export default class NewCommentsCounter extends React.Component {
 
   async scrollToComment(id) {
     if (!id) return
     let comment = document.querySelector('#comment-'+id)
+    Api.setCommentRead(id)
     await scroller(document.body, comment.offsetTop-200, 200)
     Emitter.push('current-comment-set', id)
   }
