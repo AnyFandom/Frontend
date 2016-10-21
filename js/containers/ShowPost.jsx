@@ -29,23 +29,29 @@ export default class ShowPost extends React.Component {
     this.calcCommentsNew()
   }
 
-  async fetchLastComment() {
-    let last_comment = await Api.loadPostLastComment(this.props.params.id)
-    this.setState({last_comment: last_comment})
+  async fetchCommentsNew() {
+    let newComments = await Api.loadCommentsNew(this.props.params.id)
+    this.setState({comments_new: newComments.map((item)=>{return item.id})})
+  }
+
+  async sortCommentsNew() {
+    let newComments = this.state.comments_new
+    let comments = this.state.comments.map((item)=>{return item.id})
+    newComments.sort(function(i1, i2){
+      return comments.indexOf(i1)-comments.indexOf(i2)
+    }.bind(this))
+    this.setState({comments_new: newComments})
   }
 
   async calcCommentsNew() {
-    let newComments = await Api.loadCommentsNew(this.props.params.id)
-    console.log('Comments New: ',newComments);
-    this.setState({comments_new: newComments.map((item)=>{return item.id})})
+    await this.fetchCommentsNew()
+    await this.sortCommentsNew()
   }
 
 
   async clearAllNew() {
-    console.log(this.state.comments_new[this.state.comments_new.length-1])
-    await Api.setPostLastComment(this.props.params.id, this.state.comments_new[this.state.comments_new.length-1])
-    await this.fetchLastComment()
-    this.calcCommentsNew()
+    await Api.setPostCommentsReadAll(this.props.params.id)
+    this.setState({comments_new: []})
   }
 
   async componentDidMount() {
@@ -53,26 +59,64 @@ export default class ShowPost extends React.Component {
 
     this.fetchPost()
     await this.fetchComments()
-    await this.fetchLastComment()
-    this.calcCommentsNew()
-    Emitter.listen('comments-update.post-'+this.props.params.id, this.fetchComments.bind(this))
+    await this.fetchCommentsNew()
+    await this.sortCommentsNew()
+    Emitter.on('comment.add',
+      function(comment){
+          if (comment.post.id == this.props.params.id) {
+            this.injectComment(comment)
+          }
+      }.bind(this)
+    )
     Emitter.listen('post-update.post-'+this.props.params.id, this.fetchPost.bind(this))
 
     Emitter.listen('current-comment-set', function(id){
-      Api.setPostLastComment(this.props.params.id, id)
-      this.setState({last_comment: id})
       this.calcCommentsNew()
     }.bind(this))
   }
 
-  componentDidUpdate() {
-    //this.calcCommentsNew()
+  async injectComment(new_comment) {
+    let comments = this.state.comments
+    let comments_ids = comments.map((item)=>{return item.id})
+
+    let comments_new = this.state.comments_new
+
+    if (!new_comment.parent) {
+      comments_new.push(new_comment.id)
+      comments.push(new_comment)
+      this.setState({comments: comments, comments_new: comments_new})
+      this.sortCommentsNew()
+      return
+    }
+
+    let parent_index = comments_ids.indexOf(new_comment.parent.id)
+    let parent = comments[parent_index]
+
+    let comments_search = comments.slice(parent_index+1)
+    comments_search.reverse()
+
+    let insert_before = null
+    let insert_after = null
+
+    for (let i in comments_search) {
+      let curr = comments_search[i]
+      if (curr.depth <= parent.depth && curr != parent) {
+        insert_before = comments.indexOf(curr)
+      }
+    }
+
+    if (insert_before) {
+      comments.splice(insert_before, 0, new_comment)
+    } else {
+      comments.push(new_comment)
+    }
+
+    comments_new.push(new_comment.id)
+    this.setState({comments: comments, comments_new: comments_new})
+    this.sortCommentsNew()
   }
 
   render() {
-    window.goToNextComment = function() {
-      scrollToComment(this.state.comments_new[0])
-    }.bind(this)
     return (<div>
       <Post post={this.state.post} />
       <CommentTree comments={this.state.comments} postId={this.state.post.id} new={this.state.comments_new} />

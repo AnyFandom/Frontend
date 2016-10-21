@@ -56,6 +56,10 @@ class Websocket {
       console.log('Update', event, data)
       Emitter.push(event)
     })
+    this.socket.on('update', function(data){
+      console.log(data)
+      Emitter.emit(data['event'], data['payload'])
+    })
   }
 }
 export default Websocket
