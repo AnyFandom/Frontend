@@ -13,6 +13,12 @@ export default class Post extends React.Component {
     super(props);
   }
 
+  state = {
+    user: {},
+    blog: {},
+    fandom: {},
+  }
+
   async handleDeleteClick(e) {
     console.log('delete')
     e.preventDefault()
@@ -23,8 +29,17 @@ export default class Post extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({user: Storage.get('user_'+this.props.post.user_id)})
+    this.setState({blog: Storage.get('blog_'+this.props.post.blog_id)})
+    this.setState({fandom: Storage.get('fandom_'+this.props.post.fandom_id)})
+    console.log('user_'+this.props.post.user_id)
+  }
+
   render() {
-    let user = Storage.get('user') || {}
+    let user = Storage.get('user_'+this.props.post.user_id) || {}
+    let blog = Storage.get('blog_'+this.props.post.blog_id) || {}
+    let fandom = Storage.get('fandom_'+blog.fandom_id) || {}
     var post = this.props.post
     if (!post.id) {
       post = {
@@ -43,7 +58,7 @@ export default class Post extends React.Component {
       <header>
         <img className='post-header-img' src={post.preview_image || 'https://www.betaseries.com/images/fonds/original/3086_1410380644.jpg'} />
         <div className='post-actions'>
-          {user.id==post.owner.id? <div>
+          {user.id==post.user_id? <div>
             <CircleIcon onClick={this.handleDeleteClick.bind(this)}>delete</CircleIcon>
             <Link to={`/app/posts/${post.id}/edit`}><CircleIcon>mode_edit</CircleIcon></Link>
             </div> : ''}
@@ -53,7 +68,7 @@ export default class Post extends React.Component {
       </header>
       <section className='post-info'>
         <span className='info'>
-          {post.owner.username || 'ADMIN'} в {post.blog.fandom.title || 'Аниме'} / {post.blog.title || 'Steins;Gate'}
+          {user.username || 'ADMIN'} в {fandom.title || 'Аниме'} / {blog.title || 'Steins;Gate'}
         </span>
         <span className='date'>
           {dateformat(new Date(post['created_at']), "dddd, mm.d.yy, H:MM")}

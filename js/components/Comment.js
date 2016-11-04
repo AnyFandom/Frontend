@@ -5,6 +5,7 @@ import AddCommentForm from './AddCommentForm';
 import EditCommentForm from './EditCommentForm';
 import Api from '../Api';
 import Emitter from '../Emitter';
+import Storage from '../Storage'
 
 export default class Comment extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class Comment extends React.Component {
     answerIsOpen: false,
     editIsOpen: false,
     current: false,
+    user: {},
   }
 
   answerOnClick(e) {
@@ -45,6 +47,7 @@ export default class Comment extends React.Component {
         this.setState({current: false})
       }
     }.bind(this))
+    this.setState({user: Storage.get('user_'+comment.user_id)})
   }
 
   render() {
@@ -52,13 +55,16 @@ export default class Comment extends React.Component {
     let comment = this.props.comment
     let max_padding = padding_size*Math.floor((this.props.containerWidth-400)/padding_size)
     let padding = (padding_size*comment.depth)<max_padding? (padding_size*comment.depth) : max_padding
+
+    let user = this.state.user
+
     return (<div className='comment-wrapper' style={{'paddingLeft': padding+'px'}}><div className={'comment'+(this.state.current? ' current':'')+(this.props.new? ' new':'')} id={'comment-'+comment.id}>
-      <img className='author-avatar' src={comment.owner.avatar} />
+      <img className='author-avatar' src={user.avatar || 'https://static.lunavod.ru/img/users/1/avatar_100x100.jpg'} />
       <div className='comment-content'>
         <ul className='comment-info'>
-          <li className='comment-author'><a>{comment.owner.username}</a></li>
+          <li className='comment-author'><a>{user.username}</a></li>
           <li>/</li>
-          <li><span className='comment-date'>{dateformat(comment.date, 'dddd, mm.d.yy, H:MM')}</span></li>
+          <li><span className='comment-date'>{dateformat(comment.updated_at, 'dddd, mm.d.yy, H:MM')}</span></li>
           <li>/</li>
           <li><a href='#' className='сomment-edit' onClick={this.editOnClick.bind(this)}>edit</a></li>
           <li>/</li>
@@ -74,7 +80,7 @@ export default class Comment extends React.Component {
           </li>
         </ul>
       </div>
-      {this.state.answerIsOpen? <AddCommentForm postId={comment.post.id} parentId={comment.id} handleAdd={this.answerOnClick.bind(this)} /> : ''}
+      {this.state.answerIsOpen? <AddCommentForm postId={comment.post_id} parentId={comment.id} handleAdd={this.answerOnClick.bind(this)} /> : ''}
       {this.state.editIsOpen? <EditCommentForm comment={comment} handleSubmit={this.editOnClick.bind(this)} /> : ''}
     </div></div>);
   }

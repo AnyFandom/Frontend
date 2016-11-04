@@ -6,6 +6,7 @@ import Api from './Api'
 class Websocket {
   constructor() {
     this.socket = io(Api.http_host)
+    window.so = this.socket
     this.socket.on('my response', function(data){
       console.log(data)
     }.bind(this))

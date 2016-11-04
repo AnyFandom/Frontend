@@ -9,7 +9,7 @@ class Api {
    * Переменные, основная функция request
    */
 
-  http_host = location.protocol+'//'+location.hostname+':5000';
+  http_host = location.protocol+'//'+location.hostname+':9000';
 
   async request(url, method='get', data={}) {
     return new Promise(function(resolve, reject){
@@ -49,26 +49,35 @@ class Api {
         console.log(url, options)
       }
 
-      reqwest(options).then(
-        function(data) {
-          if (data.status != 'success') {
-            console.warn(data.data.code, data.data.message);
-            NotificationManager.error(data.data.code, data.data.message)
-            reject(data)
-          } else {
-            resolve(data.data)
+      function callback(data) {
+        if (data.include) {
+          if (Storage.get('debug')) {
+            console.log(data.include);
           }
-        },
-        function(resp) {
-          let data = JSON.parse(resp.responseText)
-          if (data.status != 'success') {
-            console.warn(data.data.code, data.data.message);
-            NotificationManager.error(data.data.code, data.data.message)
-            reject(data)
-          } else {
-            resolve(data.data)
+          for (let key in data.include) {
+            let i = data.include[key]
+            Storage.set(i.type+"_"+i.data.id, i.data)
+            if (Storage.get('debug')) {
+              console.log("Include:", i.data);
+            }
           }
         }
+        if (data.status != 'success') {
+          console.warn(data.message);
+          NotificationManager.error("Error", data.message)
+          reject(data)
+        } else {
+          resolve(data.data)
+        }
+      }
+
+      function errorCallback(resp) {
+        callback(JSON.parse(resp.responseText))
+      }
+
+
+      reqwest(options).then(
+        callback, errorCallback
       )
     }.bind(this))
   }
@@ -79,7 +88,7 @@ class Api {
 
   async getUserCurrent() {
     let data = await this.request('/users/current')
-    Storage.set('user', data.user)
+    Storage.set('user', data)
     Emitter.push('update-user-current')
     return
   }
@@ -116,18 +125,18 @@ class Api {
 
   async loadPosts() {
     let data = await this.request('/posts')
-    return data.posts
+    return data
   }
 
   async loadPost(id) {
     let data = await this.request(`/posts/${id}`)
-    console.log(data.post);
-    return data.post
+    console.log(data);
+    return data
   }
 
   async loadPostComments(id) {
     let data = await this.request(`/posts/${id}/comments`, 'get', {threaded: 1})
-    return data.comments
+    return data
   }
 
   async addComment(post_id, parent_id, content) {
@@ -135,8 +144,8 @@ class Api {
       '/comments',
       'post',
       {
-        post: post_id,
-        parent: parent_id,
+        postId: post_id,
+        parentId: parent_id,
         content: content
       }
     )
@@ -161,7 +170,7 @@ class Api {
         title: title,
         content: content,
         preview_image: preview.length?preview:null,
-        blog: blog_id
+        blogId: blog_id
       }
     )
     return data.Location
@@ -180,7 +189,7 @@ class Api {
         title: title,
         content: content,
         preview_image: preview.length?preview:null,
-        blog: blog_id
+        blogId: blog_id
       }
     )
     return
@@ -188,7 +197,7 @@ class Api {
 
   async loadUsers() {
     let data = await this.request('/users')
-    return data.users
+    return data
   }
 
   async loadUser(user) {
@@ -198,7 +207,7 @@ class Api {
       var mode = 'id'
     }
     let data = await this.request(`/users/${mode}/${user}`)
-    return data.user
+    return data
   }
 
   async loadUserPosts(user) {
@@ -208,7 +217,7 @@ class Api {
       var mode = 'id'
     }
     let data = await this.request(`/users/${mode}/${user}/posts`)
-    return data.posts
+    return data
   }
 
   async editUser(user, avatar, description) {
@@ -230,32 +239,32 @@ class Api {
 
   async loadFandoms() {
     let data = await this.request('/fandoms')
-    return data.fandoms
+    return data
   }
 
   async loadFandom(id) {
     let data = await this.request(`/fandoms/${id}`)
-    return data.fandom
+    return data
   }
 
   async loadFandomPosts(id) {
     let data = await this.request(`/fandoms/${id}/posts`)
-    return data.posts
+    return data
   }
 
   async loadBlogs(fandom_id) {
     let data = await this.request(`/fandoms/${fandom_id}/blogs`)
-    return data.blogs
+    return data
   }
 
   async loadBlog(id) {
     let data = await this.request(`/blogs/${id}`)
-    return data.blog
+    return data
   }
 
   async loadBlogPosts(id) {
     let data = await this.request(`/blogs/${id}/posts`)
-    return data.posts
+    return data
   }
 
   async addFandom(title, description, avatar) {
@@ -313,7 +322,7 @@ class Api {
         title: title,
         description: description,
         avatar: avatar.length?avatar:null,
-        fandom: fandom
+        fandomId: fandom
       }
     )
     return data.Location
@@ -331,7 +340,7 @@ class Api {
 
   async loadCommentsNew(post) {
     let data = await this.request(`/posts/${post}/comments/new`)
-    return data.comments
+    return data
   }
 
   async setCommentRead(comment) {
